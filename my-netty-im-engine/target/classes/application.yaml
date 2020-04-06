@@ -1,0 +1,9 @@
+server:
+  port: 8090
+  session-timeout: 30
+  tomcat.max-threads: 0
+  tomcat.uri-encoding: UTF-8
+  servlet:
+    context-path: /my-netty-im
+netty:
+  port: 8091
