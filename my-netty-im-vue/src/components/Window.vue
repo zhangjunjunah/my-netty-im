@@ -8,7 +8,7 @@
             <chat-list></chat-list>
           </el-col>
           <el-col :span="19">
-            <chat-window></chat-window>
+            <main-window></main-window>
           </el-col>
         </el-row>
       </el-main>
@@ -18,12 +18,12 @@
 
 <script>
     import ChatList from '@/components/friend/ChatList'
-    import ChatWindow from '@/components/mainWindow/ChatWindow'
+    import MainWindow from '@/components/mainWindow/MainWindow'
     export default {
         name: "Window",
         components:{
           ChatList,
-          ChatWindow
+          MainWindow
         }
     }
 </script>
@@ -43,6 +43,7 @@
   line-height: 60px;
   width: 100%;
   border-radius: 5px 5px 0px 0px;
+  padding-bottom: 2px;
 }
 .el-main {
   background-color: #ffffff;
@@ -51,10 +52,12 @@
   height: 100%;
   border-radius: 0px 0px 5px 5px;
   padding: 0px;
+  overflow: hidden;
 }
 .el-container {
   height:100%;
-  border-radius: 0px 0px 5px 5px
+  border-radius: 0px 0px 5px 5px;
+  overflow: hidden;
 }
 .el-col{
     height: 100%;

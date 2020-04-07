@@ -1,6 +1,6 @@
 <template>
     <div class="chat-item-div">
-      <el-avatar :size="39" :src="circleUrl" class="avator"></el-avatar>
+      <el-avatar :size="45" :src="circleUrl" class="avator"></el-avatar>
       <span class="chat-obj-name-span">{{chatObjName}}</span>
 
     </div>
@@ -20,18 +20,19 @@
 
 <style scoped>
 .chat-item-div {
-  width: 100%;
-  height: 40px;
+  height: 50px;
+  text-align: left;
+  margin-left: 10px;
 }
-
-div:active{ background-color: #ebebec}
-div:hover{ background-color: #ebebec}
-.chat-obj-name-div{
+.chat-obj-name-span{
+  display: inline-block;
+  vertical-align: top;
+  height: 45px;
+  line-height: 45px;
+  width: 173px;
+  text-align: left;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-.avator{
-  text-align: left;
 }
 </style>
