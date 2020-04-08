@@ -7,7 +7,7 @@
         </textarea>
       </div>
       <div class="opera-div">
-        <el-button size="small" type="primary">确定</el-button>
+        <el-button size="small" type="primary" >确定</el-button>
       </div>
     </div>
 </template>
