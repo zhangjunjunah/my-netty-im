@@ -8,7 +8,7 @@
             <chat-list></chat-list>
           </el-col>
           <el-col :span="19">
-            <main-window></main-window>
+            <main-window :title="title"></main-window>
           </el-col>
         </el-row>
       </el-main>
@@ -24,7 +24,12 @@
         components:{
           ChatList,
           MainWindow
-        }
+        },
+      data(){
+          return {
+            title:''
+          }
+      },
     }
 </script>
 

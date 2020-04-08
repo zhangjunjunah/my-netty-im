@@ -1,21 +1,26 @@
 <template>
     <div class="chat-item-div">
-      <el-avatar :size="45" :src="circleUrl" class="avator"></el-avatar>
+      <el-avatar :size="45" :src="avatarUrl" class="avator"></el-avatar>
       <span class="chat-obj-name-span">{{chatObjName}}</span>
 
     </div>
 </template>
 
 <script>
-    export default {
-        name: "ChatFriendItem",
-        props:{
-          chatObjName:{
-            type: String,
-            required: true,
-          },
+  export default {
+    name: "ChatFriendItem",
+    props: {
+      chatObjName: {
+        type: String,
+        required: true,
       },
-    }
+      avatarUrl:{
+        type: String,
+        required: false
+      }
+
+    },
+  }
 </script>
 
 <style scoped>
@@ -23,6 +28,7 @@
   height: 50px;
   text-align: left;
   margin-left: 10px;
+  padding:5px 0px;
 }
 .chat-obj-name-span{
   display: inline-block;
