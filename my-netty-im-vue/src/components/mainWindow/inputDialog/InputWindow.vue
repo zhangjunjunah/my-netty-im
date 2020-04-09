@@ -32,10 +32,11 @@
           }
           let msg = {};
           msg.content=this.textarea;
-          msg.content=this.textarea;
-          msg.timeStr = this.$timeUtils.getShowTime();
-
-        }  
+          msg.self=true;
+          msg.timeStr = this.$timeUtils.getNowTimeStr();
+          this.textarea="";
+          this.$emit("pushMsg",msg);
+        }
       },
     }
 </script>

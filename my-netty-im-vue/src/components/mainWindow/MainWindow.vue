@@ -4,11 +4,11 @@
         <el-header height="40px">
           <dialog-title ></dialog-title>
         </el-header>
-        <el-main>
-          <dialog-msg-window :chatList="chatList"></dialog-msg-window>
+        <el-main ref="main">
+          <dialog-msg-window :chatList="chatList"@setScroll="setScroll" ></dialog-msg-window>
         </el-main>
         <el-footer height="160px">
-          <input-window ></input-window>
+          <input-window @pushMsg="pushMsg"></input-window>
         </el-footer>
       </el-container>
     </div>
@@ -57,7 +57,14 @@
         }
       },
       methods:{
-
+        pushMsg:function (msg) {
+          this.chatList.messages.push(msg);
+        },
+        setScroll(){
+          console.log("scrollTop",this.$refs.main.scrollTop);
+          console.log("scrollHeight",this.$refs.main.scrollHeight);
+          this.$refs.main.scrollTop = this.$refs.main.scrollHeight;
+        }
       }
 
     }
@@ -81,6 +88,7 @@
   height: 100%;
   padding: 0px;
   overflow: auto;
+
 }
   .el-header{
     text-align: left;

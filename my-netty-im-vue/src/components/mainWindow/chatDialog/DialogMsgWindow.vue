@@ -1,6 +1,7 @@
 <template>
-  <div class="dialog-msg-div">
-    <ul v-for="item in chatList.messages">
+  <div class="dialog-msg-div" ref="list">
+    <ul >
+      <li v-for="item in chatList.messages">
       <div class="msg-main-div" :class="item.self==true?'self':''">
         <div class="time-div"><span>{{item.timeStr}}</span></div>
         <div class="msg-avatar-div">
@@ -8,6 +9,7 @@
         </div>
         <div class="content-div">{{item.content}}</div>
       </div>
+      </li>
     </ul>
   </div>
 </template>
@@ -17,16 +19,30 @@
     name: "DialogMsgWindow",
     props: {
       chatList: {
-        type: Array,
-        default: []
+        type: Object,
+        default: {}
       },
-
     },
     computed: {
       selfAvatarUrl() {
         return this.$store.state.personalInformation.avatarUrl;
       }
-    }
+    },
+    mounted() {
+      //  在页面加载时让信息滚动到最下面
+      let that =this;
+      setTimeout(function () {
+        that.$emit("setScroll");
+
+      }, 0)
+
+    },
+    watch: {
+      // 发送信息后,让信息滚动到最下面
+      messages() {
+        setTimeout(() => this.$refs.list.scrollTop = this.$refs.list.scrollHeight, 0)
+      }
+    },
   }
 </script>
 
@@ -34,7 +50,6 @@
   .dialog-msg-div{
     min-height:514px;
     margin-top: 5px;
-
   }
   .msg-avatar-div{
     display: inline-block;
