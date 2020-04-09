@@ -2,18 +2,19 @@
     <div class="input-div">
       <tool-bar></tool-bar>
       <div class="input-msg-div">
-        <textarea class="input-msg-textarea" placeholder="请输入内容" autofocus>
+        <textarea class="input-msg-textarea" v-model="textarea" placeholder="请输入内容" autofocus>
 
         </textarea>
       </div>
       <div class="opera-div">
-        <el-button size="small" type="primary" >确定</el-button>
+        <el-button size="small" type="primary" @click="sendMsg()" >发送</el-button>
       </div>
     </div>
 </template>
 
 <script>
   import ToolBar from '@/components/mainWindow/inputDialog/toolBar/ToolBar'
+
     export default {
         name: "InputWindow",
       components:{
@@ -23,7 +24,19 @@
           return {
             textarea:"",
           }
-      }
+      },
+      methods:{
+        sendMsg:function () {
+          if(this.textarea==""){
+            return;
+          }
+          let msg = {};
+          msg.content=this.textarea;
+          msg.content=this.textarea;
+          msg.timeStr = this.$timeUtils.getShowTime();
+
+        }  
+      },
     }
 </script>
 

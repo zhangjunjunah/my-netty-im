@@ -1,9 +1,10 @@
 <template>
   <div class="dialog-msg-div">
-    <ul v-for="item in chatlist.messages">
+    <ul v-for="item in chatList.messages">
       <div class="msg-main-div" :class="item.self==true?'self':''">
+        <div class="time-div"><span>{{item.timeStr}}</span></div>
         <div class="msg-avatar-div">
-          <el-avatar :size="45" :src="item.self==true?selfAvatarUrl:chatlist.user.img" class="avator"></el-avatar>
+          <el-avatar :size="45" :src="item.self==true?selfAvatarUrl:chatList.user.img" class="avator"></el-avatar>
         </div>
         <div class="content-div">{{item.content}}</div>
       </div>
@@ -12,43 +13,21 @@
 </template>
 
 <script>
-  const now = new Date();
-    export default {
-        name: "DialogMsgWindow",
-        data(){
-          return {
-            chatlist:
-              {
-                id: 1,
-                user: {
-                  name: 'jack',
-                  img: require('@/assets/img/jack.jpg')
-                },
-                messages: [
-                  {
-                    content: '测试',  //聊天内容
-                    self: false
-                  },
-                  {
-                    content: '这条消息非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常长',  //聊天内容
-                    self: false
-                  },
-                  {
-                    content: '你也可以发送消息哦!',
-                    self: true
-                  }
-                ],
-                index: 1  // 当前在聊天列表中的位置,从1开始
+  export default {
+    name: "DialogMsgWindow",
+    props: {
+      chatList: {
+        type: Array,
+        default: []
+      },
 
-              },
-          }
-        },
-      computed:{
-          selfAvatarUrl(){
-            return this.$store.state.personalInformation.avatarUrl;
-          }
+    },
+    computed: {
+      selfAvatarUrl() {
+        return this.$store.state.personalInformation.avatarUrl;
       }
     }
+  }
 </script>
 
 <style  scoped>
@@ -63,6 +42,11 @@
   .msg-main-div{
     text-align: left;
     margin: 5px 10px;
+  }
+  .time-div{
+    margin: 20px 0px;
+    font-size: 13px;
+    text-align: center;
   }
   .content-div{
     display: inline-block;
