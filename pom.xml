@@ -88,6 +88,11 @@
         <groupId>cn.edu.aqtc</groupId>
         <version>${my.im.version}</version>
       </dependency>
+      <dependency>
+        <artifactId>my-netty-im-context</artifactId>
+        <groupId>cn.edu.aqtc</groupId>
+        <version>${my.im.version}</version>
+      </dependency>
     </dependencies>
 
   </dependencyManagement>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * @ClassName : ApplicationBootstrap
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2020-04-04
  */
 @SpringBootApplication
+@EnableCaching
 @Slf4j
 public class ApplicationBootstrap implements CommandLineRunner {
 

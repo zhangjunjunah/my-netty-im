@@ -1,7 +1,9 @@
 <template>
   <div class="window-div">
     <el-container>
-      <el-header>Header</el-header>
+      <el-header>
+        <header-window></header-window>
+      </el-header>
       <el-main >
         <el-row>
           <el-col :span="5">
@@ -17,11 +19,14 @@
 </template>
 
 <script>
-    import ChatList from '@/components/friend/ChatList'
-    import MainWindow from '@/components/mainWindow/MainWindow'
-    export default {
+  import HeaderWindow from '@/components/headerWindow/HeaderWindow'
+  import ChatList from '@/components/friend/ChatList'
+  import MainWindow from '@/components/mainWindow/MainWindow'
+
+  export default {
         name: "Window",
         components:{
+          HeaderWindow,
           ChatList,
           MainWindow
         },
@@ -40,7 +45,8 @@
   border:1px solid rgba(255, 227, 236, 0);
   width: 75%;
   height: 80%;
-  border-radius: 5px
+  border-radius: 5px;
+
 }
 .el-header,.el-footer {
   background-color: #148fed;
@@ -50,6 +56,7 @@
   width: 100%;
   border-radius: 5px 5px 0px 0px;
   padding-bottom: 2px;
+  padding: 7.5px 13px;
 }
 .el-main {
   background-color: #ffffff;

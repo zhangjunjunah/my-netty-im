@@ -4,7 +4,7 @@
         <el-header height="40px">
           <dialog-title ></dialog-title>
         </el-header>
-        <el-main ref="main">
+        <el-main id="dialog-el-main" ref="main">
           <dialog-msg-window :chatList="chatList"@setScroll="setScroll" ></dialog-msg-window>
         </el-main>
         <el-footer height="160px">
@@ -18,7 +18,8 @@
   import DialogMsgWindow from '@/components/mainWindow/chatDialog/DialogMsgWindow'
   import InputWindow from '@/components/mainWindow/inputDialog/InputWindow'
   import DialogTitle from '@/components/mainWindow/chatTitle/DialogTitle'
-    export default {
+
+  export default {
       name: "MainWindow",
       components:{
         DialogMsgWindow,
@@ -61,9 +62,9 @@
           this.chatList.messages.push(msg);
         },
         setScroll(){
-          console.log("scrollTop",this.$refs.main.scrollTop);
-          console.log("scrollHeight",this.$refs.main.scrollHeight);
-          this.$refs.main.scrollTop = this.$refs.main.scrollHeight;
+          console.log("scrollTop", this.$refs.main.$el.scrollTop);
+          console.log("scrollHeight", this.$refs.main.$el.scrollHeight);
+          this.$refs.main.$el.scrollTop = this.$refs.main.$el.scrollHeight;
         }
       }
 

@@ -3,7 +3,7 @@
     <ul >
       <li v-for="item in chatList.messages">
       <div class="msg-main-div" :class="item.self==true?'self':''">
-        <div class="time-div"><span>{{item.timeStr}}</span></div>
+        <div class="time-div"><span>{{item.timeStr | showDate}}</span></div>
         <div class="msg-avatar-div">
           <el-avatar :size="45" :src="item.self==true?selfAvatarUrl:chatList.user.img" class="avator"></el-avatar>
         </div>
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+  import TimeUtils from '@/util/TimeUtils'
+
   export default {
     name: "DialogMsgWindow",
     props: {
@@ -26,23 +28,34 @@
     computed: {
       selfAvatarUrl() {
         return this.$store.state.personalInformation.avatarUrl;
-      }
+      },
+      messages() {
+        return this.chatList.messages;
+      },
     },
     mounted() {
       //  在页面加载时让信息滚动到最下面
       let that =this;
       setTimeout(function () {
         that.$emit("setScroll");
-
       }, 0)
 
     },
     watch: {
       // 发送信息后,让信息滚动到最下面
       messages() {
-        setTimeout(() => this.$refs.list.scrollTop = this.$refs.list.scrollHeight, 0)
+        let that = this;
+        setTimeout(function () {
+          that.$emit("setScroll");
+        }, 0);
       }
     },
+    filters: {
+      showDate(timeStr) {
+        debugger;
+        return TimeUtils.getShowTime(timeStr);
+      }
+    }
   }
 </script>
 
@@ -79,7 +92,6 @@
     vertical-align: top;
     font-size: 15px;
     font-family: sans-serif;
-    /*letter-spacing:1.5px;*/
   }
   .content-div::before {
     content: " ";
