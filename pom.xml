@@ -12,6 +12,7 @@
     <module>my-netty-im-engine</module>
     <module>my-netty-im-server</module>
     <module>my-netty-im-context</module>
+      <module>my-netty-im-manager</module>
   </modules>
 
   <name>my-netty-im</name>
@@ -92,6 +93,16 @@
         <artifactId>my-netty-im-context</artifactId>
         <groupId>cn.edu.aqtc</groupId>
         <version>${my.im.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger2</artifactId>
+        <version>2.9.2</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>2.9.2</version>
       </dependency>
     </dependencies>
 

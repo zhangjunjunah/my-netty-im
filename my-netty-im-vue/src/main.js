@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import TimeUtils from '@/util/TimeUtils';
 
 import '../static/css/global.css'
+import '../static/css/style.css'
 import store from './store'
 
 Vue.config.productionTip = false
