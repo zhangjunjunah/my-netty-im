@@ -1,8 +1,12 @@
-package cn.etc.aqtc.im.controller;
+package cn.edu.aqtc.im.controller;
 
+import cn.edu.aqtc.im.bean.ChatUser;
 import cn.edu.aqtc.im.bean.RestResult;
+import cn.edu.aqtc.im.service.inter.IUserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class UserController {
 
+    @Autowired
+    private IUserService userService;
+
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public RestResult login(){
-        return RestResult.getSuccessRestResult();
+    public RestResult login(@RequestBody ChatUser chatUser) {
+        return userService.login(chatUser);
+
+
     }
 }

@@ -51,6 +51,13 @@ public class RestResult<T> {
         return restResult;
     }
 
+    public static <T> RestResult getRestResult(int code) {
+        RestResult<T> restResult = new RestResult();
+        restResult.setCode(code);
+        restResult.setResponseDate(DateUtils.getCurrentTime().toDate());
+        return restResult;
+    }
+
     enum ResultCode {
         SUCCESS(200),//成功
         FAIL(400),//失败

@@ -6,11 +6,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     personalInformation:{
-      avatarUrl:require("@/assets/img/me.jpg")
+      avatarUrl: '',
+      userId: '',
+      userName: ''
     },
     chat: {
-      title: ""
-    }
+      title: "",
+      username: '',
+      headPortrait: ''
+    },
+    message: []
   },
   mutations: {
     setChatTitle(state, title) {

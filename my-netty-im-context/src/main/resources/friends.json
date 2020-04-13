@@ -1,0 +1,17 @@
+[
+  {
+    "userId": "0001",
+    "userName": "little-moto",
+    "headPortrait": "@/assets/img/me.jpg"
+  },
+  {
+    "userId": "0002",
+    "userName": "jack",
+    "headPortrait": "@/assets/img/jack.jpg"
+  },
+  {
+    "userId": "0003",
+    "userName": "long",
+    "headPortrait": "@/assets/img/long.jpg"
+  }
+]
