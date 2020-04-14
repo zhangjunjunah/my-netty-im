@@ -19,7 +19,7 @@
     },
     computed: {
       avatarUrl() {
-        return this.$store.state.personalInformation.avatarUrl;
+        return require("@/" + this.$store.state.personalInformation.avatarUrl);
       }
     }
   }

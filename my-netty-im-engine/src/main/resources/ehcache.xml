@@ -8,12 +8,12 @@
 
     <!-- 默认的管理策略 -->
     <defaultCache
-            eternal="false"
-            maxElementsInMemory="10000"
+            eternal="true"
+            maxElementsInMemory="1"
             overflowToDisk="true"
-            diskPersistent="false"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
+            diskPersistent="true"
+            timeToIdleSeconds="0"
+            timeToLiveSeconds="0"
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"/>
 
@@ -41,13 +41,13 @@
     Ehcache将会根据指定的策略去清理内存。可选策略有：LRU（最近最少使用，默认策略）、
     FIFO（先进先出）、LFU（最少访问次数）。-->
     <cache
-            name="userCache"
-            eternal="false"
+            name="userChannel"
+            eternal="true"
             maxElementsInMemory="100"
-            overflowToDisk="false"
+            overflowToDisk="true"
             diskPersistent="false"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="180"
+            timeToIdleSeconds="0"
+            timeToLiveSeconds="0"
             memoryStoreEvictionPolicy="LRU"/>
 
 

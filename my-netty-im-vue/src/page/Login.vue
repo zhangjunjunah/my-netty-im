@@ -13,7 +13,9 @@
             <el-input v-model="password" id="password-input" type="password" style="width: 300px;"  placeholder="密码随意"></el-input>
           </div>
           <div class="login-button-div">
-            <el-button type="primary" style="width: 300px" @click="login" class="login-button">登<i class="blank-i"></i>录</el-button>
+            <el-button @click="login()" class="login-button" style="width: 300px" type="primary">登<i
+              class="blank-i"></i>录
+            </el-button>
           </div>
         </el-main>
       </el-container>
@@ -30,8 +32,23 @@
           }
       },
       methods:{
-        login:{
+        login() {
+          this.postRequest("/api/user/login", {
+            userId: this.userId
+          }).then(res => {
+            if (res.status == 200) {
+              if (res.data.CODE == 200) {
+                //将朋友列表和个人信息放入store
+                this.$store.commit("setPersonInfo", res.data.DATA.CHAT_USER);
+                this.$store.commit("setFriendList", res.data.DATA.FRIEND_LIST);
+                //跳转到聊天页面
+                this.$router.push({path: '/conversation'})
+              }
 
+            }
+          }, res => {
+            console.error("/api/user/login error");
+          })
         }
       },
     }

@@ -5,7 +5,7 @@
           <dialog-title ></dialog-title>
         </el-header>
         <el-main id="dialog-el-main" ref="main">
-          <dialog-msg-window :chatList="chatList"@setScroll="setScroll" ></dialog-msg-window>
+          <dialog-msg-window @setScroll="setScroll"></dialog-msg-window>
         </el-main>
         <el-footer height="160px">
           <input-window @pushMsg="pushMsg"></input-window>
@@ -28,33 +28,6 @@
       },
       data(){
         return {
-              chatList:
-                {
-                  id: 1,
-                  user: {
-                    name: 'jack',
-                    img: require('@/assets/img/jack.jpg')
-                  },
-                  messages: [
-                    {
-                      content: '测试',  //聊天内容
-                      self: false,
-                      timeStr:"2020-04-08 15:33:00"
-                    },
-                    {
-                      content: '这条消息非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常长',  //聊天内容
-                      self: false,
-                      timeStr:"2020-04-08 16:33:00"
-                    },
-                    {
-                      content: '你也可以发送消息哦!',
-                      self: true,
-                      timeStr:"2020-04-09 15:33:00"
-                    }
-                  ],
-                  index: 1  // 当前在聊天列表中的位置,从1开始
-
-                },
         }
       },
       methods:{

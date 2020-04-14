@@ -10,7 +10,8 @@
             <chat-list></chat-list>
           </el-col>
           <el-col :span="19">
-            <main-window :title="title"></main-window>
+            <component v-bind:is="currentWindow"></component>
+            <main-window></main-window>
           </el-col>
         </el-row>
       </el-main>
@@ -22,21 +23,25 @@
   import HeaderWindow from '@/components/headerWindow/HeaderWindow'
   import ChatList from '@/components/friend/ChatList'
   import MainWindow from '@/components/mainWindow/MainWindow'
+  import BlankWindow from '@/components/mainWindow/BlankWindow'
 
   export default {
-        name: "Window",
-        components:{
-          HeaderWindow,
-          ChatList,
-          MainWindow
-        },
-      data(){
-          return {
-            title:'',
-            
-          }
-      },
+    name: "Window",
+    components: {
+      HeaderWindow,
+      ChatList,
+      MainWindow,
+      BlankWindow
+    },
+    data() {
+      return {}
+    },
+    computed: {
+      currentWindow() {
+        return this.$store.state.chat.activeId == '' ? "BlankWindow" : "MainWindow"
+      }
     }
+  }
 </script>
 
 <style scoped>

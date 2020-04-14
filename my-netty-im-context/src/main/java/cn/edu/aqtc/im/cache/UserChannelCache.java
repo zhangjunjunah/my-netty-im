@@ -15,12 +15,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserChannelCache {
 
-    @Autowired
-    private CacheManager cacheManager;
 
     private Cache cache;
 
-    public UserChannelCache() {
+    @Autowired
+    public UserChannelCache(CacheManager cacheManager) {
         this.cache = cacheManager.getCache("userChannel");
     }
 

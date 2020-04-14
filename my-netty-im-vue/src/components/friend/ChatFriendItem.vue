@@ -1,7 +1,7 @@
 <template>
     <div class="chat-item-div">
       <el-avatar :size="45" :src="avatarUrl" class="avator"></el-avatar>
-      <span class="chat-obj-name-span">{{chatObjName}}</span>
+      <span class="chat-obj-name-span">{{userName}}</span>
 
     </div>
 </template>
@@ -10,22 +10,30 @@
   export default {
     name: "ChatFriendItem",
     props: {
-      chatObjName: {
+      userName: {
         type: String,
         required: true,
       },
-      avatarUrl:{
+      userId: {
+        type: String,
+        required: true,
+      },
+      headPortrait: {
         type: String,
         required: false
       }
-
     },
+    data() {
+      return {
+        avatarUrl: require("@/" + this.headPortrait),
+      }
+    }
   }
 </script>
 
 <style scoped>
 .chat-item-div {
-  height: 50px;
+  height: 60px;
   text-align: left;
   margin-left: 10px;
   padding:5px 0px;

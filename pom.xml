@@ -96,10 +96,15 @@
         <version>${my.im.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.springfox</groupId>
-        <artifactId>springfox-swagger2</artifactId>
-        <version>2.9.2</version>
+          <artifactId>my-netty-im-manager</artifactId>
+          <groupId>cn.edu.aqtc</groupId>
+          <version>${my.im.version}</version>
       </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
       <dependency>
         <groupId>io.springfox</groupId>
         <artifactId>springfox-swagger-ui</artifactId>

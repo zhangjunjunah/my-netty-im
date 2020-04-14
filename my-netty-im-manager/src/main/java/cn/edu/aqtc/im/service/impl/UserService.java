@@ -6,6 +6,7 @@ import cn.edu.aqtc.im.bean.RestResult;
 import cn.edu.aqtc.im.code.UserBusiResultCode;
 import cn.edu.aqtc.im.service.inter.IUserService;
 import cn.edu.aqtc.im.util.UserConstants;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentMap;
@@ -16,6 +17,7 @@ import java.util.concurrent.ConcurrentMap;
  * @Author: zhangjj
  * @Date: 2020-04-13
  */
+@Service
 public class UserService implements IUserService {
     /**
      * @param chatUser

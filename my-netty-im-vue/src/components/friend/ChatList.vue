@@ -1,40 +1,40 @@
 <template>
    <div class="chat-list-div">
-     <div v-for="(item, index) in chatFriendList" class="chat-list-item" @click="selected(item.id,item.name)" :class="activeId== item.id?'selectedChatItem':'normalChatItem'">
-       <chat-friend-item :chatObjName="item.name" :avatarUrl="item.avatarSrc"></chat-friend-item>
+     <div :class="activeId== item.userId?'selectedChatItem':'normalChatItem'" @click="selected(item)"
+          class="chat-list-item" v-for="(item, index) in chatFriendList">
+       <chat-friend-item :headPortrait="item.headPortrait" :userId="item.userId"
+                         :userName="item.userName"></chat-friend-item>
      </div>
    </div>
 </template>
 
 <script>
   import ChatFriendItem from '@/components/friend/ChatFriendItem'
-    export default {
+
+  export default {
       name: "ChatList",
       components:{
         ChatFriendItem
       },
       data(){
           return {
-            chatFriendList:[{
-              id:1,
-              name:"测试用户一",
-              avatarSrc:require("@/assets/img/user1.jpg")
-            },{
-              id:2,
-              name:"jack",
-              avatarSrc:require("@/assets/img/jack.jpg")
-            },{
-              id:3,
-              name:"是一位名字非常非常非常非常非常非常非常长的朋友",
-              avatarSrc:require("@/assets/img/long.jpg")
-            }],
-            activeId: 0
+            activeId: ''
           }
       },
+    computed: {
+      chatFriendList() {
+        let list = [];
+        for (let friend of this.$store.state.friendList) {
+          let f = friend;
+          list.push(f);
+        }
+        return list;
+      }
+    },
       methods: {
-        selected: function(chatId,name) {
-          this.activeId = chatId;
-          this.$store.commit("setChatTitle",name);
+        selected: function (chatUser) {
+          this.activeId = chatUser.userId;
+          this.$store.commit("setActiveChat", chatUser);
         }
       }
     }

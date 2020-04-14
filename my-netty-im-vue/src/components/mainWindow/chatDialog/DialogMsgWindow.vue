@@ -1,11 +1,11 @@
 <template>
   <div class="dialog-msg-div" ref="list">
     <ul >
-      <li v-for="item in chatList.messages">
+      <li v-for="item in messages">
       <div class="msg-main-div" :class="item.self==true?'self':''">
         <div class="time-div"><span>{{item.timeStr | showDate}}</span></div>
         <div class="msg-avatar-div">
-          <el-avatar :size="45" :src="item.self==true?selfAvatarUrl:chatList.user.img" class="avator"></el-avatar>
+          <el-avatar :size="45" :src="item.self==true?selfAvatarUrl:receiveAvatarUrl" class="avator"></el-avatar>
         </div>
         <div class="content-div">{{item.content}}</div>
       </div>
@@ -20,17 +20,16 @@
   export default {
     name: "DialogMsgWindow",
     props: {
-      chatList: {
-        type: Object,
-        default: {}
-      },
     },
     computed: {
       selfAvatarUrl() {
-        return this.$store.state.personalInformation.avatarUrl;
+        return require("@/" + this.$store.state.personalInformation.avatarUrl);
+      },
+      receiveAvatarUrl() {
+        return require("@/" + this.$store.state.chat.headPortrait);
       },
       messages() {
-        return this.chatList.messages;
+        return this.messages;
       },
     },
     mounted() {
@@ -52,7 +51,6 @@
     },
     filters: {
       showDate(timeStr) {
-        debugger;
         return TimeUtils.getShowTime(timeStr);
       }
     }

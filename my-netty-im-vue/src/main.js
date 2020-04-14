@@ -10,10 +10,15 @@ import TimeUtils from '@/util/TimeUtils';
 import '../static/css/global.css'
 import '../static/css/style.css'
 import store from './store'
+import {deleteRequest, getRequest, postRequest, putRequest} from '@/api'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.prototype.$timeUtils = TimeUtils;
+Vue.prototype.getRequest = getRequest;
+Vue.prototype.postRequest = postRequest;
+Vue.prototype.deleteRequest = deleteRequest;
+Vue.prototype.putRequest = putRequest;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

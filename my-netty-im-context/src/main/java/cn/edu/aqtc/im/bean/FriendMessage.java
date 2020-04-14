@@ -21,5 +21,4 @@ public class FriendMessage {
 
     private Date sendDate;
 
-
 }
