@@ -29,7 +29,7 @@
         return require("@/" + this.$store.state.chat.headPortrait);
       },
       messages() {
-        return this.messages;
+        return this.$store.state.messages;
       },
     },
     mounted() {

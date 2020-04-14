@@ -40,7 +40,10 @@
       currentWindow() {
         return this.$store.state.chat.activeId == '' ? "BlankWindow" : "MainWindow"
       }
-    }
+    },
+    created() {
+      this.$store.dispatch('initWebSocket');
+    },
   }
 </script>
 

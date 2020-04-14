@@ -27,7 +27,7 @@ public class WebsocketChatServerInitializer extends ChannelInitializer<SocketCha
         pipeline.addLast(new ChunkedWriteHandler());
         //pipeline.addLast(new HttpRequestHandler("/ws"));
         //这个是websocket的handler，是netty提供的
-        pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
+        pipeline.addLast(new WebSocketServerProtocolHandler("/im"));
         pipeline.addLast(new TextWebSocketFrameHandler());
     }
 }

@@ -30,9 +30,10 @@
         return {
         }
       },
+
       methods:{
         pushMsg:function (msg) {
-          this.chatList.messages.push(msg);
+          //this.chatList.messages.push(msg);
         },
         setScroll(){
           console.log("scrollTop", this.$refs.main.$el.scrollTop);

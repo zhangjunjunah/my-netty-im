@@ -15,7 +15,7 @@
 <script>
   import ToolBar from '@/components/mainWindow/inputDialog/toolBar/ToolBar'
 
-    export default {
+  export default {
         name: "InputWindow",
       components:{
         ToolBar
@@ -34,8 +34,13 @@
           msg.content=this.textarea;
           msg.self=true;
           msg.timeStr = this.$timeUtils.getNowTimeStr();
+          this.$store.state.message.push(msg);
+          msg.receiver = this.$store.state.chat.userId;
+          msg.sender = this.$store.state.personalInformation.userId;
+          msg.sendDate = msg.timeStr;
+          this.$store.state.vueWebsocket.send(msg);
           this.textarea="";
-          this.$emit("pushMsg",msg);
+
         }
       },
     }

@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import VueWebSocket from '@/websocket';
+import Constant from '@/constants'
 
 import Vuex from 'vuex'
 
@@ -36,26 +38,50 @@ export default new Vuex.Store({
      ],
      */
     message: [],
-    friendList: []
+    friendList: [],
+    vueWebsocket: null
   },
   mutations: {
+    /**
+     * 用户信息
+     * @param state
+     * @param chatUser
+     */
     setPersonInfo(state, chatUser) {
       state.personalInformation.avatarUrl = chatUser.headPortrait;
       state.personalInformation.userId = chatUser.userId;
       state.personalInformation.userName = chatUser.userName;
     },
+    /**
+     * 好友列表
+     * @param state
+     * @param friendList
+     */
     setFriendList(state, friendList) {
       state.friendList.splice(0);
       for (let friend of friendList) {
         state.friendList.push(friend);
       }
     },
+    /**
+     * 当前聊天用户
+     * @param state
+     * @param activeChat
+     */
     setActiveChat(state, activeChat) {
       state.chat.title = activeChat.userName;
       state.chat.userName = activeChat.userName;
       state.chat.headPortrait = activeChat.headPortrait;
       state.chat.activeId = activeChat.userId;
 
+    },
+    initWebSocket(state) {
+      let vueWebsocket = new VueWebSocket(Constant.WS_PROTOCOL, Constant.WS_IP, Constant.WS_PORT, Constant.WS_URI);
+      vueWebsocket.connect();
+      state.vueWebsocket = vueWebsocket;
     }
   },
+  actions: {
+    initWebSocket: ({commit}) => commit('initWebSocket'),
+  }
 });
