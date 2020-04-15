@@ -11,7 +11,6 @@
           </el-col>
           <el-col :span="19">
             <component v-bind:is="currentWindow"></component>
-            <main-window></main-window>
           </el-col>
         </el-row>
       </el-main>

@@ -45,7 +45,7 @@ export default class VueWebSocket {
     let msg = JSON.parse(data);
     for (let i = 0; i < this.handlerChain.length; i++) {
       if (this.handlerChain[i].match(msg.sign)) {
-        this.handlerChain[i].handleMsg(msg.body);
+        this.handlerChain[i].handleMsg(JSON.parse(msg.body));
       }
     }
   }

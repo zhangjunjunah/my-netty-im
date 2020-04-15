@@ -6,9 +6,9 @@ import MessagePayload from '@/websocket/message/MessagePayload'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-const store = new Vuex.Store({
+export default new Vuex.Store({
   state: {
-    personalInformation:{
+    personalInformation: {
       avatarUrl: '',
       userId: '',
       userName: ''
@@ -94,4 +94,3 @@ const store = new Vuex.Store({
     initWebSocket: ({commit}) => commit('initWebSocket'),
   }
 });
-export default store;
