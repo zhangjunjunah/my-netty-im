@@ -1,8 +1,8 @@
 package cn.edu.aqtc.im.service.impl;
 
 import cn.edu.aqtc.im.bean.ChatUser;
-import cn.edu.aqtc.im.bean.FriendMessage;
 import cn.edu.aqtc.im.cache.UserChannelCache;
+import cn.edu.aqtc.im.protocol.FriendMessage;
 import cn.edu.aqtc.im.protocol.MessagePayload;
 import cn.edu.aqtc.im.service.inter.IConversationService;
 import com.alibaba.fastjson.JSONObject;

@@ -35,6 +35,7 @@
         selected: function (chatUser) {
           this.activeId = chatUser.userId;
           this.$store.commit("setActiveChat", chatUser);
+          this.$store.dispatch("setActiveChat", chatUser);
         }
       }
     }

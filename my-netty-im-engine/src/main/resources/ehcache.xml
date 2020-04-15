@@ -41,11 +41,11 @@
     Ehcache将会根据指定的策略去清理内存。可选策略有：LRU（最近最少使用，默认策略）、
     FIFO（先进先出）、LFU（最少访问次数）。-->
     <cache
-            name="userChannel"
+            name="personalMsg"
             eternal="true"
-            maxElementsInMemory="10000"
-            overflowToDisk="false"
-            diskPersistent="false"
+            maxElementsInMemory="1"
+            overflowToDisk="true"
+            diskPersistent="true"
             timeToIdleSeconds="0"
             timeToLiveSeconds="0"
             memoryStoreEvictionPolicy="LRU"/>

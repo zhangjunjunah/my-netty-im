@@ -88,6 +88,13 @@ export default new Vuex.Store({
     sendPrivateMsg(state, msg) {
       let messagePayload = new MessagePayload(Constant.PUBLISH_PRIVATE, JSON.stringify(msg));
       state.vueWebsocket.send(messagePayload.toJSON());
+    },
+    getMessage(state) {
+      let msg = {};
+      msg.user1 = state.personalInformation.userId;
+      msg.user2 = state.chat.activeId;
+      let messagePayload = new MessagePayload(Constant.GET_MESSAGES, JSON.stringify(msg));
+      state.vueWebsocket.send(messagePayload.toJSON());
     }
   },
   actions: {
