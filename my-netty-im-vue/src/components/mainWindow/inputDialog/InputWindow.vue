@@ -35,10 +35,10 @@
           msg.self=true;
           msg.timeStr = this.$timeUtils.getNowTimeStr();
           this.$store.state.message.push(msg);
-          msg.receiver = this.$store.state.chat.userId;
+          msg.receiver = this.$store.state.chat.activeId;
           msg.sender = this.$store.state.personalInformation.userId;
           msg.sendDate = msg.timeStr;
-          this.$store.state.vueWebsocket.send(msg);
+          this.$store.commit('sendPrivateMsg', msg);
           this.textarea="";
 
         }

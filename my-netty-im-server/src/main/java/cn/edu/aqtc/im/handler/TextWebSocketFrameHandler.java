@@ -1,7 +1,7 @@
 package cn.edu.aqtc.im.handler;
 
-import cn.edu.aqtc.im.bean.FriendMessage;
-import cn.edu.aqtc.im.cache.UserChannelCache;
+import cn.edu.aqtc.im.protocol.MessagePayload;
+import cn.edu.aqtc.im.serivce.MessageDispatcher;
 import cn.edu.aqtc.im.util.SpringUtils;
 import com.alibaba.fastjson.JSONObject;
 import io.netty.buffer.Unpooled;
@@ -17,7 +17,6 @@ import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.DateUtil;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,6 +34,8 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
     //客户端组
     public  static ChannelGroup channelGroup;
 
+    private MessageDispatcher messageDispatcher;
+
     static {
         channelGroup=new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     }
@@ -42,6 +43,10 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
     private static ConcurrentMap<String, Channel> channelMap = new ConcurrentHashMap<>();
 
 
+    public TextWebSocketFrameHandler() {
+        super();
+        messageDispatcher = SpringUtils.getBean(MessageDispatcher.class);
+    }
 
     /**
      * @Description 未注册状态
@@ -106,8 +111,6 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
         //文本消息
         if (msg instanceof TextWebSocketFrame) {
-            //第一次连接成功后，给客户端发送消息
-            //sendMessageAll(channelHandlerContext);
             //获取当前channel绑定的IP地址
             InetSocketAddress ipSocket = (InetSocketAddress)channelHandlerContext.channel().remoteAddress();
             String address = ipSocket.getAddress().getHostAddress()+":"+ipSocket.getPort();
@@ -116,10 +119,10 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
             if (!channelMap.containsKey(address)){
                 channelMap.put(address,channelHandlerContext.channel());
             }
-            FriendMessage friendMessage = JSONObject.parseObject(msg.toString(), FriendMessage.class);
-            friendMessage.setSendDate(DateUtil.now());
-            Channel channel = getReceiverChannel(friendMessage);
-            channel.writeAndFlush(friendMessage);
+            MessagePayload messagePayload = JSONObject.parseObject(((TextWebSocketFrame) msg).text(), MessagePayload.class);
+            messagePayload.setChannel(channelHandlerContext.channel());
+            messageDispatcher.dispatch(messagePayload);
+
 
         }
         //二进制消息
@@ -140,11 +143,6 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
             channel.close();
         }
     }
-
-    private Channel getReceiverChannel(FriendMessage friendMessage) {
-        return ((UserChannelCache) SpringUtils.getBean(UserChannelCache.class)).getChannelByUserId(friendMessage.getReceiver());
-    }
-
     public void  sendMessage(String address){
         Channel channel=channelMap.get(address);
         String message="hello client:"+channel.id()+" ,welcome my-netty-im";

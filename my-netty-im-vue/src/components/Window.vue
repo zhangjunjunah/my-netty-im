@@ -42,7 +42,11 @@
       }
     },
     created() {
-      this.$store.dispatch('initWebSocket');
+      this.$store.commit('initWebSocket');
+      setTimeout(() => {
+        this.$store.commit('connect')
+      }, 1000);
+
     },
   }
 </script>

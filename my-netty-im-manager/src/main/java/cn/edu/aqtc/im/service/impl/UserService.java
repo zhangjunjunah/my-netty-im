@@ -4,11 +4,12 @@ import cn.edu.aqtc.im.VO.LoginSuccessVO;
 import cn.edu.aqtc.im.bean.ChatUser;
 import cn.edu.aqtc.im.bean.RestResult;
 import cn.edu.aqtc.im.code.UserBusiResultCode;
+import cn.edu.aqtc.im.constant.UserConstants;
 import cn.edu.aqtc.im.service.inter.IUserService;
-import cn.edu.aqtc.im.util.UserConstants;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -35,7 +36,7 @@ public class UserService implements IUserService {
         }
         LoginSuccessVO loginSuccessVO = new LoginSuccessVO();
         loginSuccessVO.setChatUser(searchUser);
-        ConcurrentMap<String, ChatUser> friendMap = UserConstants.getFriendCache().asMap();
+        ConcurrentMap<String, ChatUser> friendMap = new ConcurrentHashMap<>(UserConstants.getFriendCache().asMap());
         //移除自己
         friendMap.remove(searchUser.getUserId());
         loginSuccessVO.setFriendList(new ArrayList<>(friendMap.values()));

@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueWebSocket from '@/websocket';
 import Constant from '@/constants'
+import MessagePayload from '@/websocket/message/MessagePayload'
 
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     personalInformation:{
       avatarUrl: '',
@@ -79,9 +80,18 @@ export default new Vuex.Store({
       let vueWebsocket = new VueWebSocket(Constant.WS_PROTOCOL, Constant.WS_IP, Constant.WS_PORT, Constant.WS_URI);
       vueWebsocket.connect();
       state.vueWebsocket = vueWebsocket;
+    },
+    connect(state) {
+      let messagePayload = new MessagePayload(Constant.CONNECT, JSON.stringify(state.personalInformation));
+      state.vueWebsocket.send(messagePayload.toJSON());
+    },
+    sendPrivateMsg(state, msg) {
+      let messagePayload = new MessagePayload(Constant.PUBLISH_PRIVATE, JSON.stringify(msg));
+      state.vueWebsocket.send(messagePayload.toJSON());
     }
   },
   actions: {
     initWebSocket: ({commit}) => commit('initWebSocket'),
   }
 });
+export default store;

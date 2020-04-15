@@ -47,7 +47,7 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
         <dependency>
-            <artifactId>my-netty-im-context</artifactId>
+            <artifactId>my-netty-im-manager</artifactId>
             <groupId>cn.edu.aqtc</groupId>
         </dependency>
     </dependencies>

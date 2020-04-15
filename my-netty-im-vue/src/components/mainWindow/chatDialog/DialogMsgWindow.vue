@@ -1,7 +1,7 @@
 <template>
   <div class="dialog-msg-div" ref="list">
     <ul >
-      <li v-for="item in messages">
+      <li v-for="item in messageList">
       <div class="msg-main-div" :class="item.self==true?'self':''">
         <div class="time-div"><span>{{item.timeStr | showDate}}</span></div>
         <div class="msg-avatar-div">
@@ -28,13 +28,15 @@
       receiveAvatarUrl() {
         return require("@/" + this.$store.state.chat.headPortrait);
       },
-      messages() {
-        return this.$store.state.messages;
+      messageList() {
+        console.log("message");
+        return this.$store.state.message;
       },
     },
     mounted() {
       //  在页面加载时让信息滚动到最下面
       let that =this;
+      console.log("mounted");
       setTimeout(function () {
         that.$emit("setScroll");
       }, 0)
@@ -42,7 +44,7 @@
     },
     watch: {
       // 发送信息后,让信息滚动到最下面
-      messages() {
+      messageList() {
         let that = this;
         setTimeout(function () {
           that.$emit("setScroll");
@@ -59,7 +61,7 @@
 
 <style  scoped>
   .dialog-msg-div{
-    min-height:514px;
+    min-height: 200px;
     margin-top: 5px;
   }
   .msg-avatar-div{

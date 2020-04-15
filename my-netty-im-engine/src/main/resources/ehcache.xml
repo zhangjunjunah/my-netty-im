@@ -9,9 +9,9 @@
     <!-- 默认的管理策略 -->
     <defaultCache
             eternal="true"
-            maxElementsInMemory="1"
-            overflowToDisk="true"
-            diskPersistent="true"
+            maxElementsInMemory="10000"
+            overflowToDisk="false"
+            diskPersistent="false"
             timeToIdleSeconds="0"
             timeToLiveSeconds="0"
             diskExpiryThreadIntervalSeconds="120"
@@ -43,8 +43,8 @@
     <cache
             name="userChannel"
             eternal="true"
-            maxElementsInMemory="100"
-            overflowToDisk="true"
+            maxElementsInMemory="10000"
+            overflowToDisk="false"
             diskPersistent="false"
             timeToIdleSeconds="0"
             timeToLiveSeconds="0"

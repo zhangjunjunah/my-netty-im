@@ -21,10 +21,6 @@
             <artifactId>my-netty-im-server</artifactId>
             <groupId>cn.edu.aqtc</groupId>
         </dependency>
-        <dependency>
-            <artifactId>my-netty-im-manager</artifactId>
-            <groupId>cn.edu.aqtc</groupId>
-        </dependency>
     </dependencies>
     <build>
         <plugins>

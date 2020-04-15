@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Data
 @Slf4j
-public class ChatUser {
+public class ChatUser implements Serializable {
     private static File chatUserFile = new File(ChatUser.class.getClassLoader().getResource("chatUser.json").getPath());
     private static File friendFile = new File(ChatUser.class.getClassLoader().getResource("friends.json").getPath());
     private String userId;

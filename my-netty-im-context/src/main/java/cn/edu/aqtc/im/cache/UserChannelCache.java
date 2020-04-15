@@ -1,9 +1,8 @@
 package cn.edu.aqtc.im.cache;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import io.netty.channel.Channel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,12 +15,9 @@ import org.springframework.stereotype.Component;
 public class UserChannelCache {
 
 
-    private Cache cache;
-
-    @Autowired
-    public UserChannelCache(CacheManager cacheManager) {
-        this.cache = cacheManager.getCache("userChannel");
-    }
+    private Cache<String, Channel> cache = CacheBuilder.newBuilder()
+            .build();
+    ;
 
     /**
      * @Description: 将userId与ctx放入缓存
@@ -36,10 +32,10 @@ public class UserChannelCache {
 
 
     public Channel getChannelByUserId(String userId) {
-        return (Channel) cache.get(userId);
+        return cache.getIfPresent(userId);
     }
 
     public void removeUserChannel(String userId) {
-        cache.evict(userId);
+        cache.invalidate(userId);
     }
 }

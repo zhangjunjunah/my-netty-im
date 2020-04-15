@@ -1,4 +1,4 @@
-package cn.edu.aqtc.im.util;
+package cn.edu.aqtc.im.constant;
 
 import cn.edu.aqtc.im.bean.ChatUser;
 import com.google.common.cache.Cache;
@@ -7,7 +7,7 @@ import com.google.common.cache.CacheBuilder;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 在没有数据库前，代替数据库
  * @ClassName: UserConstants
  * @Author: zhangjj
  * @Date: 2020-04-13

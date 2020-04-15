@@ -30,7 +30,6 @@
         return {
         }
       },
-
       methods:{
         pushMsg:function (msg) {
           //this.chatList.messages.push(msg);
@@ -40,9 +39,9 @@
           console.log("scrollHeight", this.$refs.main.$el.scrollHeight);
           this.$refs.main.$el.scrollTop = this.$refs.main.$el.scrollHeight;
         }
-      }
+      },
 
-    }
+  }
 </script>
 
 <style scoped>
