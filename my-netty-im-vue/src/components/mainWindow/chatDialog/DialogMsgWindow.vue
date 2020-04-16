@@ -29,8 +29,8 @@
         return require("@/" + this.$store.state.chat.headPortrait);
       },
       messageList() {
-        console.log("message");
-        return this.$store.state.message;
+        console.log("messages");
+        return this.$store.state.messages;
       },
     },
     mounted() {

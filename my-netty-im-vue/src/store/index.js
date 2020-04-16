@@ -38,7 +38,7 @@ export default new Vuex.Store({
                     }
      ],
      */
-    message: [],
+    messages: [],
     friendList: [],
     vueWebsocket: null
   },
@@ -91,13 +91,14 @@ export default new Vuex.Store({
     },
     getMessage(state) {
       let msg = {};
-      msg.user1 = state.personalInformation.userId;
-      msg.user2 = state.chat.activeId;
-      let messagePayload = new MessagePayload(Constant.GET_MESSAGES, JSON.stringify(msg));
+      msg.receiver = state.personalInformation.userId;
+      msg.sender = state.chat.activeId;
+      let messagePayload = new MessagePayload(Constant.GET_HIS_MSG, JSON.stringify(msg));
       state.vueWebsocket.send(messagePayload.toJSON());
     }
   },
   actions: {
     initWebSocket: ({commit}) => commit('initWebSocket'),
+    getMessage: ({commit}) => commit('getMessage'),
   }
 });

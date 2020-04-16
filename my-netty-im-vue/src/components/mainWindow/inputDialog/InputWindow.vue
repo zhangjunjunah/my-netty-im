@@ -2,12 +2,12 @@
     <div class="input-div">
       <tool-bar></tool-bar>
       <div class="input-msg-div">
-        <textarea class="input-msg-textarea" v-model="textarea" placeholder="请输入内容" autofocus>
+        <textarea @keyup.enter="sendMsg()" autofocus class="input-msg-textarea" placeholder="请输入内容" v-model="textarea">
 
         </textarea>
       </div>
       <div class="opera-div">
-        <el-button size="small" type="primary" @click="sendMsg()" >发送</el-button>
+        <el-button @click="sendMsg()" size="small" type="primary">发送(enter)</el-button>
       </div>
     </div>
 </template>
@@ -34,7 +34,7 @@
           msg.content=this.textarea;
           msg.self=true;
           msg.timeStr = this.$timeUtils.getNowTimeStr();
-          this.$store.state.message.push(msg);
+          this.$store.state.messages.push(msg);
           msg.receiver = this.$store.state.chat.activeId;
           msg.sender = this.$store.state.personalInformation.userId;
           msg.sendDate = msg.timeStr;

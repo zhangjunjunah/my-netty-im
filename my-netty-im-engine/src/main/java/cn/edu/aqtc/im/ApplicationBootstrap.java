@@ -28,6 +28,7 @@ public class ApplicationBootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        log.info("java.io.tmpdir:{}", System.getProperty("java.io.tmpdir"));
         nettyImLaunch.run();
     }
 }

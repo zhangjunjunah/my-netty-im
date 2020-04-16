@@ -19,6 +19,9 @@
     },
     computed: {
       avatarUrl() {
+        if (this.$store.state.personalInformation.avatarUrl == '') {
+          return;
+        }
         return require("@/" + this.$store.state.personalInformation.avatarUrl);
       }
     }

@@ -2,6 +2,7 @@ package cn.edu.aqtc.im.protocol;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @Date: 2020-04-10
  */
 @Data
-public class FriendMessage {
+public class FriendMessage implements Serializable {
 
     private String receiver;
 

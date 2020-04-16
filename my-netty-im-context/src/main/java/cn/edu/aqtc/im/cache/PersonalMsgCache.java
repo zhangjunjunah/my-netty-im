@@ -4,6 +4,7 @@ import cn.edu.aqtc.im.protocol.FriendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -16,6 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Author: zhangjj
  * @Date: 2020-04-14
  */
+@Component
 public class PersonalMsgCache {
     private Cache cache;
 

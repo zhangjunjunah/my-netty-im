@@ -9,15 +9,12 @@ export default class ReceiveMsg extends AbstractMsgHandler {
   }
 
   handleMsg(data) {
-    console.log("store", store.state.chat.activeId);
-    console.log("sender", data.sender);
-    debugger;
     if (data.sender == store.state.chat.activeId) {
       let m = {};
       m.self = false;
       m.content = data.content;
       m.timeStr = data.timeStr;
-      store.state.message.push(m);
+      store.state.messages.push(m);
     }
   }
 }

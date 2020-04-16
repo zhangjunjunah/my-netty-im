@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+
 let base = '';
 axios.defaults.baseURL = '/im'
 
@@ -72,3 +73,6 @@ export const getRequest = (url) => {
     url: `${base}${url}`
   });
 };
+
+
+

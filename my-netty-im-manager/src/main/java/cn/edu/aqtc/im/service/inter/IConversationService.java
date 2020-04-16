@@ -27,4 +27,13 @@ public interface IConversationService {
      * @Date: 2020-04-15
      */
     void connect(MessagePayload messagePayload);
+
+    /**
+     * @Description: 获取历史消息
+     * @Param: [messagePayload]
+     * @return: void
+     * @Author: zhangjj
+     * @Date: 2020-04-16
+     */
+    void getHisMsg(MessagePayload messagePayload);
 }

@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import TimeUtils from '@/util/TimeUtils';
+import './permission';
 
 import '../static/css/global.css'
 import '../static/css/style.css'
@@ -27,3 +28,6 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+
+

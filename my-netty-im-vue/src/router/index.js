@@ -10,7 +10,8 @@ export default new Router({
     {
       path: '/conversation',
       name: 'Window',
-      component: Window
+      component: Window,
+      meta: {login: true}
     },
     {
       path:"/login",
@@ -18,5 +19,5 @@ export default new Router({
       component: Login
     }
   ],
-  //mode: 'history'
+  mode: 'history'
 })

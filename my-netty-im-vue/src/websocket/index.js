@@ -1,4 +1,5 @@
 import ReceiveMsg from "./handler/ReceiveMsg";
+import GetHisMsg from "./handler/GetHisMsg";
 
 export default class VueWebSocket {
 
@@ -39,6 +40,7 @@ export default class VueWebSocket {
 
   initHandlerChain() {
     this.handlerChain.push(new ReceiveMsg(this));
+    this.handlerChain.push(new GetHisMsg(this));
   }
 
   handleMsg(data) {

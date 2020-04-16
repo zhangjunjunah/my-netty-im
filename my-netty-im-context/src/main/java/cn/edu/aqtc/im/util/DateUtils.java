@@ -74,6 +74,12 @@ public class DateUtils {
         return sf.format(d);
     }
 
+    public static String getDateToString(Date date) {
+        SimpleDateFormat sf = null;
+        sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sf.format(date);
+    }
+
     public static void main(String[] args) {
         //System.out.println(DateFormatUtils.format(getBeforeDate(142),"yyyy-MM-dd HH:mm:ss"));
         System.out.println(isStockOpening());

@@ -33,6 +33,9 @@ public class MessageDispatcher {
             case PUBLISH_PRIVATE:
                 conversationService.pushPrivateMsg(messagePayload);
                 break;
+            case GET_HIS_MSG:
+                conversationService.getHisMsg(messagePayload);
+                break;
             default:
                 break;
         }

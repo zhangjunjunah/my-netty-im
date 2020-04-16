@@ -1,4 +1,5 @@
 const WS_PROTOCOL = 'ws';
+//const WS_IP = '192.1.216.140';
 const WS_IP = 'localhost';
 const WS_PORT = 8091;
 const WS_URI = 'im';
@@ -7,7 +8,7 @@ const CONNECT = 'CONNECT';
 const DISCONNECT = 'DISCONNECT';
 const CONNECT_ACK = 'CONNECT_ACK';
 const PUBLISH_PRIVATE = 'PUBLISH_PRIVATE';
-const GET_MESSAGES = 'GET_MESSAGES';
+const GET_HIS_MSG = 'GET_HIS_MSG';
 export default {
   WS_PROTOCOL,
   WS_IP,
@@ -17,5 +18,5 @@ export default {
   DISCONNECT,
   CONNECT_ACK,
   PUBLISH_PRIVATE,
-  GET_MESSAGES
+  GET_HIS_MSG
 }

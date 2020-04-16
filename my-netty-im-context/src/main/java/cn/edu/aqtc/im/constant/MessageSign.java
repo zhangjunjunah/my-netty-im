@@ -11,6 +11,7 @@ public enum MessageSign {
     CONNECT,
     DISCONNECT,
     CONNECT_ACK,
+    GET_HIS_MSG,
     PUBLISH_PRIVATE;
 
 }
