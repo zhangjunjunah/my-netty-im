@@ -43,7 +43,7 @@
   vertical-align: top;
   height: 45px;
   line-height: 45px;
-  width: 173px;
+  width: calc(100% - 50px);
   text-align: left;
   white-space: nowrap;
   text-overflow: ellipsis;
