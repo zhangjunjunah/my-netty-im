@@ -7,7 +7,7 @@
         </textarea>
       </div>
       <div class="opera-div">
-        <el-button @click="sendMsg()" size="small" type="primary">发送(enter)</el-button>
+        <el-button @click="sendMsg()" size="small" type="primary">发送(Enter)</el-button>
       </div>
     </div>
 </template>

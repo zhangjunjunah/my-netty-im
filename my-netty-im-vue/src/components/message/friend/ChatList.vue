@@ -48,7 +48,7 @@
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     overflow: auto;
     margin-top: 2px;
-    min-width: 150px;
+    /*min-width: 150px;*/
   }
 
   .chat-list-item:active{ background-color: #ebebec}
