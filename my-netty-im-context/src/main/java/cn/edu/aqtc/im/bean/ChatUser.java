@@ -17,6 +17,7 @@ import java.util.List;
  * @ClassName: ChatUser
  * @Author: zhangjj
  * @Date: 2020-04-13
+ *
  */
 @Data
 @Slf4j
