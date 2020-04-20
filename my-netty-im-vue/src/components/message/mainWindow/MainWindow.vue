@@ -15,9 +15,9 @@
 </template>
 
 <script>
-  import DialogMsgWindow from '@/components/mainWindow/chatDialog/DialogMsgWindow'
-  import InputWindow from '@/components/mainWindow/inputDialog/InputWindow'
-  import DialogTitle from '@/components/mainWindow/chatTitle/DialogTitle'
+  import DialogMsgWindow from '@/components/message/mainWindow/chatDialog/DialogMsgWindow'
+  import InputWindow from '@/components/message/mainWindow/inputDialog/InputWindow'
+  import DialogTitle from '@/components/message/mainWindow/chatTitle/DialogTitle'
 
   export default {
       name: "MainWindow",

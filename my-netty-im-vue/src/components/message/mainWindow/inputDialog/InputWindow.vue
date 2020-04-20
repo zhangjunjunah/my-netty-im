@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import ToolBar from '@/components/mainWindow/inputDialog/toolBar/ToolBar'
+  import ToolBar from '@/components/message/mainWindow/inputDialog/toolBar/ToolBar'
 
   export default {
         name: "InputWindow",

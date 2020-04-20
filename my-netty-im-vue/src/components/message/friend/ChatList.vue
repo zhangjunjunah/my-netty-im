@@ -3,13 +3,13 @@
      <div :class="activeId== item.userId?'selectedChatItem':'normalChatItem'" @click="selected(item)"
           class="chat-list-item" v-for="(item, index) in chatFriendList">
        <chat-friend-item :headPortrait="item.headPortrait" :userId="item.userId"
-                         :userName="item.userName"></chat-friend-item>
+                         :userName="item.userName" :userStatus="item.userStatus"></chat-friend-item>
      </div>
    </div>
 </template>
 
 <script>
-  import ChatFriendItem from '@/components/friend/ChatFriendItem'
+  import ChatFriendItem from '@/components/message/friend/ChatFriendItem'
 
   export default {
       name: "ChatList",

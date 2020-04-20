@@ -4,9 +4,12 @@
       <el-avatar :size="45" :src="avatarUrl" class="avator"></el-avatar>
     </div>
     <div class="tab-div">
-      <i class="iconfont iconmessage tab-icon"></i>
-      <i class="iconfont iconlianxiren2 tab-icon"></i>
-      <i class="iconfont iconicon_- tab-icon"></i>
+      <i :class="'MessageMain'==currentMain?'light':''" @click="switchMain('MessageMain')"
+         class="iconfont iconmessage tab-icon"></i>
+      <i :class="'ContactsMain'==currentMain?'light':''" @click="switchMain('ContactsMain')"
+         class="iconfont iconlianxiren2 tab-icon"></i>
+      <i :class="'CloudMain'==currentMain?'light':''" @click="switchMain('CloudMain')"
+         class="iconfont iconicon_- tab-icon"></i>
     </div>
   </div>
 </template>
@@ -15,7 +18,9 @@
   export default {
     name: "HeaderWindow",
     data() {
-      return {}
+      return {
+        currentMain: 'MessageMain'
+      }
     },
     computed: {
       avatarUrl() {
@@ -23,6 +28,12 @@
           return;
         }
         return require("@/" + this.$store.state.personalInformation.avatarUrl);
+      }
+    },
+    methods: {
+      switchMain(mainName) {
+        this.currentMain = mainName;
+        this.$emit("switchMain", mainName);
       }
     }
   }
@@ -50,6 +61,11 @@
     font-size: 28px;
     margin: 10px;
     height: 100%;
+    color: gainsboro;
 
+  }
+
+  .light {
+    color: white;
   }
 </style>

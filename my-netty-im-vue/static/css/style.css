@@ -8,3 +8,18 @@
   border-radius: 0px 0px 4px 4px;
   border-collapse:collapse;
 }
+
+.developing-div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: justify;
+  color: #cccccc;
+}
+
+.developing-div .el-link {
+  margin-left: 5px;
+  font-family: Micrsofot Yahei;
+}
