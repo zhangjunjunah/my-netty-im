@@ -2,7 +2,6 @@ import router from "../router";
 import store from "../store";
 
 router.beforeEach((to, from, next) => {
-  debugger;
   if (to.matched.some(m => m.meta.login)) {
     // 对路由进行验证
     if (store.state.personalInformation.userId != '') { // 已经登陆

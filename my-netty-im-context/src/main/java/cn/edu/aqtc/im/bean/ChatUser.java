@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.bean;
 
+import cn.edu.aqtc.im.constant.UserStatusEnum;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +27,16 @@ public class ChatUser implements Serializable {
     private static File friendFile = new File(ChatUser.class.getClassLoader().getResource("friends.json").getPath());
     private String userId;
     private String userName;
-    //头像
+    /**
+     * 头像
+     */
     private String headPortrait;
+
+    /**
+     * 用户状态(在线/离线)
+     */
+    private UserStatusEnum userStatus;
+
 
     /**
      * @Description: 加载用户列表
