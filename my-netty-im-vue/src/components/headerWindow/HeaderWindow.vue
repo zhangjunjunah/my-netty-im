@@ -126,5 +126,30 @@
 
   .disconnect-color {
     background-color: red;
+    animation: fade 3000ms infinite;
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 1.0;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    to {
+      opacity: 1.0;
+    }
+  }
+
+  @-webkit-keyframes fade {
+    from {
+      opacity: 1.0;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    to {
+      opacity: 1.0;
+    }
   }
 </style>
