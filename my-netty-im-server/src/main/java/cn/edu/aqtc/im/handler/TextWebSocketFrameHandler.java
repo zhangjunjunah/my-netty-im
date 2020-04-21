@@ -94,7 +94,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("client:{},connect exception,exception msg:{}",getClientId(ctx),cause.getMessage());
+        log.error("client:{},connect exception,exception msg:{}", getClientId(ctx), cause.getStackTrace());
         channelGroup.remove(ctx.channel());
         ctx.close();
     }

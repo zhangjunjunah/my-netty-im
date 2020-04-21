@@ -40,7 +40,8 @@ export default new Vuex.Store({
      */
     messages: [],
     friendList: [],
-    vueWebsocket: null
+    vueWebsocket: null,
+    activeTime: null
   },
   mutations: {
     /**
@@ -77,7 +78,7 @@ export default new Vuex.Store({
 
     },
     initWebSocket(state) {
-      let vueWebsocket = new VueWebSocket(Constant.WS_PROTOCOL, Constant.WS_IP, Constant.WS_PORT, Constant.WS_URI);
+      let vueWebsocket = new VueWebSocket(Constant.WS_PROTOCOL, Constant.WS_IP, Constant.WS_PORT, Constant.WS_URI, Constant.HEART_BEAT_TIMEOUT);
       vueWebsocket.connect();
       state.vueWebsocket = vueWebsocket;
     },
@@ -95,6 +96,12 @@ export default new Vuex.Store({
       msg.sender = state.chat.activeId;
       let messagePayload = new MessagePayload(Constant.GET_HIS_MSG, JSON.stringify(msg));
       state.vueWebsocket.send(messagePayload.toJSON());
+    },
+    lastActiveTime(state, activeTime) {
+      state.activeTime = activeTime;
+    },
+    getLastActiveTime(state) {
+      return state.activeTime;
     }
   },
   actions: {

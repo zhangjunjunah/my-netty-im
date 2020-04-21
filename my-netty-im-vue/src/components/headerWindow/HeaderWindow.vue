@@ -11,6 +11,9 @@
       <i :class="'CloudMain'==currentMain?'light':''" @click="switchMain('CloudMain')"
          class="iconfont iconicon_- tab-icon"></i>
     </div>
+    <div class="connect-div">
+      <div id="status-div"></div>
+    </div>
   </div>
 </template>
 
@@ -67,5 +70,15 @@
 
   .light {
     color: white;
+  }
+
+  .connect-div {
+
+  }
+
+  .status-div {
+    height: 10px;
+    width: 10px;
+    background-color: green;
   }
 </style>
