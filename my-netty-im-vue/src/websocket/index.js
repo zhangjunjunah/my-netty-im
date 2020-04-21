@@ -2,6 +2,7 @@ import ReceiveMsg from "./handler/ReceiveMsg";
 import GetHisMsg from "./handler/GetHisMsg";
 import Constant from '@/constants';
 import MessagePayload from '@/websocket/message/MessagePayload';
+import store from "@/store";
 
 export default class VueWebSocket {
 
@@ -22,13 +23,14 @@ export default class VueWebSocket {
     let that = this;
     this.ws.onopen = function (event) {
       console.log("ws open");
-
+      store.commit("lastActiveTime", new Date().getTime());
       that.pingIntervalId = setInterval(() => {
         that.ping();
       }, that.heartbeatTimeout);
     }
     this.ws.onmessage = function (event) {
       console.log("ws onmessage[" + event.data + "]");
+      store.commit("lastActiveTime", new Date().getTime());
       that.handleMsg(event.data);
     }
     this.ws.onclose = function (event) {

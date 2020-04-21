@@ -1,6 +1,7 @@
 package cn.edu.aqtc.im.protocol;
 
 import cn.edu.aqtc.im.constant.MessageSign;
+import com.alibaba.fastjson.annotation.JSONField;
 import io.netty.channel.Channel;
 import lombok.Data;
 
@@ -29,6 +30,7 @@ public class MessagePayload implements Serializable {
     /**
      * 消息接收通道
      */
+    @JSONField(serialize = false)
     private Channel channel;
 
 }

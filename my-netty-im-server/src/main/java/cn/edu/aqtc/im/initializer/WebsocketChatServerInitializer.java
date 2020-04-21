@@ -8,6 +8,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 
 /**
  * @ClassName : WebsocketChatServerInitializer
@@ -25,6 +26,7 @@ public class WebsocketChatServerInitializer extends ChannelInitializer<SocketCha
         pipeline.addLast(new HttpObjectAggregator(64*1024));
         //以块的方式来写的处理器
         pipeline.addLast(new ChunkedWriteHandler());
+        pipeline.addLast("serverIdleHandler", new IdleStateHandler(0, 0, 100));
         //pipeline.addLast(new HttpRequestHandler("/ws"));
         //这个是websocket的handler，是netty提供的
         pipeline.addLast(new WebSocketServerProtocolHandler("/im"));

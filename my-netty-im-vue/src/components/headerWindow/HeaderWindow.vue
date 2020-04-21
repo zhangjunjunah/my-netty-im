@@ -12,17 +12,25 @@
          class="iconfont iconicon_- tab-icon"></i>
     </div>
     <div class="connect-div">
-      <div id="status-div"></div>
+      <el-tooltip :content="connectStatusTitle" class="item" effect="dark" placement="top">
+        <div :class="connectStatus" id="status-div"></div>
+      </el-tooltip>
     </div>
   </div>
 </template>
 
 <script>
+
+  import store from "@/store";
+  import Constant from '@/constants';
+
   export default {
     name: "HeaderWindow",
     data() {
       return {
-        currentMain: 'MessageMain'
+        currentMain: 'MessageMain',
+        connectStatus: 'disconnect-color',
+        connectStatusTitle: null
       }
     },
     computed: {
@@ -31,13 +39,33 @@
           return;
         }
         return require("@/" + this.$store.state.personalInformation.avatarUrl);
-      }
+      },
     },
     methods: {
       switchMain(mainName) {
         this.currentMain = mainName;
         this.$emit("switchMain", mainName);
+      },
+      setConnectStatus() {
+        let now = new Date().getTime();
+        let diff = now - store.state.activeTime;
+        console.log("now", now, "activeTime", store.state.activeTime, "diff", diff);
+        if (diff > 3 * Constant.HEART_BEAT_TIMEOUT) {
+          this.connectStatus = "disconnect-color";
+          this.connectStatusTitle = "与服务端断开连接";
+        } else if (diff < 3 * Constant.HEART_BEAT_TIMEOUT && diff >= Constant.HEART_BEAT_TIMEOUT) {
+          this.connectStatus = "warn-connect-color";
+          this.connectStatusTitle = "与服务端失去联系";
+        } else {
+          this.connectStatus = "connect-color";
+          this.connectStatusTitle = "与服务端正常连接";
+        }
       }
+    },
+    mounted() {
+      this.setConnectStatus();
+      setInterval(this.setConnectStatus, 2000);
+
     }
   }
 </script>
@@ -47,6 +75,7 @@
     width: 100%;
     height: 100%;
     vertical-align: top;
+    position: relative;
   }
 
   .avatar-div {
@@ -73,12 +102,29 @@
   }
 
   .connect-div {
+    display: inline-block;
+    float: right;
+    position: absolute;
+    left: 98%;
+    top: 40%;
 
   }
 
-  .status-div {
+  #status-div {
     height: 10px;
     width: 10px;
-    background-color: green;
+    border-radius: 50%;
+  }
+
+  .connect-color {
+    background-color: #00dd00;
+  }
+
+  .warn-connect-color {
+    background-color: #E6A23C; /*#ffec0e;*/
+  }
+
+  .disconnect-color {
+    background-color: red;
   }
 </style>

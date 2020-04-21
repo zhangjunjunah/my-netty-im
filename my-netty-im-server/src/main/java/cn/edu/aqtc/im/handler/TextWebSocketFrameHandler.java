@@ -15,6 +15,7 @@ import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -143,14 +144,25 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
             channel.close();
         }
     }
-    public void  sendMessage(String address){
-        Channel channel=channelMap.get(address);
-        String message="hello client:"+channel.id()+" ,welcome my-netty-im";
+
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        if (evt instanceof IdleStateEvent) {
+            ctx.channel().close();
+        } else {
+            super.userEventTriggered(ctx, evt);
+        }
+    }
+
+    public void sendMessage(String address) {
+        Channel channel = channelMap.get(address);
+        String message = "hello client:" + channel.id() + " ,welcome my-netty-im";
         channel.writeAndFlush(new TextWebSocketFrame(message));
     }
 
     private void sendMessageAll(ChannelHandlerContext channelHandlerContext) {
-        String message="群发信息,client "+getClientId(channelHandlerContext)+" on line";
+        String message = "群发信息,client " + getClientId(channelHandlerContext) + " on line";
         channelGroup.writeAndFlush(new TextWebSocketFrame(message));
     }
 }

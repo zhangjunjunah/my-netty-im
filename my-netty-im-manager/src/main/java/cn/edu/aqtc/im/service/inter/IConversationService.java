@@ -36,4 +36,13 @@ public interface IConversationService {
      * @Date: 2020-04-16
      */
     void getHisMsg(MessagePayload messagePayload);
+
+    /**
+     * @param messagePayload
+     * @return void
+     * @Description 服务端pong
+     * @Author zhangjj
+     * @Date 2020-04-21
+     **/
+    void pong(MessagePayload messagePayload);
 }

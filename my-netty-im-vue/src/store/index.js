@@ -107,5 +107,6 @@ export default new Vuex.Store({
   actions: {
     initWebSocket: ({commit}) => commit('initWebSocket'),
     getMessage: ({commit}) => commit('getMessage'),
+    lastActiveTime: ({commit}) => commit('lastActiveTime'),
   }
 });

@@ -27,6 +27,9 @@ public class MessageDispatcher {
     public void dispatch(MessagePayload messagePayload) {
 
         switch (messagePayload.getSign()) {
+            case PING:
+                conversationService.pong(messagePayload);
+                break;
             case CONNECT:
                 conversationService.connect(messagePayload);
                 break;

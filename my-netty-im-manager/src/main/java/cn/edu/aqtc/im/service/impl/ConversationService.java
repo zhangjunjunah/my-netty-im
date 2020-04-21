@@ -3,6 +3,7 @@ package cn.edu.aqtc.im.service.impl;
 import cn.edu.aqtc.im.bean.ChatUser;
 import cn.edu.aqtc.im.cache.PersonalMsgCache;
 import cn.edu.aqtc.im.cache.UserChannelCache;
+import cn.edu.aqtc.im.constant.MessageSign;
 import cn.edu.aqtc.im.protocol.ConversationMessage;
 import cn.edu.aqtc.im.protocol.FriendMessage;
 import cn.edu.aqtc.im.protocol.MessagePayload;
@@ -84,6 +85,19 @@ public class ConversationService implements IConversationService {
             conversationMessages = ConversationMessage.convert(friendMessages, friendMessage.getReceiver());
         }
         messagePayload.setBody(CommonUtils.toJSONString(conversationMessages));
+        messagePayload.getChannel().writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
+    }
+
+    /**
+     * @param messagePayload
+     * @return void
+     * @Description 服务端pong
+     * @Author zhangjj
+     * @Date 2020-04-21
+     **/
+    @Override
+    public void pong(MessagePayload messagePayload) {
+        messagePayload.setSign(MessageSign.PONG);
         messagePayload.getChannel().writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
     }
 

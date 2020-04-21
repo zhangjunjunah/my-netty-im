@@ -3,7 +3,8 @@ const WS_PROTOCOL = 'ws';
 const WS_IP = 'localhost';
 const WS_PORT = 8091;
 const WS_URI = 'im';
-const HEART_BEAT_TIMEOUT = 3000;
+//心跳时间30s
+const HEART_BEAT_TIMEOUT = 30000;
 //signal
 const CONNECT = 'CONNECT';
 const DISCONNECT = 'DISCONNECT';
