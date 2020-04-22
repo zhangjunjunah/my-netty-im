@@ -55,7 +55,7 @@
           this.connectStatusTitle = "与服务端断开连接";
         } else if (diff < 3 * Constant.HEART_BEAT_TIMEOUT && diff >= Constant.HEART_BEAT_TIMEOUT) {
           this.connectStatus = "warn-connect-color";
-          this.connectStatusTitle = "与服务端失去联系";
+          this.connectStatusTitle = "与服务端失去连接";
         } else {
           this.connectStatus = "connect-color";
           this.connectStatusTitle = "与服务端正常连接";
@@ -121,12 +121,13 @@
   }
 
   .warn-connect-color {
-    background-color: #E6A23C; /*#ffec0e;*/
+    background-color: #ffe506; /*#ffec0e;*/
+    animation: fade 4000ms infinite;
   }
 
   .disconnect-color {
     background-color: red;
-    animation: fade 3000ms infinite;
+    animation: fade 2000ms infinite;
   }
 
   @keyframes fade {

@@ -38,4 +38,9 @@ public class UserConstants {
     public static Cache<String, ChatUser> getFriendCache() {
         return friendCache;
     }
+
+    public static Cache<String, ChatUser> updateFriendCache(ChatUser chatUser) {
+        friendCache.put(chatUser.getUserId(), chatUser);
+        return friendCache;
+    }
 }

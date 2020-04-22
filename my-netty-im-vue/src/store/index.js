@@ -102,6 +102,9 @@ export default new Vuex.Store({
     },
     getLastActiveTime(state) {
       return state.activeTime;
+    },
+    updateFriendStatus(state, data) {
+      Vue.set(state.friendList, data.index, data.chatUser);
     }
   },
   actions: {

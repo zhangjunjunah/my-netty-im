@@ -35,7 +35,7 @@
     created() {
       this.$store.commit('initWebSocket');
       setTimeout(() => {
-        this.$store.commit('connect')
+        this.$store.commit('connect');
       }, 1000);
 
     },

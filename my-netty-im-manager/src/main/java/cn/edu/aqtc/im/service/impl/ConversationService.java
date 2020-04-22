@@ -4,6 +4,8 @@ import cn.edu.aqtc.im.bean.ChatUser;
 import cn.edu.aqtc.im.cache.PersonalMsgCache;
 import cn.edu.aqtc.im.cache.UserChannelCache;
 import cn.edu.aqtc.im.constant.MessageSign;
+import cn.edu.aqtc.im.constant.UserConstants;
+import cn.edu.aqtc.im.constant.UserStatusEnum;
 import cn.edu.aqtc.im.protocol.ConversationMessage;
 import cn.edu.aqtc.im.protocol.FriendMessage;
 import cn.edu.aqtc.im.protocol.MessagePayload;
@@ -61,10 +63,15 @@ public class ConversationService implements IConversationService {
      */
     @Override
     public void connect(MessagePayload messagePayload) {
+        //将用户 通道放到缓存中
         ChatUser chatUser = JSONObject.parseObject(messagePayload.getBody(), ChatUser.class);
         userChannelCache.putUserChannel2Cache(chatUser.getUserId(), messagePayload.getChannel());
-
+        //调整用户状态为上线状态
+        chatUser = adjustChatUserStatus(chatUser, UserStatusEnum.ONLINE);
+        //广播所有用户，更新好友列表状态
+        broadcastFriendList(chatUser);
     }
+
 
     /**
      * @param messagePayload
@@ -101,7 +108,48 @@ public class ConversationService implements IConversationService {
         messagePayload.getChannel().writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
     }
 
+    /**
+     * @Description: 获取接收者的channel
+     * @Param: [friendMessage]
+     * @return: io.netty.channel.Channel
+     * @Author: zhangjj
+     * @Date: 2020-04-22
+     */
     private Channel getReceiverChannel(FriendMessage friendMessage) {
         return userChannelCache.getChannelByUserId(friendMessage.getReceiver());
+    }
+
+    /**
+     * @Description: 调整用户状态
+     * @Param: [chatUser, online]
+     * @return: void
+     * @Author: zhangjj
+     * @Date: 2020-04-22
+     */
+    private ChatUser adjustChatUserStatus(ChatUser chatUser, UserStatusEnum userStatusEnum) {
+        ChatUser search = UserConstants.getFriendCache().getIfPresent(chatUser.getUserId());
+        if (CommonUtils.objectIsNull(search)) {
+            return null;
+        }
+        search.setUserStatus(userStatusEnum);
+        UserConstants.updateFriendCache(search);
+        return search;
+    }
+
+    /**
+     * @param chatUser
+     * @Description: 广播朋友列表
+     * @return: void
+     * @Author: zhangjj
+     * @Date: 2020-04-22
+     */
+    private void broadcastFriendList(ChatUser chatUser) {
+        if (CommonUtils.objectIsNull(chatUser)) {
+            return;
+        }
+        MessagePayload messagePayload = new MessagePayload();
+        messagePayload.setSign(MessageSign.PUBLISH_FRIEND);
+        messagePayload.setBody(CommonUtils.toJSONString(chatUser));
+        UserChannelCache.channelGroup.writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="chat-item-div">
-      <el-avatar :class="userStatus=='ONLINE' || userStatus==null?'offline':''" :size="45" :src="avatarUrl"
+      <el-avatar :class="userStatus" :size="45" :src="avatarUrl"
                  class="avator"></el-avatar>
       <span class="chat-obj-name-span">{{userName}}</span>
 
@@ -55,7 +55,7 @@
   overflow: hidden;
 }
 
-.offline {
+.OFFLINE {
   -webkit-filter: grayscale(100%);
   -moz-filter: grayscale(100%);
   -ms-filter: grayscale(100%);
@@ -64,4 +64,6 @@
 
   filter: gray;
 }
+
+
 </style>

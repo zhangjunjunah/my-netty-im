@@ -34,7 +34,7 @@ public class ChatUser implements Serializable {
     /**
      * 用户状态(在线/离线)
      */
-    private UserStatusEnum userStatus;
+    private UserStatusEnum userStatus = UserStatusEnum.OFFLINE;
 
 
     /**

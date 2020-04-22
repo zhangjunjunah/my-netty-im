@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.handler;
 
+import cn.edu.aqtc.im.cache.UserChannelCache;
 import cn.edu.aqtc.im.protocol.MessagePayload;
 import cn.edu.aqtc.im.serivce.MessageDispatcher;
 import cn.edu.aqtc.im.util.SpringUtils;
@@ -9,7 +10,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
@@ -32,13 +32,11 @@ import java.util.concurrent.ConcurrentMap;
 @Slf4j
 public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Object> {
 
-    //客户端组
-    public  static ChannelGroup channelGroup;
 
     private MessageDispatcher messageDispatcher;
 
     static {
-        channelGroup=new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+        UserChannelCache.channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     }
     //存储ip和channel的容器
     private static ConcurrentMap<String, Channel> channelMap = new ConcurrentHashMap<>();
@@ -76,7 +74,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("client:{},connect success", getClientId(ctx));
-        channelGroup.add(ctx.channel());
+        UserChannelCache.channelGroup.add(ctx.channel());
     }
 
     /**
@@ -90,13 +88,13 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.info("client:{},connect close", getClientId(ctx));
-        channelGroup.remove(ctx.channel());
+        UserChannelCache.channelGroup.remove(ctx.channel());
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("client:{},connect exception,exception msg:{}", getClientId(ctx), cause.getStackTrace());
-        channelGroup.remove(ctx.channel());
+        UserChannelCache.channelGroup.remove(ctx.channel());
         ctx.close();
     }
 
@@ -163,6 +161,6 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
 
     private void sendMessageAll(ChannelHandlerContext channelHandlerContext) {
         String message = "群发信息,client " + getClientId(channelHandlerContext) + " on line";
-        channelGroup.writeAndFlush(new TextWebSocketFrame(message));
+        UserChannelCache.channelGroup.writeAndFlush(new TextWebSocketFrame(message));
     }
 }

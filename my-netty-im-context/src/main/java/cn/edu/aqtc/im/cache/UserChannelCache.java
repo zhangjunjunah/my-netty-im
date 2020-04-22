@@ -3,6 +3,7 @@ package cn.edu.aqtc.im.cache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,7 +19,10 @@ public class UserChannelCache {
     private Cache<String, Channel> cache = CacheBuilder.newBuilder()
             .build();
     ;
-
+    /**
+     * netty 客户端组
+     */
+    public static ChannelGroup channelGroup;
     /**
      * @Description: 将userId与ctx放入缓存
      * @Param: [userId, ctx]

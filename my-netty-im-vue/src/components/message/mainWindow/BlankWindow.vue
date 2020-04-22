@@ -34,7 +34,7 @@
     font-size: 100px;
     color: #148fed;
     vertical-align: bottom;
-    bottom: 40px;
+    bottom: 20%;
     margin: 0 auto;
     left: 45%;
     position: absolute;

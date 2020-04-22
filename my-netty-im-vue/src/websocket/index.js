@@ -3,6 +3,7 @@ import GetHisMsg from "./handler/GetHisMsg";
 import Constant from '@/constants';
 import MessagePayload from '@/websocket/message/MessagePayload';
 import store from "@/store";
+import NotifyFriendStatus from "./handler/NotifyFriendStatus";
 
 export default class VueWebSocket {
 
@@ -56,6 +57,7 @@ export default class VueWebSocket {
   initHandlerChain() {
     this.handlerChain.push(new ReceiveMsg(this));
     this.handlerChain.push(new GetHisMsg(this));
+    this.handlerChain.push(new NotifyFriendStatus(this));
   }
 
   handleMsg(data) {
