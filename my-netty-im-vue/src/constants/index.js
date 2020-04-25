@@ -1,6 +1,6 @@
 const WS_PROTOCOL = 'ws';
 //const WS_IP = '192.1.216.140';
-const WS_IP = 'localhost';
+const WS_IP = process.env.WS_IP;
 const WS_PORT = 8091;
 const WS_URI = 'im';
 //心跳时间30s

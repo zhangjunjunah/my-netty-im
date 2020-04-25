@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -22,8 +19,8 @@ import java.util.List;
 @Data
 @Slf4j
 public class ChatUser implements Serializable {
-    private static File chatUserFile = new File(ChatUser.class.getClassLoader().getResource("chatUser.json").getPath());
-    private static File friendFile = new File(ChatUser.class.getClassLoader().getResource("friends.json").getPath());
+    private static InputStream chatUserFile = ChatUser.class.getClassLoader().getResourceAsStream("chatUser.json");
+    private static InputStream friendFile = ChatUser.class.getClassLoader().getResourceAsStream("friends.json");
     private String userId;
     private String userName;
     /**
@@ -59,16 +56,12 @@ public class ChatUser implements Serializable {
         return getChatUsers(friendFile);
     }
 
-    private static List<ChatUser> getChatUsers(File friendFile) {
-        if (!friendFile.exists()) {
-            log.warn("chatUserFile is not exists");
-            return null;
-        }
+    private static List<ChatUser> getChatUsers(InputStream friendFile) {
         String jsonStr = null;
         try {
-            jsonStr = readFromFile(friendFile);
+            jsonStr = IOUtils.toString(friendFile, Charset.defaultCharset());
         } catch (IOException e) {
-            log.error("jsonStr read error");
+            log.error("error:", e);
         }
         if (jsonStr == null) {
             return null;

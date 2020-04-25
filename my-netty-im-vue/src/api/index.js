@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 let base = '';
-axios.defaults.baseURL = '/im'
+axios.defaults.baseURL = process.env.API_HOST;
 
 /**
  * http post请求，请求参数为json格式
