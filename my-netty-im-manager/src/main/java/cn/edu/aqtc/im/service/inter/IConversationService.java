@@ -1,6 +1,7 @@
 package cn.edu.aqtc.im.service.inter;
 
 import cn.edu.aqtc.im.protocol.MessagePayload;
+import io.netty.channel.Channel;
 
 /**
  * @Description: 会话服务
@@ -45,4 +46,13 @@ public interface IConversationService {
      * @Date 2020-04-21
      **/
     void pong(MessagePayload messagePayload);
+
+    /**
+     * @param channel
+     * @return void
+     * @Description 用户下线
+     * @Author zhangjj
+     * @Date 2020-04-26
+     **/
+    void userOffline(Channel channel);
 }

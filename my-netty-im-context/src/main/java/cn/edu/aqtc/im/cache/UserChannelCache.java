@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.cache;
 
+import cn.edu.aqtc.im.bean.ChatUser;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import io.netty.channel.Channel;
@@ -18,11 +19,16 @@ public class UserChannelCache {
 
     private Cache<String, Channel> cache = CacheBuilder.newBuilder()
             .build();
+
+
+    private Cache<String, ChatUser> channelUserCache = CacheBuilder.newBuilder()
+            .build();
     ;
     /**
      * netty 客户端组
      */
     public static ChannelGroup channelGroup;
+
     /**
      * @Description: 将userId与ctx放入缓存
      * @Param: [userId, ctx]
@@ -34,12 +40,24 @@ public class UserChannelCache {
         cache.put(userId, channel);
     }
 
+    public void putChannelUser2Cache(String channelId, ChatUser chatUser) {
+        channelUserCache.put(channelId, chatUser);
+    }
+
 
     public Channel getChannelByUserId(String userId) {
         return cache.getIfPresent(userId);
     }
 
+    public ChatUser getUserByChannelId(String channelId) {
+        return channelUserCache.getIfPresent(channelId);
+    }
+
     public void removeUserChannel(String userId) {
         cache.invalidate(userId);
+    }
+
+    public void removeChannelUser(String channelId) {
+        channelUserCache.invalidate(channelId);
     }
 }

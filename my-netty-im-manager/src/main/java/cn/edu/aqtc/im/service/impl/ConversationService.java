@@ -65,11 +65,17 @@ public class ConversationService implements IConversationService {
     public void connect(MessagePayload messagePayload) {
         //将用户 通道放到缓存中
         ChatUser chatUser = JSONObject.parseObject(messagePayload.getBody(), ChatUser.class);
-        userChannelCache.putUserChannel2Cache(chatUser.getUserId(), messagePayload.getChannel());
+        //保存用户通道关系
+        setUserChannelRel(chatUser, messagePayload.getChannel());
         //调整用户状态为上线状态
         chatUser = adjustChatUserStatus(chatUser, UserStatusEnum.ONLINE);
         //广播所有用户，更新好友列表状态
         broadcastFriendList(chatUser);
+    }
+
+    private void setUserChannelRel(ChatUser chatUser, Channel channel) {
+        userChannelCache.putUserChannel2Cache(chatUser.getUserId(), channel);
+        userChannelCache.putChannelUser2Cache(channel.id().toString(), chatUser);
     }
 
 
@@ -106,6 +112,23 @@ public class ConversationService implements IConversationService {
     public void pong(MessagePayload messagePayload) {
         messagePayload.setSign(MessageSign.PONG);
         messagePayload.getChannel().writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
+    }
+
+    /**
+     * @param channel
+     * @return void
+     * @Description 用户下线
+     * @Author zhangjj
+     * @Date 2020-04-26
+     **/
+    @Override
+    public void userOffline(Channel channel) {
+        ChatUser chatUser = userChannelCache.getUserByChannelId(channel.id().toString());
+        chatUser.setUserStatus(UserStatusEnum.OFFLINE);
+        UserConstants.updateFriendCache(chatUser);
+        broadcastFriendList(chatUser);
+        userChannelCache.removeChannelUser(channel.id().toString());
+        userChannelCache.removeUserChannel(chatUser.getUserId());
     }
 
     /**

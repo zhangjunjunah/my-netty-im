@@ -3,6 +3,7 @@ package cn.edu.aqtc.im.handler;
 import cn.edu.aqtc.im.cache.UserChannelCache;
 import cn.edu.aqtc.im.protocol.MessagePayload;
 import cn.edu.aqtc.im.serivce.MessageDispatcher;
+import cn.edu.aqtc.im.service.impl.ConversationService;
 import cn.edu.aqtc.im.util.SpringUtils;
 import com.alibaba.fastjson.JSONObject;
 import io.netty.buffer.Unpooled;
@@ -35,9 +36,12 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
 
     private MessageDispatcher messageDispatcher;
 
+    private ConversationService conversationService;
+
     static {
         UserChannelCache.channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     }
+
     //存储ip和channel的容器
     private static ConcurrentMap<String, Channel> channelMap = new ConcurrentHashMap<>();
 
@@ -45,6 +49,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
     public TextWebSocketFrameHandler() {
         super();
         messageDispatcher = SpringUtils.getBean(MessageDispatcher.class);
+        conversationService = SpringUtils.getBean(ConversationService.class);
     }
 
     /**
@@ -147,6 +152,9 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Objec
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof IdleStateEvent) {
+            log.info("channel:{}, userEventTriggered", ctx.channel().id());
+            //用户下线
+            conversationService.userOffline(ctx.channel());
             ctx.channel().close();
         } else {
             super.userEventTriggered(ctx, evt);

@@ -26,7 +26,7 @@ export default class VueWebSocket {
       console.log("ws open");
       store.commit("lastActiveTime", new Date().getTime());
       that.pingIntervalId = setInterval(() => {
-        that.ping();
+        //that.ping();
       }, that.heartbeatTimeout);
     }
     this.ws.onmessage = function (event) {
