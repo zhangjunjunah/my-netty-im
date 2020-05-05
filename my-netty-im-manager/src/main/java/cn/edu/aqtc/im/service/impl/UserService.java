@@ -5,7 +5,16 @@ import cn.edu.aqtc.im.bean.ChatUser;
 import cn.edu.aqtc.im.bean.RestResult;
 import cn.edu.aqtc.im.code.UserBusiResultCode;
 import cn.edu.aqtc.im.constant.UserConstants;
+import cn.edu.aqtc.im.entity.ImFriend;
+import cn.edu.aqtc.im.entity.ImFriendRel;
+import cn.edu.aqtc.im.entity.ImUser;
+import cn.edu.aqtc.im.mapper.ImFriendMapper;
+import cn.edu.aqtc.im.mapper.ImFriendRelMapper;
+import cn.edu.aqtc.im.mapper.ImUserMapper;
 import cn.edu.aqtc.im.service.inter.IUserService;
+import cn.edu.aqtc.im.util.CommonUtils;
+import cn.edu.aqtc.im.util.SnowflakeIdWorker;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +29,16 @@ import java.util.concurrent.ConcurrentMap;
  */
 @Service
 public class UserService implements IUserService {
+
+    @Autowired
+    private ImUserMapper imUserMapper;
+
+    @Autowired
+    private ImFriendMapper imFriendMapper;
+
+    @Autowired
+    private ImFriendRelMapper imFriendRelMapper;
+
     /**
      * @param chatUser
      * @Description: 登录
@@ -41,5 +60,43 @@ public class UserService implements IUserService {
         friendMap.remove(searchUser.getUserId());
         loginSuccessVO.setFriendList(new ArrayList<>(friendMap.values()));
         return RestResult.getSuccessRestResult(loginSuccessVO);
+    }
+
+    /**
+     * @param imUser
+     * @return cn.edu.aqtc.im.bean.RestResult
+     * @Description 用户注册
+     * @Author zhangjj
+     * @Date 2020-05-02
+     **/
+    @Override
+    public RestResult register(ImUser imUser) {
+        ImUser search = imUserMapper.selectByName(imUser.getUserName());
+        if (!CommonUtils.objectIsNull(search)) {
+            RestResult restResult = new RestResult();
+            restResult.setCode(UserBusiResultCode.USER_ALREADY_EXISTS.getCode());
+            restResult.setMessage(UserBusiResultCode.USER_ALREADY_EXISTS.getMessage());
+            return restResult;
+        }
+        imUser.setUserId(SnowflakeIdWorker.getSequenceId());
+        //插入用户表
+        imUserMapper.insertSelective(imUser);
+        //插入系统朋友
+        initDefaultFriend(imUser.getUserId());
+        return RestResult.getSuccessRestResult();
+    }
+
+    /**
+     * @param userId
+     * @return void
+     * @Description 插入系统管理员
+     * @Author zhangjj
+     * @Date 2020-05-02
+     **/
+    private void initDefaultFriend(Long userId) {
+        imFriendMapper.insertSelective(ImFriend.getDefaultFriend(userId));
+        ImFriendRel imFriendRel = ImFriendRel.getDefaultRel(userId);
+        imFriendRelMapper.insertSelective(imFriendRel);
+        imFriendRelMapper.insertSelective(ImFriendRel.getDefaultRel(userId, imFriendRel.getGroupId()));
     }
 }

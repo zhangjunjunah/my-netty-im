@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.aqtc.im.mapper.ImFriendMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.aqtc.im.entity.ImFriend">
+        <id column="seq_id" property="seqId" jdbcType="BIGINT"/>
+        <result column="friend_id" property="friendId" jdbcType="BIGINT"/>
+        <result column="friend_name" property="friendName" jdbcType="VARCHAR"/>
+        <result column="remark_name" property="remarkName" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        seq_id, friend_id, friend_name, remark_name, user_id, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from im_friend
+        where seq_id = #{seqId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from im_friend
+        where seq_id = #{seqId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="cn.edu.aqtc.im.entity.ImFriend">
+        insert into im_friend (seq_id, friend_id, friend_name,
+                               remark_name, user_id, create_time)
+        values (#{seqId,jdbcType=BIGINT}, #{friendId,jdbcType=BIGINT}, #{friendName,jdbcType=VARCHAR},
+                #{remarkName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=DATE})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.edu.aqtc.im.entity.ImFriend">
+        insert into im_friend
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="seqId != null">
+                seq_id,
+            </if>
+            <if test="friendId != null">
+                friend_id,
+            </if>
+            <if test="friendName != null">
+                friend_name,
+            </if>
+            <if test="remarkName != null">
+                remark_name,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="seqId != null">
+                #{seqId,jdbcType=BIGINT},
+            </if>
+            <if test="friendId != null">
+                #{friendId,jdbcType=BIGINT},
+            </if>
+            <if test="friendName != null">
+                #{friendName,jdbcType=VARCHAR},
+            </if>
+            <if test="remarkName != null">
+                #{remarkName,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.edu.aqtc.im.entity.ImFriend">
+        update im_friend
+        <set>
+            <if test="friendId != null">
+                friend_id = #{friendId,jdbcType=BIGINT},
+            </if>
+            <if test="friendName != null">
+                friend_name = #{friendName,jdbcType=VARCHAR},
+            </if>
+            <if test="remarkName != null">
+                remark_name = #{remarkName,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATE},
+            </if>
+        </set>
+        where seq_id = #{seqId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.edu.aqtc.im.entity.ImFriend">
+        update im_friend
+        set friend_id   = #{friendId,jdbcType=BIGINT},
+            friend_name = #{friendName,jdbcType=VARCHAR},
+            remark_name = #{remarkName,jdbcType=VARCHAR},
+            user_id     = #{userId,jdbcType=BIGINT},
+            create_time = #{createTime,jdbcType=DATE}
+        where seq_id = #{seqId,jdbcType=BIGINT}
+    </update>
+</mapper>

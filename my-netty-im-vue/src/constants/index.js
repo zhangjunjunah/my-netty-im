@@ -13,6 +13,8 @@ const PUBLISH_PRIVATE = 'PUBLISH_PRIVATE';
 const GET_HIS_MSG = 'GET_HIS_MSG';
 const PUBLISH_FRIEND = 'PUBLISH_FRIEND';
 const PING = 'PING';
+
+const DEFAULT_UPLOAD_IMG = "assets/img/default-text.png";
 export default {
   WS_PROTOCOL,
   WS_IP,
@@ -25,5 +27,6 @@ export default {
   GET_HIS_MSG,
   PING,
   PUBLISH_FRIEND,
-  HEART_BEAT_TIMEOUT
+  HEART_BEAT_TIMEOUT,
+  DEFAULT_UPLOAD_IMG
 }

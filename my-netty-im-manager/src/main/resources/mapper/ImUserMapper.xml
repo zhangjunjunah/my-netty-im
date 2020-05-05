@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.aqtc.im.mapper.ImUserMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.aqtc.im.entity.ImUser">
+        <id column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+        <result column="avatar_src" property="avatarSrc" jdbcType="VARCHAR"/>
+        <result column="phone_num" property="phoneNum" jdbcType="VARCHAR"/>
+        <result column="mail" property="mail" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id, user_name, password, nick_name, avatar_src, phone_num, mail, create_time
+    </sql>
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from im_user
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+    <select id="select" resultMap="BaseResultMap" parameterType="cn.edu.aqtc.im.entity.ImUser">
+        select
+        <include refid="Base_Column_List"/>
+        from im_user
+        <where>
+            <if test="userName != null">
+                AND user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null">
+                AND password = #{password,jdbcType=VARCHAR}
+            </if>
+            <if test="nickName != null">
+                AND #{nickName,jdbcType=VARCHAR}
+            </if>
+            <if test="avatarSrc != null">
+                AND avatar_src = #{avatarSrc,jdbcType=VARCHAR}
+            </if>
+            <if test="phoneNum != null">
+                AND phone_num = #{phoneNum,jdbcType=VARCHAR}
+            </if>
+            <if test="mail != null">
+                AND mail = #{mail,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=DATE}
+            </if>
+        </where>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from im_user
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from im_user
+        where user_id = #{userId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="cn.edu.aqtc.im.entity.ImUser">
+        insert into im_user (user_id, user_name, password,
+                             nick_name, avatar_src, phone_num,
+                             mail, create_time)
+        values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{nickName,jdbcType=VARCHAR}, #{avatarSrc,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR},
+                #{mail,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.edu.aqtc.im.entity.ImUser">
+        insert into im_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="nickName != null">
+                nick_name,
+            </if>
+            <if test="avatarSrc != null">
+                avatar_src,
+            </if>
+            <if test="phoneNum != null">
+                phone_num,
+            </if>
+            <if test="mail != null">
+                mail,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="avatarSrc != null">
+                #{avatarSrc,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNum != null">
+                #{phoneNum,jdbcType=VARCHAR},
+            </if>
+            <if test="mail != null">
+                #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.edu.aqtc.im.entity.ImUser">
+        update im_user
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="avatarSrc != null">
+                avatar_src = #{avatarSrc,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNum != null">
+                phone_num = #{phoneNum,jdbcType=VARCHAR},
+            </if>
+            <if test="mail != null">
+                mail = #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATE},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.edu.aqtc.im.entity.ImUser">
+        update im_user
+        set user_name   = #{userName,jdbcType=VARCHAR},
+            password    = #{password,jdbcType=VARCHAR},
+            nick_name   = #{nickName,jdbcType=VARCHAR},
+            avatar_src  = #{avatarSrc,jdbcType=VARCHAR},
+            phone_num   = #{phoneNum,jdbcType=VARCHAR},
+            mail        = #{mail,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=DATE}
+        where user_id = #{userId,jdbcType=BIGINT}
+    </update>
+</mapper>

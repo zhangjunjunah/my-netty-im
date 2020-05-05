@@ -8,19 +8,28 @@ package cn.edu.aqtc.im.code;
  */
 public enum UserBusiResultCode {
     //成功
-    SUCCESS(200),
+    SUCCESS(200, null),
     //用户未注册
-    USER_UNREGISTERED(20001),
+    USER_UNREGISTERED(20001, "用户未注册"),
     //用户登录密码错误
-    USER_PASSWORD_ERROR(20002);
+    USER_PASSWORD_ERROR(20002, "用户登录密码错误"),
+    //用户已存在
+    USER_ALREADY_EXISTS(20003, "用户已存在");
 
     private int code;
 
-    private UserBusiResultCode(int code) {
+    private String message;
+
+    private UserBusiResultCode(int code, String message) {
         this.code = code;
+        this.message = message;
     }
 
     public int getCode() {
         return this.code;
+    }
+
+    public String getMessage() {
+        return this.message;
     }
 }
