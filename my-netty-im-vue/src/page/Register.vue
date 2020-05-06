@@ -23,7 +23,8 @@
             </div>
           </el-form-item>
           <el-form-item label="">
-            <el-input maxlength="25" placeholder="账户名" show-word-limit
+            <el-input @input="keyUp" maxlength="25" ondragenter="return false"
+                      onpaste="return false" placeholder="用户名(不能输入中文)" show-word-limit
                       v-model="registerForm.userName"></el-input>
           </el-form-item>
           <el-form-item label="">
@@ -101,6 +102,9 @@
         let ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
         let dataURL = canvas.toDataURL("image/" + ext);
         return dataURL;
+      },
+      keyUp(value) {
+        this.registerForm.userName = this.registerForm.userName.replace(/[\u4e00-\u9fa5]/ig, '');
       }
 
     },
