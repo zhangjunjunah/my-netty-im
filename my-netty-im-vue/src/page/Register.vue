@@ -8,8 +8,8 @@
         <div>
 
         </div>
-        <el-form label-width="60px" ref="form">
-          <el-form-item label="">
+        <el-form :model="registerForm" :rules="rules" label-width="60px" ref="form">
+          <el-form-item label="" prop="avatarSrc">
             <div class="upload-div">
               <el-upload
                 :action="uploadAvatar()"
@@ -22,25 +22,25 @@
               </el-upload>
             </div>
           </el-form-item>
-          <el-form-item label="">
+          <el-form-item label="" prop="userName">
             <el-input @input="keyUp" maxlength="25" ondragenter="return false"
                       onpaste="return false" placeholder="用户名(不能输入中文)" show-word-limit
                       v-model="registerForm.userName"></el-input>
           </el-form-item>
-          <el-form-item label="">
+          <el-form-item label="" prop="nickName">
             <el-input maxlength="25" placeholder="昵称" show-word-limit
                       v-model="registerForm.nickName"></el-input>
           </el-form-item>
-          <el-form-item label="">
+          <el-form-item label="" prop="password">
             <el-input maxlength="25" placeholder="请输入密码" show-password show-word-limit
                       v-model="registerForm.password"></el-input>
           </el-form-item>
-          <el-form-item label="">
+          <el-form-item label="" prop="verifyPassword">
             <el-input maxlength="25" placeholder="请输入确认密码" show-password show-word-limit
                       v-model="registerForm.verifyPassword"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button @click="register()" type="primary">立即注册</el-button>
+            <el-button @click="register('form')" type="primary">立即注册</el-button>
           </el-form-item>
         </el-form>
       </el-main>
@@ -54,22 +54,57 @@
   export default {
     name: "Register",
     data() {
+      let checkAvatar = (rule, value, callback) => {
+        if (!this.uploadImgUrl) {
+          callback(new Error('请上传头像'));
+        } else {
+          callback();
+        }
+      };
+      let validatePass2 = (rule, value, callback) => {
+        if (value == '' || value == null) {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.registerForm.password) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
       return {
         uploadImgUrl: "",
         defaultImgUrl: Constant.DEFAULT_UPLOAD_IMG,
         img: null,
+        validateResult: true,
         registerForm: {
           userName: null,
           password: null,
           nickName: null,
           verifyPassword: null,
           avatarSrc: null,
-        }
+        },
+        rules: {
+          userName: [
+            {required: true, message: '请输入用户名', trigger: 'blur'},
+          ],
+          password: [
+            {required: true, message: '请输入密码', trigger: 'blur'}
+          ],
+          nickName: [
+            {required: true, message: '请输入昵称', trigger: 'blur'}
+          ],
+          verifyPassword: [
+            {validator: validatePass2, trigger: 'blur'}
+          ],
+          avatarSrc: [
+            {validator: checkAvatar, trigger: 'blur'}
+          ],
+        },
       }
+
     },
+
     methods: {
       handleAvatarSuccess(res, file) {
-        debugger;
         this.uploadImgUrl = URL.createObjectURL(file.raw);
         this.img = new Image();
         this.img.src = this.uploadImgUrl;
@@ -79,7 +114,14 @@
       uploadAvatar() {
         return process.env.API_HOST + "/api/upload/uploadAvatar";
       },
-      register() {
+      register(formName) {
+        let result = true;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+          } else {
+            return false;
+          }
+        });
         this.registerForm.avatarSrc = this.getBase64Image(this.img);
         this.postRequest("/api/user/register", this.registerForm).then(res => {
           if (res.status == 200) {

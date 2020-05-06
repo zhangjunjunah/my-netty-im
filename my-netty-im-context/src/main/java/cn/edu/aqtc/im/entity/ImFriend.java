@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.entity;
 
+import cn.edu.aqtc.im.constant.Constants;
 import cn.edu.aqtc.im.util.SnowflakeIdWorker;
 import lombok.Data;
 
@@ -22,9 +23,9 @@ public class ImFriend {
     public static ImFriend getDefaultFriend(Long userId) {
         ImFriend imFriend = new ImFriend();
         imFriend.setCreateTime(new Date());
-        imFriend.setRemarkName("IM系统团队");
-        imFriend.setFriendId(100000000000000000L);
-        imFriend.setFriendName("机锋小摩托");
+        imFriend.setRemarkName(Constants.ADMIN_REMARK_NAME);
+        imFriend.setFriendId(Constants.ADMIN_USER_ID);
+        imFriend.setFriendName(Constants.ADMIN_USERNAME);
         imFriend.setUserId(userId);
         imFriend.setSeqId(SnowflakeIdWorker.getSequenceId());
         return imFriend;

@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.entity;
 
+import cn.edu.aqtc.im.constant.Constants;
 import cn.edu.aqtc.im.util.SnowflakeIdWorker;
 import lombok.Data;
 
@@ -23,7 +24,7 @@ public class ImFriendRel {
         ImFriendRel imFriendRel = new ImFriendRel();
         imFriendRel.setFriendRel(SnowflakeIdWorker.getSequenceId());
         imFriendRel.setGroupId(SnowflakeIdWorker.getSequenceId());
-        imFriendRel.setGroupName("我的好友");
+        imFriendRel.setGroupName(Constants.DEFAULT_GROUP_NAME);
         imFriendRel.setParentGroupId(0L);
         imFriendRel.setUserId(userId);
         return imFriendRel;
@@ -33,8 +34,8 @@ public class ImFriendRel {
         ImFriendRel imFriendRel = new ImFriendRel();
         imFriendRel.setFriendRel(SnowflakeIdWorker.getSequenceId());
         imFriendRel.setParentGroupId(parentGroupId);
-        imFriendRel.setFriendId(100000000000000000L);
-        imFriendRel.setFriendName("机锋小摩托");
+        imFriendRel.setFriendId(Constants.ADMIN_USER_ID);
+        imFriendRel.setFriendName(Constants.ADMIN_USERNAME);
         imFriendRel.setUserId(userId);
         return imFriendRel;
     }
