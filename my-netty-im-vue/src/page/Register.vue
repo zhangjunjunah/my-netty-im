@@ -2,7 +2,9 @@
   <div class="register-div">
     <el-container>
       <el-header class="register-header" style="height: 60px;">
-        欢迎注册IM
+        <el-page-header @back="goBack" content="欢迎注册IM">
+        </el-page-header>
+
       </el-header>
       <el-main class="register-main">
         <div>
@@ -147,6 +149,9 @@
       },
       keyUp(value) {
         this.registerForm.userName = this.registerForm.userName.replace(/[\u4e00-\u9fa5]/ig, '');
+      },
+      goBack() {
+        this.$router.push({path: '/login'});
       }
 
     },
@@ -176,6 +181,7 @@
     border-top-right-radius: 8px;
     font-size: 35px;
     line-height: 60px;
+    padding: 15px;
   }
 
   .register-main {

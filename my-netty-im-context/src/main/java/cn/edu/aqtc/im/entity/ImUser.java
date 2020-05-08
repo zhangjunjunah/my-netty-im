@@ -2,10 +2,11 @@ package cn.edu.aqtc.im.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class ImUser {
+public class ImUser implements Serializable {
     private Long userId;
 
     private String userName;

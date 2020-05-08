@@ -25,6 +25,7 @@ group_id BIGINT,
 group_name VARCHAR(50),
 friend_id BIGINT  ,
 friend_name VARCHAR(50),
+remark_name VARCHAR(50),
 parent_group_id BIGINT,
 user_id BIGINT
 );

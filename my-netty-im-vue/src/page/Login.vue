@@ -27,14 +27,14 @@
         name: "Login",
       data(){
           return {
-            userId:"",
-            password:""
+            userName: "",
+            password: ""
           }
       },
       methods:{
         login() {
           this.postRequest("/api/user/login", {
-            userId: this.userId
+            userName: this.userName
           }).then(res => {
             if (res.status == 200) {
               if (res.data.CODE == 200) {

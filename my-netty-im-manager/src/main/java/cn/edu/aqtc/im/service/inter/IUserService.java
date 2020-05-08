@@ -25,6 +25,16 @@ public interface IUserService {
     /**
      * @param imUser
      * @return cn.edu.aqtc.im.bean.RestResult
+     * @Description 登录
+     * @Author zhangjj
+     * @Date 2020-05-07
+     **/
+    RestResult login(ImUser imUser);
+
+
+    /**
+     * @param imUser
+     * @return cn.edu.aqtc.im.bean.RestResult
      * @Description 用户注册
      * @Author zhangjj
      * @Date 2020-05-02

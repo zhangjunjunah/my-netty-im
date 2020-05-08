@@ -50,5 +50,15 @@
             timeToLiveSeconds="0"
             memoryStoreEvictionPolicy="LRU"/>
 
+    <cache
+            name="conversation"
+            eternal="true"
+            maxElementsInMemory="1"
+            overflowToDisk="true"
+            diskPersistent="true"
+            timeToIdleSeconds="0"
+            timeToLiveSeconds="0"
+            memoryStoreEvictionPolicy="LRU"/>
+
 
 </ehcache>

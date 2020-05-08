@@ -16,9 +16,12 @@ public class ImFriendRel {
 
     private String friendName;
 
+    private String remarkName;
+
     private Long parentGroupId;
 
     private Long userId;
+
 
     public static ImFriendRel getDefaultRel(Long userId) {
         ImFriendRel imFriendRel = new ImFriendRel();
@@ -37,7 +40,7 @@ public class ImFriendRel {
         imFriendRel.setFriendId(Constants.ADMIN_USER_ID);
         imFriendRel.setFriendName(Constants.ADMIN_USERNAME);
         imFriendRel.setUserId(userId);
+        imFriendRel.setRemarkName(Constants.ADMIN_REMARK_NAME);
         return imFriendRel;
     }
-
 }

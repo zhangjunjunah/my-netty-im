@@ -20,18 +20,21 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api/user")
-@Api(value="用户接口",tags={"用户接口"})
+@Api(value = "用户接口", tags = {"用户接口"})
 @Slf4j
 public class UserController {
 
     @Autowired
     private IUserService userService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public RestResult login(@RequestBody ChatUser chatUser) {
+    @RequestMapping(value = "/loginDemo", method = RequestMethod.POST)
+    public RestResult loginDemo(@RequestBody ChatUser chatUser) {
         return userService.login(chatUser);
+    }
 
-
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public RestResult login(@RequestBody ImUser imUser) {
+        return userService.login(imUser);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

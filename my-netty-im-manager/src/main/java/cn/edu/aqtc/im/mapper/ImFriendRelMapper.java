@@ -4,6 +4,8 @@ import cn.edu.aqtc.im.entity.ImFriendRel;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface ImFriendRelMapper {
@@ -14,6 +16,8 @@ public interface ImFriendRelMapper {
     int insertSelective(ImFriendRel record);
 
     ImFriendRel selectByPrimaryKey(Long friendRel);
+
+    List<ImFriendRel> selectByUserId(Long userId);
 
     int updateByPrimaryKeySelective(ImFriendRel record);
 

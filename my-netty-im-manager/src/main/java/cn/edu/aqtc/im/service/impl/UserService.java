@@ -3,12 +3,11 @@ package cn.edu.aqtc.im.service.impl;
 import cn.edu.aqtc.im.VO.LoginSuccessVO;
 import cn.edu.aqtc.im.bean.ChatUser;
 import cn.edu.aqtc.im.bean.RestResult;
+import cn.edu.aqtc.im.cache.ConversationCache;
 import cn.edu.aqtc.im.code.UserBusiResultCode;
 import cn.edu.aqtc.im.constant.UserConstants;
-import cn.edu.aqtc.im.entity.ImFriend;
 import cn.edu.aqtc.im.entity.ImFriendRel;
 import cn.edu.aqtc.im.entity.ImUser;
-import cn.edu.aqtc.im.mapper.ImFriendMapper;
 import cn.edu.aqtc.im.mapper.ImFriendRelMapper;
 import cn.edu.aqtc.im.mapper.ImUserMapper;
 import cn.edu.aqtc.im.service.inter.IUserService;
@@ -33,11 +32,12 @@ public class UserService implements IUserService {
     @Autowired
     private ImUserMapper imUserMapper;
 
-    @Autowired
-    private ImFriendMapper imFriendMapper;
 
     @Autowired
     private ImFriendRelMapper imFriendRelMapper;
+
+    @Autowired
+    private ConversationCache conversationCache;
 
     /**
      * @param chatUser
@@ -59,6 +59,27 @@ public class UserService implements IUserService {
         //移除自己
         friendMap.remove(searchUser.getUserId());
         loginSuccessVO.setFriendList(new ArrayList<>(friendMap.values()));
+        return RestResult.getSuccessRestResult(loginSuccessVO);
+    }
+
+    /**
+     * @param imUser
+     * @return cn.edu.aqtc.im.bean.RestResult
+     * @Description 登录
+     * @Author zhangjj
+     * @Date 2020-05-07
+     **/
+    @Override
+    public RestResult login(ImUser imUser) {
+        ImUser searchUser = imUserMapper.selectByName(imUser.getUserName());
+        if (searchUser == null) {
+            return RestResult.getRestResult(UserBusiResultCode.USER_UNREGISTERED.getCode());
+        }
+        LoginSuccessVO loginSuccessVO = new LoginSuccessVO();
+        //查询会话列表
+        loginSuccessVO.setConversationList(conversationCache.getConversation(imUser.getUserId()));
+        //查询朋友列表
+        loginSuccessVO.setFriendRels(imFriendRelMapper.selectByUserId(imUser.getUserId()));
         return RestResult.getSuccessRestResult(loginSuccessVO);
     }
 
@@ -94,7 +115,6 @@ public class UserService implements IUserService {
      * @Date 2020-05-02
      **/
     private void initDefaultFriend(Long userId) {
-        imFriendMapper.insertSelective(ImFriend.getDefaultFriend(userId));
         ImFriendRel imFriendRel = ImFriendRel.getDefaultRel(userId);
         imFriendRelMapper.insertSelective(imFriendRel);
         imFriendRelMapper.insertSelective(ImFriendRel.getDefaultRel(userId, imFriendRel.getGroupId()));

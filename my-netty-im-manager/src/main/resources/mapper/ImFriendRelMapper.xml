@@ -7,17 +7,26 @@
         <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
         <result column="friend_id" property="friendId" jdbcType="BIGINT"/>
         <result column="friend_name" property="friendName" jdbcType="VARCHAR"/>
+        <result column="remark_name" property="remarkName" jdbcType="VARCHAR"/>
         <result column="parent_group_id" property="parentGroupId" jdbcType="BIGINT"/>
         <result column="user_id" property="userId" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List">
-        friend_rel, group_id, group_name, friend_id, friend_name, parent_group_id, user_id
+        friend_rel, group_id, group_name, friend_id, friend_name, remark_name, parent_group_id,
+    user_id
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
         from im_friend_rel
         where friend_rel = #{friendRel,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from im_friend_rel
+        where user_id = #{userId,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
@@ -26,11 +35,11 @@
     </delete>
     <insert id="insert" parameterType="cn.edu.aqtc.im.entity.ImFriendRel">
         insert into im_friend_rel (friend_rel, group_id, group_name,
-                                   friend_id, friend_name, parent_group_id,
-                                   user_id)
+                                   friend_id, friend_name, remark_name,
+                                   parent_group_id, user_id)
         values (#{friendRel,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, #{groupName,jdbcType=VARCHAR},
-                #{friendId,jdbcType=BIGINT}, #{friendName,jdbcType=VARCHAR}, #{parentGroupId,jdbcType=BIGINT},
-                #{userId,jdbcType=BIGINT})
+                #{friendId,jdbcType=BIGINT}, #{friendName,jdbcType=VARCHAR}, #{remarkName,jdbcType=VARCHAR},
+                #{parentGroupId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" parameterType="cn.edu.aqtc.im.entity.ImFriendRel">
         insert into im_friend_rel
@@ -49,6 +58,9 @@
             </if>
             <if test="friendName != null">
                 friend_name,
+            </if>
+            <if test="remarkName != null">
+                remark_name,
             </if>
             <if test="parentGroupId != null">
                 parent_group_id,
@@ -73,6 +85,9 @@
             <if test="friendName != null">
                 #{friendName,jdbcType=VARCHAR},
             </if>
+            <if test="remarkName != null">
+                #{remarkName,jdbcType=VARCHAR},
+            </if>
             <if test="parentGroupId != null">
                 #{parentGroupId,jdbcType=BIGINT},
             </if>
@@ -96,6 +111,9 @@
             <if test="friendName != null">
                 friend_name = #{friendName,jdbcType=VARCHAR},
             </if>
+            <if test="remarkName != null">
+                remark_name = #{remarkName,jdbcType=VARCHAR},
+            </if>
             <if test="parentGroupId != null">
                 parent_group_id = #{parentGroupId,jdbcType=BIGINT},
             </if>
@@ -111,6 +129,7 @@
             group_name      = #{groupName,jdbcType=VARCHAR},
             friend_id       = #{friendId,jdbcType=BIGINT},
             friend_name     = #{friendName,jdbcType=VARCHAR},
+            remark_name     = #{remarkName,jdbcType=VARCHAR},
             parent_group_id = #{parentGroupId,jdbcType=BIGINT},
             user_id         = #{userId,jdbcType=BIGINT}
         where friend_rel = #{friendRel,jdbcType=BIGINT}
