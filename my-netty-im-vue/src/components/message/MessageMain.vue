@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import ChatList from '@/components/message/friend/ChatList'
+  import ChatList from '@/components/message/chat/ChatList'
   import MainWindow from '@/components/message/mainWindow/MainWindow'
   import BlankWindow from '@/components/message/mainWindow/BlankWindow'
 

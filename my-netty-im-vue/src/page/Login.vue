@@ -9,7 +9,7 @@
         </el-header>
         <el-main class="login-main">
           <div class="login-main-div">
-            <el-input v-model="userId" id="userId-input" style="width: 300px;"  placeholder="请用户ID"></el-input>
+            <el-input id="userId-input" placeholder="请用户ID" style="width: 300px;" v-model="userName"></el-input>
             <el-input v-model="password" id="password-input" type="password" style="width: 300px;"  placeholder="密码随意"></el-input>
           </div>
           <div class="login-button-div">

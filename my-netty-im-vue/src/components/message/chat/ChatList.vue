@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import ChatFriendItem from '@/components/message/friend/ChatFriendItem'
+  import ChatFriendItem from '@/components/message/chat/ChatFriendItem'
 
   export default {
       name: "ChatList",
