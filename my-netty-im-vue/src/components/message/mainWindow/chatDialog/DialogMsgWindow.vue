@@ -23,7 +23,7 @@
     },
     computed: {
       selfAvatarUrl() {
-        return require("@/" + this.$store.state.personalInformation.avatarUrl);
+        return require("@/" + this.$store.state.personalInformation.avatarSrc);
       },
       receiveAvatarUrl() {
         return require("@/" + this.$store.state.chat.headPortrait);

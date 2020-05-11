@@ -28,5 +28,11 @@
 </script>
 
 <style scoped>
+  .el-col {
+    height: 100%;
+  }
 
+  .el-row {
+    height: 100%;
+  }
 </style>

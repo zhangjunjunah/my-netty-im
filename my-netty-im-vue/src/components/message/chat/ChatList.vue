@@ -24,7 +24,7 @@
     computed: {
       chatFriendList() {
         let list = [];
-        for (let friend of this.$store.state.friendList) {
+        for (let friend of this.$store.state.conversationList) {
           let f = friend;
           list.push(f);
         }

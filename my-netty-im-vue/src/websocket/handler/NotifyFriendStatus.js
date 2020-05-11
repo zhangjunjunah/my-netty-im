@@ -10,8 +10,8 @@ export default class NotifyFriendStatus extends AbstractMsgHandler {
 
   handleMsg(chatUser) {
     debugger;
-    console.log("friendList", JSON.stringify(store.state.friendList));
-    let index = store.state.friendList.findIndex(item => item.userId == chatUser.userId);
+    console.log("conversationList", JSON.stringify(store.state.conversationList));
+    let index = store.state.conversationList.findIndex(item => item.userId == chatUser.userId);
     if (index < 0) {
       return;
     }

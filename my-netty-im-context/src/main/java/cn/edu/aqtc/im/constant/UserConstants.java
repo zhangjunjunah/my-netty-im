@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class UserConstants {
 
-    private static Cache<String, ChatUser> chatUserCache = CacheBuilder.newBuilder()
+    private static Cache<Long, ChatUser> chatUserCache = CacheBuilder.newBuilder()
             .build();
 
-    private static Cache<String, ChatUser> friendCache = CacheBuilder.newBuilder()
+    private static Cache<Long, ChatUser> friendCache = CacheBuilder.newBuilder()
             .build();
 
     static {
@@ -31,15 +31,15 @@ public class UserConstants {
         }
     }
 
-    public static Cache<String, ChatUser> getChatUserCache() {
+    public static Cache<Long, ChatUser> getChatUserCache() {
         return chatUserCache;
     }
 
-    public static Cache<String, ChatUser> getFriendCache() {
+    public static Cache<Long, ChatUser> getFriendCache() {
         return friendCache;
     }
 
-    public static Cache<String, ChatUser> updateFriendCache(ChatUser chatUser) {
+    public static Cache<Long, ChatUser> updateFriendCache(ChatUser chatUser) {
         friendCache.put(chatUser.getUserId(), chatUser);
         return friendCache;
     }

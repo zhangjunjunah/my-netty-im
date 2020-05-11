@@ -55,7 +55,7 @@ public class UserService implements IUserService {
         }
         LoginSuccessVO loginSuccessVO = new LoginSuccessVO();
         loginSuccessVO.setChatUser(searchUser);
-        ConcurrentMap<String, ChatUser> friendMap = new ConcurrentHashMap<>(UserConstants.getFriendCache().asMap());
+        ConcurrentMap<String, ChatUser> friendMap = new ConcurrentHashMap(UserConstants.getFriendCache().asMap());
         //移除自己
         friendMap.remove(searchUser.getUserId());
         loginSuccessVO.setFriendList(new ArrayList<>(friendMap.values()));
@@ -76,6 +76,7 @@ public class UserService implements IUserService {
             return RestResult.getRestResult(UserBusiResultCode.USER_UNREGISTERED.getCode());
         }
         LoginSuccessVO loginSuccessVO = new LoginSuccessVO();
+        loginSuccessVO.setImUser(searchUser);
         //查询会话列表
         loginSuccessVO.setConversationList(conversationCache.getConversation(searchUser.getUserId()));
         //查询朋友列表

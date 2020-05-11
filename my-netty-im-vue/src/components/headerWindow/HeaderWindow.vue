@@ -35,10 +35,10 @@
     },
     computed: {
       avatarUrl() {
-        if (this.$store.state.personalInformation.avatarUrl == '') {
+        if (this.$store.state.personalInformation.avatarSrc == '') {
           return;
         }
-        return require("@/" + this.$store.state.personalInformation.avatarUrl);
+        return this.$store.state.personalInformation.avatarSrc;
       },
     },
     methods: {
@@ -49,7 +49,7 @@
       setConnectStatus() {
         let now = new Date().getTime();
         let diff = now - store.state.activeTime;
-        console.log("now", now, "activeTime", store.state.activeTime, "diff", diff);
+        //console.log("now", now, "activeTime", store.state.activeTime, "diff", diff);
         if (diff > 3 * Constant.HEART_BEAT_TIMEOUT) {
           this.connectStatus = "disconnect-color";
           this.connectStatusTitle = "与服务端断开连接";

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class UserChannelCache {
 
 
-    private Cache<String, Channel> cache = CacheBuilder.newBuilder()
+    private Cache<Long, Channel> cache = CacheBuilder.newBuilder()
             .build();
 
 
@@ -36,7 +36,7 @@ public class UserChannelCache {
      * @Author: zhangjj
      * @Date: 2020-04-10
      */
-    public void putUserChannel2Cache(String userId, Channel channel) {
+    public void putUserChannel2Cache(Long userId, Channel channel) {
         cache.put(userId, channel);
     }
 
@@ -53,7 +53,7 @@ public class UserChannelCache {
         return channelUserCache.getIfPresent(channelId);
     }
 
-    public void removeUserChannel(String userId) {
+    public void removeUserChannel(Long userId) {
         cache.invalidate(userId);
     }
 

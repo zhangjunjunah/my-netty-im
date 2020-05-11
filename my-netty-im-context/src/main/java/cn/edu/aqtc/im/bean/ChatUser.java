@@ -1,12 +1,16 @@
 package cn.edu.aqtc.im.bean;
 
 import cn.edu.aqtc.im.constant.UserStatusEnum;
+import cn.edu.aqtc.im.entity.ImUser;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -18,15 +22,9 @@ import java.util.List;
  */
 @Data
 @Slf4j
-public class ChatUser implements Serializable {
+public class ChatUser extends ImUser {
     private static InputStream chatUserFile = ChatUser.class.getClassLoader().getResourceAsStream("chatUser.json");
     private static InputStream friendFile = ChatUser.class.getClassLoader().getResourceAsStream("friends.json");
-    private String userId;
-    private String userName;
-    /**
-     * 头像
-     */
-    private String headPortrait;
 
     /**
      * 用户状态(在线/离线)
@@ -74,4 +72,7 @@ public class ChatUser implements Serializable {
         return IOUtils.toString(new FileInputStream(file), Charset.defaultCharset());
     }
 
+    public static void main(String[] args) {
+        log.info(new ChatUser().toString());
+    }
 }

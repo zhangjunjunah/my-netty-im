@@ -32,5 +32,5 @@ public class LoginSuccessVO {
     private List<ImFriendRel> friendRels;
 
     @JsonProperty("CONVERSATION_LIST")
-    private List<ImUser> conversationList;
+    private List<ChatUser> conversationList;
 }

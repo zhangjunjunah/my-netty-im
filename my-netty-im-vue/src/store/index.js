@@ -39,7 +39,8 @@ export default new Vuex.Store({
      ],
      */
     messages: [],
-    friendList: [],
+    conversationList: [],
+    friendRels: [],
     vueWebsocket: null,
     activeTime: null
   },
@@ -49,20 +50,35 @@ export default new Vuex.Store({
      * @param state
      * @param chatUser
      */
-    setPersonInfo(state, chatUser) {
-      state.personalInformation.avatarUrl = chatUser.headPortrait;
-      state.personalInformation.userId = chatUser.userId;
-      state.personalInformation.userName = chatUser.userName;
+    setPersonInfo(state, imUser) {
+      state.personalInformation.avatarSrc = imUser.avatarSrc;
+      state.personalInformation.userId = imUser.userId;
+      state.personalInformation.userName = imUser.userName;
     },
     /**
-     * 好友列表
+     * 会话列表
+     * @param state
+     * @param conversationList
+     */
+    setConversationList(state, conversationList) {
+      state.conversationList.splice(0);
+      debugger;
+      if (conversationList == null) {
+        return;
+      }
+      for (let conversation of conversationList) {
+        state.conversationList.push(conversation);
+      }
+    },
+    /**
+     * 朋友列表
      * @param state
      * @param friendList
      */
-    setFriendList(state, friendList) {
-      state.friendList.splice(0);
-      for (let friend of friendList) {
-        state.friendList.push(friend);
+    setFriendRels(state, friendRels) {
+      state.friendRels.splice(0);
+      for (let friend of friendRels) {
+        state.friendRels.push(friend);
       }
     },
     /**
@@ -104,7 +120,7 @@ export default new Vuex.Store({
       return state.activeTime;
     },
     updateFriendStatus(state, data) {
-      Vue.set(state.friendList, data.index, data.chatUser);
+      Vue.set(state.conversationList, data.index, data.chatUser);
     }
   },
   actions: {
