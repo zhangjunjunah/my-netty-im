@@ -1,7 +1,7 @@
 package cn.edu.aqtc.im.VO;
 
 import cn.edu.aqtc.im.bean.ChatUser;
-import cn.edu.aqtc.im.entity.ImFriendRel;
+import cn.edu.aqtc.im.bean.GroupBean;
 import cn.edu.aqtc.im.entity.ImUser;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,8 +28,8 @@ public class LoginSuccessVO {
     @JsonProperty("FRIEND_LIST")
     private List<ChatUser> friendList;
 
-    @JsonProperty("FRIEND_RELS")
-    private List<ImFriendRel> friendRels;
+    @JsonProperty("FRIEND_REL")
+    private List<GroupBean> friendRel;
 
     @JsonProperty("CONVERSATION_LIST")
     private List<ChatUser> conversationList;

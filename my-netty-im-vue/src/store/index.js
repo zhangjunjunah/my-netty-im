@@ -40,7 +40,7 @@ export default new Vuex.Store({
      */
     messages: [],
     conversationList: [],
-    friendRels: [],
+    friendRel: [],
     vueWebsocket: null,
     activeTime: null
   },
@@ -62,7 +62,6 @@ export default new Vuex.Store({
      */
     setConversationList(state, conversationList) {
       state.conversationList.splice(0);
-      debugger;
       if (conversationList == null) {
         return;
       }
@@ -75,10 +74,13 @@ export default new Vuex.Store({
      * @param state
      * @param friendList
      */
-    setFriendRels(state, friendRels) {
-      state.friendRels.splice(0);
-      for (let friend of friendRels) {
-        state.friendRels.push(friend);
+    setFriendRel(state, friendRel) {
+      state.friendRel.splice(0);
+      if (friendRel == null) {
+        return;
+      }
+      for (let friend of friendRel) {
+        state.friendRel.push(friend);
       }
     },
     /**

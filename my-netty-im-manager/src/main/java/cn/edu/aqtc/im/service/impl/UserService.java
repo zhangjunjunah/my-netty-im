@@ -2,6 +2,8 @@ package cn.edu.aqtc.im.service.impl;
 
 import cn.edu.aqtc.im.VO.LoginSuccessVO;
 import cn.edu.aqtc.im.bean.ChatUser;
+import cn.edu.aqtc.im.bean.FriendBean;
+import cn.edu.aqtc.im.bean.GroupBean;
 import cn.edu.aqtc.im.bean.RestResult;
 import cn.edu.aqtc.im.cache.ConversationCache;
 import cn.edu.aqtc.im.code.UserBusiResultCode;
@@ -17,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -80,9 +85,10 @@ public class UserService implements IUserService {
         //查询会话列表
         loginSuccessVO.setConversationList(conversationCache.getConversation(searchUser.getUserId()));
         //查询朋友列表
-        loginSuccessVO.setFriendRels(imFriendRelMapper.selectByUserId(searchUser.getUserId()));
+        loginSuccessVO.setFriendRel(parseFriendRel(imFriendRelMapper.selectByUserId(searchUser.getUserId())));
         return RestResult.getSuccessRestResult(loginSuccessVO);
     }
+
 
     /**
      * @param imUser
@@ -119,5 +125,43 @@ public class UserService implements IUserService {
         ImFriendRel imFriendRel = ImFriendRel.getDefaultRel(userId);
         imFriendRelMapper.insertSelective(imFriendRel);
         imFriendRelMapper.insertSelective(ImFriendRel.getDefaultRel(userId, imFriendRel.getGroupId()));
+    }
+
+    /**
+     * @param imFriendRelList
+     * @return java.util.List<cn.edu.aqtc.im.bean.GroupBean>
+     * @Description 解析好友列表
+     * @Author zhangjj
+     * @Date 2020-05-12
+     **/
+    private List<GroupBean> parseFriendRel(List<ImFriendRel> imFriendRelList) {
+        Set<Long> groupIds = new HashSet<>(8);
+        for (ImFriendRel imFriendRel : imFriendRelList) {
+            if (!CommonUtils.objectIsNull(imFriendRel.getFriendId())) {
+                continue;
+            }
+            groupIds.add(imFriendRel.getGroupId());
+        }
+        List<GroupBean> groupBeanList = new ArrayList<>(groupIds.size());
+        for (long groupId : groupIds) {
+            GroupBean group = new GroupBean();
+            List<FriendBean> friendBeanList = new ArrayList<>(8);
+            for (ImFriendRel imFriendRel : imFriendRelList) {
+                if (CommonUtils.objectIsNull(imFriendRel.getFriendId())) {
+                    continue;
+                } else if (groupId == imFriendRel.getParentGroupId()) {
+                    friendBeanList.add(FriendBean.parseImFriendRel(imFriendRel));
+                } else if (groupId == imFriendRel.getGroupId()) {
+                    group.setGroupId(groupId);
+                    group.setGroupName(imFriendRel.getGroupName());
+                } else {
+                    continue;
+                }
+            }
+            group.setFriendList(friendBeanList);
+            group.setFriendTotal(friendBeanList.size());
+            groupBeanList.add(group);
+        }
+        return groupBeanList;
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="friend-list-div">
-    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+    <el-tree :data="friends" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
   </div>
 </template>
 
@@ -9,50 +9,45 @@
     name: "FriendMain",
     data() {
       return {
-        data: [{
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1',
-            children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
-        }, {
-          label: '一级 2',
-          children: [{
-            label: '二级 2-1',
-            children: [{
-              label: '三级 2-1-1'
-            }]
-          }, {
-            label: '二级 2-2',
-            children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
-        }, {
-          label: '一级 3',
-          children: [{
-            label: '二级 3-1',
-            children: [{
-              label: '三级 3-1-1'
-            }]
-          }, {
-            label: '二级 3-2',
-            children: [{
-              label: '三级 3-2-1'
-            }]
-          }]
-        }],
         defaultProps: {
           children: 'children',
           label: 'label'
         }
-      };
+      }
     },
     methods: {
       handleNodeClick(data) {
         console.log(data);
+      },
+      adaptFriendRel(friendRel) {
+        debugger;
+        let groupList = [];
+        for (let g of friendRel) {
+          let group = {};
+          group.label = g.groupName;
+          group.id = g.groupId;
+          groupList.push(group);
+          if (g.friendList == null) {
+            continue;
+          }
+          let children = [];
+          for (let f of g.friendList) {
+            let friend = {};
+            friend.label = f.friendName;
+            children.push(friend);
+          }
+          group.children = children;
+        }
+        return groupList;
+      }
+    },
+    computed: {
+      friends() {
+        if (this.$store.state.friendRel == null) {
+          return [];
+        }
+        this.adaptFriendRel(this.$store.state.friendRel);
+
       }
     }
   }
