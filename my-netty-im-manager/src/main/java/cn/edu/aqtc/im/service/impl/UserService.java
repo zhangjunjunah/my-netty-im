@@ -147,9 +147,7 @@ public class UserService implements IUserService {
             GroupBean group = new GroupBean();
             List<FriendBean> friendBeanList = new ArrayList<>(8);
             for (ImFriendRel imFriendRel : imFriendRelList) {
-                if (CommonUtils.objectIsNull(imFriendRel.getFriendId())) {
-                    continue;
-                } else if (groupId == imFriendRel.getParentGroupId()) {
+                if (groupId == imFriendRel.getParentGroupId()) {
                     friendBeanList.add(FriendBean.parseImFriendRel(imFriendRel));
                 } else if (groupId == imFriendRel.getGroupId()) {
                     group.setGroupId(groupId);

@@ -41,6 +41,7 @@
                 //将朋友列表和个人信息放入store
                 this.$store.commit("setPersonInfo", res.data.DATA.IM_USER);
                 this.$store.commit("setConversationList", res.data.DATA.CONVERSATION_LIST);
+
                 this.$store.commit("setFriendRel", res.data.DATA.FRIEND_REL);
                 //跳转到聊天页面
                 this.$router.push({path: '/conversation'})

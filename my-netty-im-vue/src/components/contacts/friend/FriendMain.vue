@@ -20,7 +20,6 @@
         console.log(data);
       },
       adaptFriendRel(friendRel) {
-        debugger;
         let groupList = [];
         for (let g of friendRel) {
           let group = {};
@@ -46,10 +45,10 @@
         if (this.$store.state.friendRel == null) {
           return [];
         }
-        this.adaptFriendRel(this.$store.state.friendRel);
+        return this.adaptFriendRel(this.$store.state.friendRel);
 
       }
-    }
+    },
   }
 </script>
 
@@ -64,5 +63,9 @@
 
   .friend-list-div .el-tree {
     background-color: #fafafa;
+  }
+
+  .friend-list-div .el-tree {
+    color: black;
   }
 </style>
