@@ -4,8 +4,10 @@ import cn.edu.aqtc.im.constant.Constants;
 import cn.edu.aqtc.im.util.SnowflakeIdWorker;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class ImFriendRel {
+public class ImFriendRel implements Serializable {
     private Long friendRel;
 
     private Long groupId;

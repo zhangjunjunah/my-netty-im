@@ -38,7 +38,7 @@
         if (this.$store.state.personalInformation.avatarSrc == '') {
           return;
         }
-        return this.$store.state.personalInformation.avatarSrc;
+        return Constant.DEFAULT_IMG_URL_PREFIX + this.$store.state.personalInformation.avatarSrc;
       },
     },
     methods: {

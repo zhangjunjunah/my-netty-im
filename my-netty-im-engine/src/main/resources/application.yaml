@@ -54,3 +54,14 @@ spring:
 
 netty:
   port: 8091
+sftp:
+  client:
+    protocol: sftp
+    host: ENC(/J1iMjOWCrP9IeABsQnIk5809C4flpwg)
+    port: ENC(PS1D+fk3YQLN0fgZScPT3w==)
+    username: ENC(hGkb3q0SFupi4TsQuP5MJA==)
+    password: ENC(3OgcgVRTN75LV+861DTWAg==)
+    root: ENC(l1Yh/uug6XQRy5XUZt0eGRLFaXNooT6IqmQ812GD/pyP7ZJ3RhuaOjyT4Y6mHI0jh2g/HTUHPGI=)
+    sessionStrictHostKeyChecking: no
+    sessionConnectTimeout: 15000
+    channelConnectedTimeout: 15000

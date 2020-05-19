@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.mapper;
 
+import cn.edu.aqtc.im.VO.ImFriendRelVO;
 import cn.edu.aqtc.im.entity.ImFriendRel;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,7 @@ public interface ImFriendRelMapper {
 
     ImFriendRel selectByPrimaryKey(Long friendRel);
 
-    List<ImFriendRel> selectByUserId(Long userId);
+    List<ImFriendRelVO> selectByUserId(Long userId);
 
     int updateByPrimaryKeySelective(ImFriendRel record);
 

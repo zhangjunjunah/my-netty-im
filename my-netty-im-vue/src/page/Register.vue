@@ -107,9 +107,11 @@
 
     methods: {
       handleAvatarSuccess(res, file) {
+        debugger;
         this.uploadImgUrl = URL.createObjectURL(file.raw);
         this.img = new Image();
         this.img.src = this.uploadImgUrl;
+        this.registerForm.avatarSrc = res.DATA;
       },
       beforeAvatarUpload() {
       },
@@ -117,6 +119,7 @@
         return process.env.API_HOST + "/api/upload/uploadAvatar";
       },
       register(formName) {
+        debugger;
         let result = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -124,7 +127,6 @@
             return false;
           }
         });
-        this.registerForm.avatarSrc = this.getBase64Image(this.img);
         this.postRequest("/api/user/register", this.registerForm).then(res => {
           if (res.status == 200) {
             if (res.data.CODE == 200) {

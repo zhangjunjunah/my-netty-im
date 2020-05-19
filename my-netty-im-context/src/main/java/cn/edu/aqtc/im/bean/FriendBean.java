@@ -1,7 +1,7 @@
 package cn.edu.aqtc.im.bean;
 
+import cn.edu.aqtc.im.VO.ImFriendRelVO;
 import cn.edu.aqtc.im.constant.UserStatusEnum;
-import cn.edu.aqtc.im.entity.ImFriendRel;
 import lombok.Data;
 
 /**
@@ -19,14 +19,17 @@ public class FriendBean {
 
     private String remarkName;
 
+    private String avatarSrc;
+
     private UserStatusEnum userStatus;
 
 
-    public static FriendBean parseImFriendRel(ImFriendRel imFriendRel) {
+    public static FriendBean parseImFriendRel(ImFriendRelVO imFriendRel) {
         FriendBean friendBean = new FriendBean();
         friendBean.setFriendId(imFriendRel.getFriendId());
         friendBean.setFriendName(imFriendRel.getFriendName());
         friendBean.setRemarkName(imFriendRel.getRemarkName());
+        friendBean.setAvatarSrc(imFriendRel.getAvatarSrc());
         return friendBean;
     }
 

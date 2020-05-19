@@ -1,17 +1,28 @@
 <template>
   <div class="friend-list-div">
-    <el-tree :data="friends" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+    <el-tree :data="friends" :props="defaultProps" @node-click="handleNodeClick" node-key="id">
+      <component :is="node.data.groupId==null?'FriendItem':'GroupItem'" :node="node" slot-scope="{ node, data }">
+      </component>
+    </el-tree>
   </div>
 </template>
 
 <script>
+
+  import FriendItem from '@/components/contacts/friend/FriendItem'
+  import GroupItem from '@/components/contacts/friend/GroupItem'
+
   export default {
     name: "FriendMain",
+    components: {
+      FriendItem,
+      GroupItem
+    },
     data() {
       return {
         defaultProps: {
-          children: 'children',
-          label: 'label'
+          children: 'friendList',
+          label: 'groupName'
         }
       }
     },
@@ -42,10 +53,11 @@
     },
     computed: {
       friends() {
-        if (this.$store.state.friendRel == null) {
+        /*if (this.$store.state.friendRel == null) {
           return [];
         }
-        return this.adaptFriendRel(this.$store.state.friendRel);
+        return this.adaptFriendRel(this.$store.state.friendRel);*/
+        return this.$store.state.friendRel;
 
       }
     },

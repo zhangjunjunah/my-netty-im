@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.bean;
 
+import cn.edu.aqtc.im.code.UserBusiResultCode;
 import cn.edu.aqtc.im.util.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -54,6 +55,14 @@ public class RestResult<T> {
     public static <T> RestResult getRestResult(int code) {
         RestResult<T> restResult = new RestResult();
         restResult.setCode(code);
+        restResult.setResponseDate(DateUtils.getCurrentTime().toDate());
+        return restResult;
+    }
+
+    public static <T> RestResult getRestResult(UserBusiResultCode userBusiResultCode) {
+        RestResult<T> restResult = new RestResult();
+        restResult.setCode(userBusiResultCode.getCode());
+        restResult.setMessage(userBusiResultCode.getMessage());
         restResult.setResponseDate(DateUtils.getCurrentTime().toDate());
         return restResult;
     }

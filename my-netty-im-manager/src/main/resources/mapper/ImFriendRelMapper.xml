@@ -11,6 +11,17 @@
         <result column="parent_group_id" property="parentGroupId" jdbcType="BIGINT"/>
         <result column="user_id" property="userId" jdbcType="BIGINT"/>
     </resultMap>
+    <resultMap id="FriendMap" type="cn.edu.aqtc.im.VO.ImFriendRelVO">
+        <id column="friend_rel" property="friendRel" jdbcType="BIGINT"/>
+        <result column="group_id" property="groupId" jdbcType="BIGINT"/>
+        <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
+        <result column="friend_id" property="friendId" jdbcType="BIGINT"/>
+        <result column="friend_name" property="friendName" jdbcType="VARCHAR"/>
+        <result column="remark_name" property="remarkName" jdbcType="VARCHAR"/>
+        <result column="parent_group_id" property="parentGroupId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="avatar_src" property="avatarSrc" jdbcType="VARCHAR"/>
+    </resultMap>
     <sql id="Base_Column_List">
         friend_rel, group_id, group_name, friend_id, friend_name, remark_name, parent_group_id,
     user_id
@@ -22,11 +33,19 @@
         where friend_rel = #{friendRel,jdbcType=BIGINT}
     </select>
 
-    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
-        select
-        <include refid="Base_Column_List"/>
-        from im_friend_rel
-        where user_id = #{userId,jdbcType=BIGINT}
+    <select id="selectByUserId" resultMap="FriendMap" parameterType="java.lang.Long">
+        SELECT ifr.friend_rel,
+               ifr.group_id,
+               ifr.group_name,
+               ifr.friend_id,
+               ifr.friend_name,
+               ifr.remark_name,
+               ifr.parent_group_id,
+               ifr.user_id,
+               iu.avatar_src
+        FROM im_friend_rel ifr
+                 LEFT JOIN im_user iu ON ifr.friend_id = iu.user_id
+        where ifr.user_id = #{userId,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete

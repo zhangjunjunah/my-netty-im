@@ -14,7 +14,9 @@ public enum UserBusiResultCode {
     //用户登录密码错误
     USER_PASSWORD_ERROR(20002, "用户登录密码错误"),
     //用户已存在
-    USER_ALREADY_EXISTS(20003, "用户已存在");
+    USER_ALREADY_EXISTS(20003, "用户已存在"),
+    UPLOAD_FILE_FORMAT_ERROR(30001, "上传文件格式不正确，请上传jpg/jpeg/png");
+
 
     private int code;
 

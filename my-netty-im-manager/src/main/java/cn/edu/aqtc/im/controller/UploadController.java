@@ -1,6 +1,10 @@
 package cn.edu.aqtc.im.controller;
 
 import cn.edu.aqtc.im.bean.RestResult;
+import cn.edu.aqtc.im.code.UserBusiResultCode;
+import cn.edu.aqtc.im.service.inter.IFileSystemService;
+import cn.edu.aqtc.im.util.UploadUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +22,9 @@ import java.io.IOException;
 @RequestMapping(value = "/api/upload")
 public class UploadController {
 
+    @Autowired
+    private IFileSystemService fileSystemService;
+
 
     @RequestMapping(value = "/uploadAvatar")
     public RestResult<String> uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException {
@@ -30,12 +37,14 @@ public class UploadController {
         String suffix = fileName.substring(split + 1, fileName.length());
         //判断文件类型，因为我这边是图片，所以只设置三种合法格式
         String url = "";
-        if ("jpg".equals(suffix) || "jpeg".equals(suffix) || "png".equals(suffix)) {
-            // 正确的类型，保存文件
-        } else {
-            //错误的类型，返回错误提示
-
+        if (!"jpg".equals(suffix) && !"jpeg".equals(suffix) && !"png".equals(suffix)) {
+            return RestResult.getRestResult(UserBusiResultCode.UPLOAD_FILE_FORMAT_ERROR);
         }
-        return RestResult.getSuccessRestResult(fileName);
+        String uuId = UploadUtils.generateRandomFileName(fileName);
+        String targetPath = UploadUtils.generateRandomDir(uuId) + "/" + uuId;
+        fileSystemService.uploadFile(targetPath, file.getInputStream());
+
+        return RestResult.getSuccessRestResult(targetPath);
+
     }
 }

@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.service.impl;
 
+import cn.edu.aqtc.im.VO.ImFriendRelVO;
 import cn.edu.aqtc.im.VO.LoginSuccessVO;
 import cn.edu.aqtc.im.bean.ChatUser;
 import cn.edu.aqtc.im.bean.FriendBean;
@@ -134,7 +135,7 @@ public class UserService implements IUserService {
      * @Author zhangjj
      * @Date 2020-05-12
      **/
-    private List<GroupBean> parseFriendRel(List<ImFriendRel> imFriendRelList) {
+    private List<GroupBean> parseFriendRel(List<ImFriendRelVO> imFriendRelList) {
         Set<Long> groupIds = new HashSet<>(8);
         for (ImFriendRel imFriendRel : imFriendRelList) {
             if (!CommonUtils.objectIsNull(imFriendRel.getFriendId())) {
@@ -146,7 +147,7 @@ public class UserService implements IUserService {
         for (long groupId : groupIds) {
             GroupBean group = new GroupBean();
             List<FriendBean> friendBeanList = new ArrayList<>(8);
-            for (ImFriendRel imFriendRel : imFriendRelList) {
+            for (ImFriendRelVO imFriendRel : imFriendRelList) {
                 if (groupId == imFriendRel.getParentGroupId()) {
                     friendBeanList.add(FriendBean.parseImFriendRel(imFriendRel));
                 } else if (groupId == imFriendRel.getGroupId()) {

@@ -32,3 +32,12 @@
   background-color: #ececec;
 }
 
+
+.friend-list-div .el-tree-node__children .el-tree-node__expand-icon {
+  position: absolute;
+}
+
+.friend-list-div .el-tree-node__children .el-tree-node__content {
+  height: 50px;
+}
+

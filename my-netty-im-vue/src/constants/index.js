@@ -15,6 +15,8 @@ const PUBLISH_FRIEND = 'PUBLISH_FRIEND';
 const PING = 'PING';
 
 const DEFAULT_UPLOAD_IMG = "assets/img/default-text.png";
+
+const DEFAULT_IMG_URL_PREFIX = "http://39.99.129.88:8808/avator";
 export default {
   WS_PROTOCOL,
   WS_IP,
@@ -28,5 +30,6 @@ export default {
   PING,
   PUBLISH_FRIEND,
   HEART_BEAT_TIMEOUT,
-  DEFAULT_UPLOAD_IMG
+  DEFAULT_UPLOAD_IMG,
+  DEFAULT_IMG_URL_PREFIX
 }
