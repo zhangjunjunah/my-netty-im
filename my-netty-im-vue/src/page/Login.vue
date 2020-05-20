@@ -45,11 +45,26 @@
                 this.$store.commit("setFriendRel", res.data.DATA.FRIEND_REL);
                 //跳转到聊天页面
                 this.$router.push({path: '/conversation'})
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: res.data.MESSAGE,
+                  type: 'warning',
+                  duration: 10000,
+                  offset: 55,
+                });
               }
 
             }
           }, res => {
             console.error("/api/user/login error");
+            this.$message({
+              showClose: true,
+              message: '服务端未响应,请联系管理员！',
+              type: 'error',
+              duration: 10000,
+              offset: 55,
+            });
           })
         }
       },

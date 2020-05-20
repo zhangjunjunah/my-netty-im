@@ -79,7 +79,7 @@ public class UserService implements IUserService {
     public RestResult login(ImUser imUser) {
         ImUser searchUser = imUserMapper.selectByName(imUser.getUserName());
         if (searchUser == null) {
-            return RestResult.getRestResult(UserBusiResultCode.USER_UNREGISTERED.getCode());
+            return RestResult.getRestResult(UserBusiResultCode.USER_UNREGISTERED);
         }
         LoginSuccessVO loginSuccessVO = new LoginSuccessVO();
         loginSuccessVO.setImUser(searchUser);

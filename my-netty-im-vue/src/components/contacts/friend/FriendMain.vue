@@ -4,6 +4,7 @@
       <component :is="node.data.groupId==null?'FriendItem':'GroupItem'" :node="node" slot-scope="{ node, data }">
       </component>
     </el-tree>
+    <el-button circle class="add-friend-button" icon="el-icon-plus"></el-button>
   </div>
 </template>
 
@@ -80,4 +81,13 @@
   .friend-list-div .el-tree {
     color: black;
   }
+
+  .add-friend-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0181ef;
+    color: white;
+  }
+
 </style>

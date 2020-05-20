@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col :span="5">
+    <el-col :span="5" class="friend-col">
       <friend-main></friend-main>
     </el-col>
     <el-col :span="19">
@@ -35,4 +35,9 @@
   .el-row {
     height: 100%;
   }
+
+  .friend-col {
+    position: relative;
+  }
+
 </style>
