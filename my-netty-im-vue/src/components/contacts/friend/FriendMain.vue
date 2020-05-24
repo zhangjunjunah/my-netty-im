@@ -30,6 +30,7 @@
     methods: {
       handleNodeClick(data) {
         console.log(data);
+        this.$emit("setCurrentFriend", data);
       },
       adaptFriendRel(friendRel) {
         let groupList = [];
