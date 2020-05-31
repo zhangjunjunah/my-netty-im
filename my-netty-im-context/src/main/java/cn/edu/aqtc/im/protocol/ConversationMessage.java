@@ -31,7 +31,7 @@ public class ConversationMessage {
     /**
      * 消息发送人
      */
-    private String sender;
+    private Long sender;
 
 
     /**
@@ -46,7 +46,7 @@ public class ConversationMessage {
      * @Author: zhangjj
      * @Date: 2020-04-16
      */
-    public static List<ConversationMessage> convert(List<FriendMessage> friendMessages, String currentUser) {
+    public static List<ConversationMessage> convert(List<FriendMessage> friendMessages, Long currentUser) {
         List<ConversationMessage> conversationMessages = new ArrayList<>(friendMessages.size());
         for (FriendMessage friendMessage : friendMessages) {
             ConversationMessage conversationMessage = new ConversationMessage()
@@ -60,7 +60,7 @@ public class ConversationMessage {
 
     }
 
-    public ConversationMessage setSelf(String currentUser) {
+    public ConversationMessage setSelf(Long currentUser) {
         if (CommonUtils.objectIsNull(currentUser)) {
             throw new IllegalArgumentException("currentUser is illegal");
         }

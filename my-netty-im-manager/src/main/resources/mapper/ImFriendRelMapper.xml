@@ -47,6 +47,22 @@
                  LEFT JOIN im_user iu ON ifr.friend_id = iu.user_id
         where ifr.user_id = #{userId,jdbcType=BIGINT}
     </select>
+
+    <select id="selectByUserAndFriendId" resultMap="FriendMap" parameterType="cn.edu.aqtc.im.entity.ImFriendRel">
+        SELECT ifr.friend_rel,
+               ifr.group_id,
+               ifr.group_name,
+               ifr.friend_id,
+               ifr.friend_name,
+               ifr.remark_name,
+               ifr.parent_group_id,
+               ifr.user_id,
+               iu.avatar_src
+        FROM im_friend_rel ifr
+                 LEFT JOIN im_user iu ON ifr.friend_id = iu.user_id
+        where ifr.user_id = #{userId,jdbcType=BIGINT}
+          AND ifr.friend_id = #{friendId,jdbcType=BIGINT}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
         from im_friend_rel

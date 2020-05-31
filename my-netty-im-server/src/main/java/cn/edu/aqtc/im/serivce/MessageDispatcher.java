@@ -39,6 +39,9 @@ public class MessageDispatcher {
             case GET_HIS_MSG:
                 conversationService.getHisMsg(messagePayload);
                 break;
+            case FLUSH_CONVERSION:
+                conversationService.flushConversion(messagePayload);
+                break;
             default:
                 break;
         }

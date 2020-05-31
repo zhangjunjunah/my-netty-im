@@ -33,9 +33,9 @@ public class PersonalMsgCache {
      * @Author: zhangjj
      * @Date: 2020-04-14
      */
-    public void pushMsg(String user1, String user2, FriendMessage friendMessage) {
-        String cacheKey1 = new StringBuilder(user1).append(":").append(user2).toString();
-        String cacheKey2 = new StringBuilder(user2).append(":").append(user1).toString();
+    public void pushMsg(Long user1, Long user2, FriendMessage friendMessage) {
+        String cacheKey1 = new StringBuilder(user1.toString()).append(":").append(user2).toString();
+        String cacheKey2 = new StringBuilder(user2.toString()).append(":").append(user1).toString();
         Lock lock = new ReentrantLock();
         lock.lock();
         try {
@@ -64,13 +64,13 @@ public class PersonalMsgCache {
      * @Author: zhangjj
      * @Date: 2020-04-14
      */
-    public List<FriendMessage> getMsg(String user1, String user2) {
-        String cacheKey1 = new StringBuilder(user1).append(":").append(user2).toString();
+    public List<FriendMessage> getMsg(Long user1, Long user2) {
+        String cacheKey1 = new StringBuilder(user1.toString()).append(":").append(user2).toString();
         List<FriendMessage> friendMessages = cache.get(cacheKey1, List.class);
         if (friendMessages != null) {
             return friendMessages;
         }
-        String cacheKey2 = new StringBuilder(user2).append(":").append(user1).toString();
+        String cacheKey2 = new StringBuilder(user2.toString()).append(":").append(user1).toString();
         return cache.get(cacheKey2, List.class);
 
     }

@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @Date: 2020-04-15
  */
 @Data
-public class MessagePayload implements Serializable {
+public class MessagePayload<T> implements Serializable {
 
     /**
      * 消息标识
@@ -24,7 +24,7 @@ public class MessagePayload implements Serializable {
     /**
      * 消息内容(JSON格式)
      */
-    private String body;
+    private T body;
 
 
     /**

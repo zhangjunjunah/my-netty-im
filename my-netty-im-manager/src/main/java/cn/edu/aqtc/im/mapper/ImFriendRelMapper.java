@@ -20,6 +20,8 @@ public interface ImFriendRelMapper {
 
     List<ImFriendRelVO> selectByUserId(Long userId);
 
+    ImFriendRel selectByUserAndFriendId(ImFriendRel record);
+
     int updateByPrimaryKeySelective(ImFriendRel record);
 
     int updateByPrimaryKey(ImFriendRel record);

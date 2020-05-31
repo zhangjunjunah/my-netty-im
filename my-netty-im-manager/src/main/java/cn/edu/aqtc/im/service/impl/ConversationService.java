@@ -1,15 +1,21 @@
 package cn.edu.aqtc.im.service.impl;
 
 import cn.edu.aqtc.im.bean.ChatUser;
+import cn.edu.aqtc.im.cache.ConversationCache;
 import cn.edu.aqtc.im.cache.PersonalMsgCache;
 import cn.edu.aqtc.im.cache.UserChannelCache;
 import cn.edu.aqtc.im.constant.MessageSign;
 import cn.edu.aqtc.im.constant.UserConstants;
 import cn.edu.aqtc.im.constant.UserStatusEnum;
+import cn.edu.aqtc.im.entity.ImFriendRel;
+import cn.edu.aqtc.im.entity.ImUser;
+import cn.edu.aqtc.im.mapper.ImFriendRelMapper;
 import cn.edu.aqtc.im.protocol.ConversationMessage;
 import cn.edu.aqtc.im.protocol.FriendMessage;
 import cn.edu.aqtc.im.protocol.MessagePayload;
 import cn.edu.aqtc.im.service.inter.IConversationService;
+import cn.edu.aqtc.im.transfer.FriendBean;
+import cn.edu.aqtc.im.transfer.StartConversationBean;
 import cn.edu.aqtc.im.util.CommonUtils;
 import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.Channel;
@@ -35,6 +41,12 @@ public class ConversationService implements IConversationService {
     @Autowired
     private PersonalMsgCache personalMsgCache;
 
+    @Autowired
+    private ConversationCache conversationCache;
+
+    @Autowired
+    private ImFriendRelMapper imFriendRelMapper;
+
     /**
      * @param messagePayload
      * @Description: 发送私信
@@ -45,7 +57,7 @@ public class ConversationService implements IConversationService {
      */
     @Override
     public void pushPrivateMsg(MessagePayload messagePayload) {
-        FriendMessage friendMessage = JSONObject.parseObject(messagePayload.getBody(), FriendMessage.class);
+        FriendMessage friendMessage = ((JSONObject) messagePayload.getBody()).toJavaObject(FriendMessage.class);
         Channel channel = getReceiverChannel(friendMessage);
         personalMsgCache.pushMsg(friendMessage.getReceiver(), friendMessage.getSender(), friendMessage);
         if (channel != null) {
@@ -64,7 +76,7 @@ public class ConversationService implements IConversationService {
     @Override
     public void connect(MessagePayload messagePayload) {
         //将用户 通道放到缓存中
-        ChatUser chatUser = JSONObject.parseObject(messagePayload.getBody(), ChatUser.class);
+        ChatUser chatUser = ((JSONObject) messagePayload.getBody()).toJavaObject(ChatUser.class);
         //保存用户通道关系
         setUserChannelRel(chatUser, messagePayload.getChannel());
         //调整用户状态为上线状态
@@ -89,7 +101,7 @@ public class ConversationService implements IConversationService {
      */
     @Override
     public void getHisMsg(MessagePayload messagePayload) {
-        FriendMessage friendMessage = JSONObject.parseObject(messagePayload.getBody(), FriendMessage.class);
+        FriendMessage friendMessage = ((JSONObject) messagePayload.getBody()).toJavaObject(FriendMessage.class);
         List<FriendMessage> friendMessages = personalMsgCache.getMsg(friendMessage.getReceiver(), friendMessage.getSender());
         List<ConversationMessage> conversationMessages = null;
         if (CommonUtils.objectIsNull(friendMessages)) {
@@ -132,6 +144,72 @@ public class ConversationService implements IConversationService {
     }
 
     /**
+     * @param userId
+     * @return java.util.List<cn.edu.aqtc.im.transfer.FriendBean>
+     * @Description 获取会话列表
+     * @Author zhangjj
+     * @Date 2020-05-26
+     **/
+    @Override
+    public List<FriendBean> getConversionList(Long userId) {
+        return conversationCache.getConversation(userId);
+    }
+
+    /**
+     * @param userId
+     * @param imUser
+     * @param friendBean
+     * @return void
+     * @Description 添加会话到列表
+     * @Author zhangjj
+     * @Date 2020-05-26
+     **/
+    @Override
+    public void addConversion2List(Long userId, ImUser imUser, FriendBean friendBean) {
+        //将好友添加到会话列表
+        conversationCache.addConversation(userId, friendBean);
+        //在好友的会话列表添加自己
+        ImFriendRel imFriendRel = imFriendRelMapper.selectByUserAndFriendId(new ImFriendRel().setUserId(friendBean.getFriendId()).setFriendId(imUser.getUserId()));
+        FriendBean myBean = FriendBean.toFriendBean(imUser);
+        if (!CommonUtils.objectIsNull(imFriendRel)) {
+            myBean.setRemarkName(imFriendRel.getRemarkName());
+        }
+        conversationCache.addConversation(friendBean.getFriendId(), myBean);
+        //发送websocket消息
+        sendConversationMessage(imUser, friendBean);
+
+    }
+
+    /**
+     * @param messagePayload
+     * @return void
+     * @Description 刷新会话
+     * @Author zhangjj
+     * @Date 2020-05-28
+     **/
+    @Override
+    public void flushConversion(MessagePayload messagePayload) {
+        StartConversationBean startConversationBean = ((JSONObject) messagePayload.getBody()).toJavaObject(StartConversationBean.class);
+        addConversion2List(startConversationBean.getUserId(), startConversationBean.getMyBean(), startConversationBean.getFriendBean());
+    }
+
+    private void sendConversationMessage(ImUser myBean, FriendBean friendBean) {
+        Channel channel = getChannelByUserId(friendBean.getFriendId());
+        MessagePayload<List<FriendBean>> messagePayload = new MessagePayload();
+        messagePayload.setSign(MessageSign.FLUSH_CONVERSION);
+        messagePayload.setBody(conversationCache.getConversation(friendBean.getFriendId()));
+        if (!CommonUtils.objectIsNull(channel)) {
+            channel.writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
+        }
+
+        channel = getChannelByUserId(myBean.getUserId());
+        messagePayload.setBody(conversationCache.getConversation(myBean.getUserId()));
+        if (!CommonUtils.objectIsNull(channel)) {
+            channel.writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
+        }
+    }
+
+    /**
      * @Description: 获取接收者的channel
      * @Param: [friendMessage]
      * @return: io.netty.channel.Channel
@@ -140,6 +218,17 @@ public class ConversationService implements IConversationService {
      */
     private Channel getReceiverChannel(FriendMessage friendMessage) {
         return userChannelCache.getChannelByUserId(friendMessage.getReceiver());
+    }
+
+    /**
+     * @param userId
+     * @return io.netty.channel.Channel
+     * @Description 根据UserId获取通道
+     * @Author zhangjj
+     * @Date 2020-05-26
+     **/
+    private Channel getChannelByUserId(Long userId) {
+        return userChannelCache.getChannelByUserId(userId);
     }
 
     /**

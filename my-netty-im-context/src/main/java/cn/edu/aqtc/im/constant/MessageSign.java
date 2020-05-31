@@ -34,6 +34,10 @@ public enum MessageSign {
      */
     PUBLISH_FRIEND,
     /**
+     * 刷新会话
+     */
+    FLUSH_CONVERSION,
+    /**
      * 发送私信
      */
     PUBLISH_PRIVATE;

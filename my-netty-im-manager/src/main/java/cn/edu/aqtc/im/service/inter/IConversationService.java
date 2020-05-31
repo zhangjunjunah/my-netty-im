@@ -1,7 +1,11 @@
 package cn.edu.aqtc.im.service.inter;
 
+import cn.edu.aqtc.im.entity.ImUser;
 import cn.edu.aqtc.im.protocol.MessagePayload;
+import cn.edu.aqtc.im.transfer.FriendBean;
 import io.netty.channel.Channel;
+
+import java.util.List;
 
 /**
  * @Description: 会话服务
@@ -55,4 +59,33 @@ public interface IConversationService {
      * @Date 2020-04-26
      **/
     void userOffline(Channel channel);
+
+    /**
+     * @param userId
+     * @return java.util.List<cn.edu.aqtc.im.transfer.FriendBean>
+     * @Description 获取会话列表
+     * @Author zhangjj
+     * @Date 2020-05-26
+     **/
+    List<FriendBean> getConversionList(Long userId);
+
+    /**
+     * @param userId
+     * @param myBean
+     * @param friendBean
+     * @return void
+     * @Description 添加会话到列表
+     * @Author zhangjj
+     * @Date 2020-05-26
+     **/
+    void addConversion2List(Long userId, ImUser myBean, FriendBean friendBean);
+
+    /**
+     * @param messagePayload
+     * @return void
+     * @Description 刷新会话
+     * @Author zhangjj
+     * @Date 2020-05-28
+     **/
+    void flushConversion(MessagePayload messagePayload);
 }

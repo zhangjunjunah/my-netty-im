@@ -3,10 +3,12 @@ package cn.edu.aqtc.im.entity;
 import cn.edu.aqtc.im.constant.Constants;
 import cn.edu.aqtc.im.util.SnowflakeIdWorker;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 @Data
+@Accessors(chain = true)
 public class ImFriendRel implements Serializable {
     private Long friendRel;
 

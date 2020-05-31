@@ -2,8 +2,9 @@
    <div class="chat-list-div">
      <div :class="activeId== item.userId?'selectedChatItem':'normalChatItem'" @click="selected(item)"
           class="chat-list-item" v-for="(item, index) in chatFriendList">
-       <chat-friend-item :headPortrait="item.headPortrait" :userId="item.userId"
-                         :userName="item.userName" :userStatus="item.userStatus"></chat-friend-item>
+       <chat-friend-item :avatarSrc="item.avatarSrc" :friendId="item.friendId"
+                         :friendName="item.friendName" :remarkName="item.remarkName"
+                         :userStatus="item.userStatus"></chat-friend-item>
      </div>
    </div>
 </template>
@@ -31,14 +32,17 @@
         return list;
       }
     },
-      methods: {
-        selected: function (chatUser) {
-          this.activeId = chatUser.userId;
-          this.$store.commit("setActiveChat", chatUser);
-          this.$store.dispatch("getMessage", chatUser);
-        }
+    methods: {
+      selected: function (chatUser) {
+        this.activeId = chatUser.friendId;
+        this.$store.commit("setActiveChat", chatUser);
+        this.$store.dispatch("getMessage", chatUser);
       }
+    },
+    beforeCreate() {
+
     }
+  }
 </script>
 
 <style scoped>

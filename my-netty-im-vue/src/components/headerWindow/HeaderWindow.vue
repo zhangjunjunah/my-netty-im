@@ -28,7 +28,6 @@
     name: "HeaderWindow",
     data() {
       return {
-        currentMain: 'MessageMain',
         connectStatus: 'disconnect-color',
         connectStatusTitle: null
       }
@@ -40,11 +39,13 @@
         }
         return Constant.DEFAULT_IMG_URL_PREFIX + this.$store.state.personalInformation.avatarSrc;
       },
+      currentMain() {
+        return this.$store.state.currentWindow;
+      }
     },
     methods: {
       switchMain(mainName) {
-        this.currentMain = mainName;
-        this.$emit("switchMain", mainName);
+        store.commit("switchMain", mainName);
       },
       setConnectStatus() {
         let now = new Date().getTime();

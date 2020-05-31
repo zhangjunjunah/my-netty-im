@@ -4,6 +4,7 @@ import Constant from '@/constants'
 import MessagePayload from '@/websocket/message/MessagePayload'
 
 import Vuex from 'vuex'
+import StartConversationTransfer from "../websocket/transfer/StartConversationTransfer";
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -42,7 +43,8 @@ export default new Vuex.Store({
     conversationList: [],
     friendRel: [],
     vueWebsocket: null,
-    activeTime: null
+    activeTime: null,
+    currentWindow: "MessageMain"
   },
   mutations: {
     /**
@@ -89,10 +91,10 @@ export default new Vuex.Store({
      * @param activeChat
      */
     setActiveChat(state, activeChat) {
-      state.chat.title = activeChat.userName;
-      state.chat.userName = activeChat.userName;
-      state.chat.headPortrait = activeChat.headPortrait;
-      state.chat.activeId = activeChat.userId;
+      state.chat.title = activeChat.remarkName;
+      state.chat.userName = activeChat.remarkName;
+      state.chat.avatarSrc = activeChat.avatarSrc;
+      state.chat.activeId = activeChat.friendId;
 
     },
     initWebSocket(state) {
@@ -101,7 +103,7 @@ export default new Vuex.Store({
       state.vueWebsocket = vueWebsocket;
     },
     connect(state) {
-      let messagePayload = new MessagePayload(Constant.CONNECT, JSON.stringify(state.personalInformation));
+      let messagePayload = new MessagePayload(Constant.CONNECT, state.personalInformation);
       state.vueWebsocket.send(messagePayload.toJSON());
     },
     sendPrivateMsg(state, msg) {
@@ -123,7 +125,16 @@ export default new Vuex.Store({
     },
     updateFriendStatus(state, data) {
       Vue.set(state.conversationList, data.index, data.chatUser);
+    },
+    switchMain(state, currentMain) {
+      state.currentWindow = currentMain;
+    },
+    startConversation(state, friendMsg) {
+      let startConversationTransfer = new StartConversationTransfer(state.personalInformation.userId, state.personalInformation, friendMsg);
+      let messagePayload = new MessagePayload(Constant.FLUSH_CONVERSION, startConversationTransfer);
+      state.vueWebsocket.send(messagePayload.toJSON());
     }
+
   },
   actions: {
     initWebSocket: ({commit}) => commit('initWebSocket'),

@@ -1,18 +1,23 @@
 <template>
   <div class="friend-introduce-main-div">
-    <friend-introduce-content></friend-introduce-content>
+    <friend-introduce-content :currentFriend="currentFriend"></friend-introduce-content>
   </div>
 </template>
 
 <script>
-  import FriendIntroduceContent from '@/components/contacts/friendIntroduce/FriendIntroduceContent'
+    import FriendIntroduceContent from '@/components/contacts/friendIntroduce/FriendIntroduceContent'
 
-  export default {
-    name: "FriendIntroduceMain",
-    components: {
-      FriendIntroduceContent
+    export default {
+        name: "FriendIntroduceMain",
+        props: {
+            currentFriend: {
+                type: Object,
+            }
+        },
+        components: {
+            FriendIntroduceContent
+        }
     }
-  }
 </script>
 
 <style scoped>

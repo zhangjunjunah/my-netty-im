@@ -45,7 +45,7 @@ public class UserChannelCache {
     }
 
 
-    public Channel getChannelByUserId(String userId) {
+    public Channel getChannelByUserId(Long userId) {
         return cache.getIfPresent(userId);
     }
 

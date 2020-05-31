@@ -22,6 +22,7 @@ import java.util.List;
  */
 @Data
 @Slf4j
+//@ToString(callSuper=true)
 public class ChatUser extends ImUser {
     private static InputStream chatUserFile = ChatUser.class.getClassLoader().getResourceAsStream("chatUser.json");
     private static InputStream friendFile = ChatUser.class.getClassLoader().getResourceAsStream("friends.json");

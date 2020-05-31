@@ -1,8 +1,9 @@
 package cn.edu.aqtc.im.VO;
 
 import cn.edu.aqtc.im.bean.ChatUser;
-import cn.edu.aqtc.im.bean.GroupBean;
 import cn.edu.aqtc.im.entity.ImUser;
+import cn.edu.aqtc.im.transfer.FriendBean;
+import cn.edu.aqtc.im.transfer.GroupBean;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -32,5 +33,5 @@ public class LoginSuccessVO {
     private List<GroupBean> friendRel;
 
     @JsonProperty("CONVERSATION_LIST")
-    private List<ChatUser> conversationList;
+    private List<FriendBean> conversationList;
 }

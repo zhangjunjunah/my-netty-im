@@ -27,10 +27,12 @@
     },
     data() {
       return {
-        currentWindow: "MessageMain"
       }
     },
     computed: {
+      currentWindow() {
+        return this.$store.state.currentWindow;
+      }
     },
     created() {
       this.$store.commit('initWebSocket');

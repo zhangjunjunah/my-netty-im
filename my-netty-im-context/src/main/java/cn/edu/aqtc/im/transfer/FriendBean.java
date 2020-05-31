@@ -1,8 +1,11 @@
-package cn.edu.aqtc.im.bean;
+package cn.edu.aqtc.im.transfer;
 
 import cn.edu.aqtc.im.VO.ImFriendRelVO;
 import cn.edu.aqtc.im.constant.UserStatusEnum;
+import cn.edu.aqtc.im.entity.ImUser;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @ClassName : FriendBean
@@ -11,7 +14,7 @@ import lombok.Data;
  * @Date: 2020-05-12
  */
 @Data
-public class FriendBean {
+public class FriendBean implements Serializable {
 
     private Long friendId;
 
@@ -30,6 +33,14 @@ public class FriendBean {
         friendBean.setFriendName(imFriendRel.getFriendName());
         friendBean.setRemarkName(imFriendRel.getRemarkName());
         friendBean.setAvatarSrc(imFriendRel.getAvatarSrc());
+        return friendBean;
+    }
+
+    public static FriendBean toFriendBean(ImUser imUser) {
+        FriendBean friendBean = new FriendBean();
+        friendBean.setAvatarSrc(imUser.getAvatarSrc());
+        friendBean.setFriendId(imUser.getUserId());
+        friendBean.setFriendName(imUser.getUserName());
         return friendBean;
     }
 

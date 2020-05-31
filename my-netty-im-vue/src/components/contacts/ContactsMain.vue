@@ -4,7 +4,7 @@
       <friend-main @setCurrentFriend="setCurrentFriend"></friend-main>
     </el-col>
     <el-col :span="19">
-      <component v-bind:is="currentWindow"></component>
+      <component :currentFriend="currentFriend" v-bind:is="currentWindow"></component>
     </el-col>
   </el-row>
 </template>
@@ -26,7 +26,9 @@
         currentFriend: {
           friendId: null,
           friendName: null,
-          avatarSrc: null
+          avatarSrc: null,
+          remarkName: null,
+
         }
       }
     },
@@ -35,6 +37,7 @@
         this.$set(this.currentFriend, "friendId", data.friendId);
         this.$set(this.currentFriend, "friendName", data.friendName);
         this.$set(this.currentFriend, "avatarSrc", data.avatarSrc);
+        this.$set(this.currentFriend, "remarkName", data.remarkName);
       }
     },
     computed: {

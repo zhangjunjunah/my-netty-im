@@ -3,8 +3,6 @@ package cn.edu.aqtc.im.service.impl;
 import cn.edu.aqtc.im.VO.ImFriendRelVO;
 import cn.edu.aqtc.im.VO.LoginSuccessVO;
 import cn.edu.aqtc.im.bean.ChatUser;
-import cn.edu.aqtc.im.bean.FriendBean;
-import cn.edu.aqtc.im.bean.GroupBean;
 import cn.edu.aqtc.im.bean.RestResult;
 import cn.edu.aqtc.im.cache.ConversationCache;
 import cn.edu.aqtc.im.code.UserBusiResultCode;
@@ -13,7 +11,10 @@ import cn.edu.aqtc.im.entity.ImFriendRel;
 import cn.edu.aqtc.im.entity.ImUser;
 import cn.edu.aqtc.im.mapper.ImFriendRelMapper;
 import cn.edu.aqtc.im.mapper.ImUserMapper;
+import cn.edu.aqtc.im.service.inter.IConversationService;
 import cn.edu.aqtc.im.service.inter.IUserService;
+import cn.edu.aqtc.im.transfer.FriendBean;
+import cn.edu.aqtc.im.transfer.GroupBean;
 import cn.edu.aqtc.im.util.CommonUtils;
 import cn.edu.aqtc.im.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private ConversationCache conversationCache;
+
+    @Autowired
+    private IConversationService conversationService;
 
     /**
      * @param chatUser
@@ -84,7 +88,7 @@ public class UserService implements IUserService {
         LoginSuccessVO loginSuccessVO = new LoginSuccessVO();
         loginSuccessVO.setImUser(searchUser);
         //查询会话列表
-        loginSuccessVO.setConversationList(conversationCache.getConversation(searchUser.getUserId()));
+        loginSuccessVO.setConversationList(conversationService.getConversionList(searchUser.getUserId()));
         //查询朋友列表
         loginSuccessVO.setFriendRel(parseFriendRel(imFriendRelMapper.selectByUserId(searchUser.getUserId())));
         return RestResult.getSuccessRestResult(loginSuccessVO);
@@ -130,7 +134,7 @@ public class UserService implements IUserService {
 
     /**
      * @param imFriendRelList
-     * @return java.util.List<cn.edu.aqtc.im.bean.GroupBean>
+     * @return java.util.List<cn.edu.aqtc.im.transfer.GroupBean>
      * @Description 解析好友列表
      * @Author zhangjj
      * @Date 2020-05-12

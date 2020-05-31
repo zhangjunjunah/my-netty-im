@@ -1,4 +1,4 @@
-package cn.edu.aqtc.im.bean;
+package cn.edu.aqtc.im.transfer;
 
 import lombok.Data;
 

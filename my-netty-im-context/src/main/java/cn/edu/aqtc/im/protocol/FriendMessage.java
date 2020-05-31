@@ -14,9 +14,9 @@ import java.util.Date;
 @Data
 public class FriendMessage implements Serializable {
 
-    private String receiver;
+    private Long receiver;
 
-    private String sender;
+    private Long sender;
 
     private String content;
 
