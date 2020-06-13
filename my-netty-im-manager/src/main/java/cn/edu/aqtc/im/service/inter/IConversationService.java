@@ -67,7 +67,7 @@ public interface IConversationService {
      * @Author zhangjj
      * @Date 2020-05-26
      **/
-    List<FriendBean> getConversionList(Long userId);
+    List<FriendBean> getConversionList(String userId);
 
     /**
      * @param userId
@@ -78,7 +78,7 @@ public interface IConversationService {
      * @Author zhangjj
      * @Date 2020-05-26
      **/
-    void addConversion2List(Long userId, ImUser myBean, FriendBean friendBean);
+    void addConversion2List(String userId, ImUser myBean, FriendBean friendBean);
 
     /**
      * @param messagePayload

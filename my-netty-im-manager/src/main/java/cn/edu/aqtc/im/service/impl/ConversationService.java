@@ -151,7 +151,7 @@ public class ConversationService implements IConversationService {
      * @Date 2020-05-26
      **/
     @Override
-    public List<FriendBean> getConversionList(Long userId) {
+    public List<FriendBean> getConversionList(String userId) {
         return conversationCache.getConversation(userId);
     }
 
@@ -165,11 +165,11 @@ public class ConversationService implements IConversationService {
      * @Date 2020-05-26
      **/
     @Override
-    public void addConversion2List(Long userId, ImUser imUser, FriendBean friendBean) {
+    public void addConversion2List(String userId, ImUser imUser, FriendBean friendBean) {
         //将好友添加到会话列表
         conversationCache.addConversation(userId, friendBean);
         //在好友的会话列表添加自己
-        ImFriendRel imFriendRel = imFriendRelMapper.selectByUserAndFriendId(new ImFriendRel().setUserId(friendBean.getFriendId()).setFriendId(imUser.getUserId()));
+        ImFriendRel imFriendRel = imFriendRelMapper.selectByUserAndFriendId(new ImFriendRel().setUserId(Long.parseLong(friendBean.getFriendId())).setFriendId(imUser.getUserId()));
         FriendBean myBean = FriendBean.toFriendBean(imUser);
         if (!CommonUtils.objectIsNull(imFriendRel)) {
             myBean.setRemarkName(imFriendRel.getRemarkName());
@@ -194,7 +194,7 @@ public class ConversationService implements IConversationService {
     }
 
     private void sendConversationMessage(ImUser myBean, FriendBean friendBean) {
-        Channel channel = getChannelByUserId(friendBean.getFriendId());
+        Channel channel = getChannelByUserId(Long.parseLong(friendBean.getFriendId()));
         MessagePayload<List<FriendBean>> messagePayload = new MessagePayload();
         messagePayload.setSign(MessageSign.FLUSH_CONVERSION);
         messagePayload.setBody(conversationCache.getConversation(friendBean.getFriendId()));
@@ -203,7 +203,7 @@ public class ConversationService implements IConversationService {
         }
 
         channel = getChannelByUserId(myBean.getUserId());
-        messagePayload.setBody(conversationCache.getConversation(myBean.getUserId()));
+        messagePayload.setBody(conversationCache.getConversation(myBean.getUserId().toString()));
         if (!CommonUtils.objectIsNull(channel)) {
             channel.writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
         }
@@ -217,7 +217,7 @@ public class ConversationService implements IConversationService {
      * @Date: 2020-04-22
      */
     private Channel getReceiverChannel(FriendMessage friendMessage) {
-        return userChannelCache.getChannelByUserId(friendMessage.getReceiver());
+        return userChannelCache.getChannelByUserId(Long.parseLong(friendMessage.getReceiver()));
     }
 
     /**

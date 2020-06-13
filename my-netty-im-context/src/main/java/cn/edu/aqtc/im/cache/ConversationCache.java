@@ -32,11 +32,11 @@ public class ConversationCache {
     }
 
 
-    public List<FriendBean> getConversation(Long userId) {
+    public List<FriendBean> getConversation(String userId) {
         return (List<FriendBean>) cache.get(userId, List.class);
     }
 
-    public void addConversation(Long userId, FriendBean friendBean) {
+    public void addConversation(String userId, FriendBean friendBean) {
         lock.lock();
         try {
             List<FriendBean> imUserList = (List<FriendBean>) cache.get(userId, List.class);
@@ -49,6 +49,7 @@ public class ConversationCache {
             int index = imUserList.indexOf(friendBean);
             if (index != -1) {
                 Collections.swap(imUserList, index, 0);
+                cache.put(userId, imUserList);
                 return;
             }
             imUserList.add(0, friendBean);

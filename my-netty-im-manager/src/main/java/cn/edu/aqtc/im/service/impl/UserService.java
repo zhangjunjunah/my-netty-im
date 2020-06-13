@@ -88,7 +88,7 @@ public class UserService implements IUserService {
         LoginSuccessVO loginSuccessVO = new LoginSuccessVO();
         loginSuccessVO.setImUser(searchUser);
         //查询会话列表
-        loginSuccessVO.setConversationList(conversationService.getConversionList(searchUser.getUserId()));
+        loginSuccessVO.setConversationList(conversationService.getConversionList(searchUser.getUserId().toString()));
         //查询朋友列表
         loginSuccessVO.setFriendRel(parseFriendRel(imFriendRelMapper.selectByUserId(searchUser.getUserId())));
         return RestResult.getSuccessRestResult(loginSuccessVO);

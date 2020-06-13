@@ -4,6 +4,7 @@ import Constant from '@/constants';
 import MessagePayload from '@/websocket/message/MessagePayload';
 import store from "@/store";
 import NotifyFriendStatus from "./handler/NotifyFriendStatus";
+import FlushConversion from "./handler/FlushConversion";
 
 export default class VueWebSocket {
 
@@ -58,13 +59,14 @@ export default class VueWebSocket {
     this.handlerChain.push(new ReceiveMsg(this));
     this.handlerChain.push(new GetHisMsg(this));
     this.handlerChain.push(new NotifyFriendStatus(this));
+    this.handlerChain.push(new FlushConversion(this));
   }
 
   handleMsg(data) {
     let msg = JSON.parse(data);
     for (let i = 0; i < this.handlerChain.length; i++) {
       if (this.handlerChain[i].match(msg.sign)) {
-        this.handlerChain[i].handleMsg(JSON.parse(msg.body));
+        this.handlerChain[i].handleMsg(msg.body);
       }
     }
   }

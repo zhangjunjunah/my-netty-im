@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class StartConversationBean {
 
-    private Long userId;
+    private String userId;
 
     private ImUser myBean;
 

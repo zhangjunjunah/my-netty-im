@@ -107,14 +107,14 @@ export default new Vuex.Store({
       state.vueWebsocket.send(messagePayload.toJSON());
     },
     sendPrivateMsg(state, msg) {
-      let messagePayload = new MessagePayload(Constant.PUBLISH_PRIVATE, JSON.stringify(msg));
+      let messagePayload = new MessagePayload(Constant.PUBLISH_PRIVATE, msg);
       state.vueWebsocket.send(messagePayload.toJSON());
     },
     getMessage(state) {
       let msg = {};
       msg.receiver = state.personalInformation.userId;
       msg.sender = state.chat.activeId;
-      let messagePayload = new MessagePayload(Constant.GET_HIS_MSG, JSON.stringify(msg));
+      let messagePayload = new MessagePayload(Constant.GET_HIS_MSG, msg);
       state.vueWebsocket.send(messagePayload.toJSON());
     },
     lastActiveTime(state, activeTime) {

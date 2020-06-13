@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Data
 public class FriendBean implements Serializable {
 
-    private Long friendId;
+    private String friendId;
 
     private String friendName;
 
@@ -29,7 +29,7 @@ public class FriendBean implements Serializable {
 
     public static FriendBean parseImFriendRel(ImFriendRelVO imFriendRel) {
         FriendBean friendBean = new FriendBean();
-        friendBean.setFriendId(imFriendRel.getFriendId());
+        friendBean.setFriendId(imFriendRel.getFriendId().toString());
         friendBean.setFriendName(imFriendRel.getFriendName());
         friendBean.setRemarkName(imFriendRel.getRemarkName());
         friendBean.setAvatarSrc(imFriendRel.getAvatarSrc());
@@ -39,7 +39,7 @@ public class FriendBean implements Serializable {
     public static FriendBean toFriendBean(ImUser imUser) {
         FriendBean friendBean = new FriendBean();
         friendBean.setAvatarSrc(imUser.getAvatarSrc());
-        friendBean.setFriendId(imUser.getUserId());
+        friendBean.setFriendId(imUser.getUserId().toString());
         friendBean.setFriendName(imUser.getUserName());
         return friendBean;
     }
