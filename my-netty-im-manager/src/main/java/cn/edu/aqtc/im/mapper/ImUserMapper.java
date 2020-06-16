@@ -4,6 +4,8 @@ import cn.edu.aqtc.im.entity.ImUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface ImUserMapper {
@@ -20,7 +22,10 @@ public interface ImUserMapper {
 
     ImUser select(ImUser imUser);
 
+
     int updateByPrimaryKeySelective(ImUser record);
 
     int updateByPrimaryKey(ImUser record);
+
+    List<ImUser> selectFuzzy(ImUser imUser);
 }

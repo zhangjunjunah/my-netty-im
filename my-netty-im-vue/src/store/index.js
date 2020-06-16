@@ -17,7 +17,7 @@ export default new Vuex.Store({
     chat: {
       title: "",
       userName: '',
-      headPortrait: '',
+      avatarSrc: '',
       activeId: ''
     },
     /**

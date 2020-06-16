@@ -48,11 +48,28 @@
             </if>
         </where>
     </select>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
         from im_user
         where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <select id="selectFuzzy" resultMap="BaseResultMap" parameterType="cn.edu.aqtc.im.entity.ImUser">
+        select
+        <include refid="Base_Column_List"/>
+        from im_user
+        <where>
+            <if test="userId != null">
+                user_id LIKE CONCAT('%',#{userId,jdbcType=BIGINT},'%')
+            </if>
+            <if test="userName != null">
+                OR user_name LIKE CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="nickName != null">
+                OR nick_name LIKE CONCAT('%',#{nickName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @ClassName : UserController
  * @Description : 用户相关请求
@@ -40,5 +42,10 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public RestResult register(@RequestBody ImUser imUser) {
         return userService.register(imUser);
+    }
+
+    @RequestMapping(value = "/queryFriend", method = RequestMethod.GET)
+    public RestResult<List<ImUser>> queryFriend(String queryMsg) {
+        return RestResult.getSuccessRestResult(userService.queryFriend(queryMsg));
     }
 }

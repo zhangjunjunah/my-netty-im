@@ -60,6 +60,7 @@ public class ConversationService implements IConversationService {
         FriendMessage friendMessage = ((JSONObject) messagePayload.getBody()).toJavaObject(FriendMessage.class);
         Channel channel = getReceiverChannel(friendMessage);
         personalMsgCache.pushMsg(friendMessage.getReceiver(), friendMessage.getSender(), friendMessage);
+        personalMsgCache.pushMsg(friendMessage.getSender(), friendMessage.getReceiver(), friendMessage);
         if (channel != null) {
             channel.writeAndFlush(new TextWebSocketFrame(JSONObject.toJSONString(messagePayload)));
         }
@@ -102,14 +103,14 @@ public class ConversationService implements IConversationService {
     @Override
     public void getHisMsg(MessagePayload messagePayload) {
         FriendMessage friendMessage = ((JSONObject) messagePayload.getBody()).toJavaObject(FriendMessage.class);
-        List<FriendMessage> friendMessages = personalMsgCache.getMsg(friendMessage.getReceiver(), friendMessage.getSender());
+        List<FriendMessage> friendMessages = personalMsgCache.getMsg(friendMessage.getSender(), friendMessage.getReceiver());
         List<ConversationMessage> conversationMessages = null;
         if (CommonUtils.objectIsNull(friendMessages)) {
             conversationMessages = new ArrayList<>(0);
         } else {
             conversationMessages = ConversationMessage.convert(friendMessages, friendMessage.getReceiver());
         }
-        messagePayload.setBody(CommonUtils.toJSONString(conversationMessages));
+        messagePayload.setBody(conversationMessages);
         messagePayload.getChannel().writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
     }
 

@@ -4,8 +4,20 @@
       <component :is="node.data.groupId==null?'FriendItem':'GroupItem'" :node="node" slot-scope="{ node, data }">
       </component>
     </el-tree>
-    <el-button circle class="add-friend-button" icon="el-icon-plus"></el-button>
+    <el-button @click="addFriend()" circle class="add-friend-button" icon="el-icon-plus"></el-button>
+    <el-dialog :visible.sync="dialogTableVisible" title="找好友">
+      <div class="dialog-div">
+        <el-form :model="ruleFriendForm" :rules="rules" ref="ruleFriendForm">
+          <el-form-item prop="queryMsg">
+            <el-input class="input-with-select" placeholder="请输入IM号、账号或昵称查找" v-model="ruleFriendForm.queryMsg">
+              <el-button @click="queryFriend()" icon="el-icon-search" slot="append">查找</el-button>
+            </el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
   </div>
+
 </template>
 
 <script>
@@ -23,7 +35,16 @@
       return {
         defaultProps: {
           children: 'friendList',
-          label: 'groupName'
+          label: 'groupName',
+        },
+        dialogTableVisible: false,
+        ruleFriendForm: {
+          queryMsg: ""
+        },
+        rules: {
+          queryMsg: [
+            {required: true, message: '请输入IM号、账号或昵称再点击查找', trigger: 'blur'},
+          ],
         }
       }
     },
@@ -51,7 +72,47 @@
           group.children = children;
         }
         return groupList;
+      },
+      addFriend() {
+        this.dialogTableVisible = true;
+      },
+      queryFriend() {
+        this.$refs['ruleFriendForm'].validate((valid) => {
+          if (valid) {
+            this.doQueryFriend();
+          } else {
+            return false;
+          }
+        });
+      },
+      doQueryFriend() {
+        let url = "/api/user/queryFriend?queryMsg=" + this.ruleFriendForm.queryMsg;
+        this.getRequest(url).then(res => {
+          if (res.status == 200) {
+            if (res.data.CODE == 200) {
+              console.log("users", res.data);
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.MESSAGE,
+                type: 'warning',
+                duration: 10000,
+                offset: 55,
+              });
+            }
+          }
+        }, res => {
+          console.error("/api/user/queryFriend error");
+          this.$message({
+            showClose: true,
+            message: '服务端未响应,请联系管理员！',
+            type: 'error',
+            duration: 10000,
+            offset: 55,
+          });
+        })
       }
+
     },
     computed: {
       friends() {
@@ -89,6 +150,12 @@
     right: 20px;
     background-color: #0181ef;
     color: white;
+  }
+
+  .dialog-div {
+    width: 60%;
+    text-align: center;
+    display: inline-block;
   }
 
 </style>

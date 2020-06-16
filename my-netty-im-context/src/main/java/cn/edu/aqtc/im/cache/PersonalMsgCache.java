@@ -1,6 +1,7 @@
 package cn.edu.aqtc.im.cache;
 
 import cn.edu.aqtc.im.protocol.FriendMessage;
+import cn.edu.aqtc.im.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -20,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Component
 public class PersonalMsgCache {
     private Cache cache;
-
+    private Lock lock = new ReentrantLock();
     @Autowired
     public PersonalMsgCache(CacheManager cacheManager) {
         this.cache = cacheManager.getCache("personalMsg");
@@ -33,25 +34,19 @@ public class PersonalMsgCache {
      * @Author: zhangjj
      * @Date: 2020-04-14
      */
-    public void pushMsg(String user1, String user2, FriendMessage friendMessage) {
-        String cacheKey1 = new StringBuilder(user1.toString()).append(":").append(user2).toString();
-        String cacheKey2 = new StringBuilder(user2.toString()).append(":").append(user1).toString();
-        Lock lock = new ReentrantLock();
+    public void pushMsg(String sender, String receiver, FriendMessage friendMessage) {
+        String cacheKey = new StringBuilder(sender).append(":").append(receiver).toString();
         lock.lock();
         try {
-            List<FriendMessage> friendMessages1 = cache.get(cacheKey1, List.class);
-            List<FriendMessage> friendMessages2 = cache.get(cacheKey2, List.class);
-            if (null == friendMessages1 && null == friendMessages2) {
-                friendMessages1 = new CopyOnWriteArrayList<>();
-                friendMessages1.add(friendMessage);
-                cache.put(cacheKey1, friendMessages1);
-            } else if (null == friendMessages1) {
-                friendMessages2.add(friendMessage);
-                cache.put(cacheKey2, friendMessages2);
-            } else {
-                friendMessages1.add(friendMessage);
-                cache.put(cacheKey1, friendMessages1);
+            List<FriendMessage> friendMessages = cache.get(cacheKey, List.class);
+            if (CommonUtils.objectIsNull(friendMessages)) {
+                friendMessages = new CopyOnWriteArrayList<>();
+                friendMessages.add(friendMessage);
+                cache.put(cacheKey, friendMessages);
+                return;
             }
+            friendMessages.add(friendMessage);
+            cache.put(cacheKey, friendMessages);
         } finally {
             lock.unlock();
         }
@@ -64,15 +59,10 @@ public class PersonalMsgCache {
      * @Author: zhangjj
      * @Date: 2020-04-14
      */
-    public List<FriendMessage> getMsg(String user1, String user2) {
-        String cacheKey1 = new StringBuilder(user1.toString()).append(":").append(user2).toString();
-        List<FriendMessage> friendMessages = cache.get(cacheKey1, List.class);
-        if (friendMessages != null) {
-            return friendMessages;
-        }
-        String cacheKey2 = new StringBuilder(user2.toString()).append(":").append(user1).toString();
-        return cache.get(cacheKey2, List.class);
-
+    public List<FriendMessage> getMsg(String sender, String receiver) {
+        String cacheKey = new StringBuilder(sender).append(":").append(receiver).toString();
+        List<FriendMessage> friendMessages = cache.get(cacheKey, List.class);
+        return friendMessages;
     }
 
 }

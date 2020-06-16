@@ -3,7 +3,8 @@
      <div :class="activeId== item.friendId?'selectedChatItem':'normalChatItem'" @click="selected(item)"
           class="chat-list-item" v-for="(item, index) in chatFriendList">
        <chat-friend-item :avatarSrc="item.avatarSrc" :friendId="item.friendId"
-                         :friendName="item.friendName" :remarkName="item.remarkName"
+                         :friendName="item.friendName"
+                         :remarkName="item.remarkName==null?item.friendName:item.remarkName"
                          :userStatus="item.userStatus"></chat-friend-item>
      </div>
    </div>

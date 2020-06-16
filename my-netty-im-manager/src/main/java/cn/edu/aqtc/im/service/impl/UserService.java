@@ -17,6 +17,7 @@ import cn.edu.aqtc.im.transfer.FriendBean;
 import cn.edu.aqtc.im.transfer.GroupBean;
 import cn.edu.aqtc.im.util.CommonUtils;
 import cn.edu.aqtc.im.util.SnowflakeIdWorker;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ import java.util.concurrent.ConcurrentMap;
  * @Date: 2020-04-13
  */
 @Service
+@Slf4j
 public class UserService implements IUserService {
 
     @Autowired
@@ -94,7 +96,6 @@ public class UserService implements IUserService {
         return RestResult.getSuccessRestResult(loginSuccessVO);
     }
 
-
     /**
      * @param imUser
      * @return cn.edu.aqtc.im.bean.RestResult
@@ -117,6 +118,28 @@ public class UserService implements IUserService {
         //插入系统朋友
         initDefaultFriend(imUser.getUserId());
         return RestResult.getSuccessRestResult();
+    }
+
+    /**
+     * @param queryMsg 查询信息可以是IM号、账号或昵称
+     * @return java.util.List<cn.edu.aqtc.im.entity.ImUser>
+     * @Description 查询用户
+     * @Author zhangjj
+     * @Date 2020-06-14
+     **/
+    @Override
+    public List<ImUser> queryFriend(String queryMsg) {
+        ImUser imUser = new ImUser();
+        try {
+            imUser.setUserId(Long.parseLong(queryMsg));
+        } catch (NumberFormatException e) {
+            log.info("queryMsg not number");
+        }
+        imUser.setUserName(queryMsg);
+        imUser.setNickName(queryMsg);
+
+
+        return imUserMapper.selectFuzzy(imUser);
     }
 
     /**

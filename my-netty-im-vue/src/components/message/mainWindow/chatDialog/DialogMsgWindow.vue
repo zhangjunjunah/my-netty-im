@@ -15,21 +15,20 @@
 </template>
 
 <script>
-  import TimeUtils from '@/util/TimeUtils'
+  import TimeUtils from '@/util/TimeUtils';
+  import Constant from '@/constants';
 
   export default {
     name: "DialogMsgWindow",
-    props: {
-    },
+    props: {},
     computed: {
       selfAvatarUrl() {
-        return require("@/" + this.$store.state.personalInformation.avatarSrc);
+        return Constant.DEFAULT_IMG_URL_PREFIX + this.$store.state.personalInformation.avatarSrc;
       },
       receiveAvatarUrl() {
-        return require("@/" + this.$store.state.chat.headPortrait);
+        return Constant.DEFAULT_IMG_URL_PREFIX + this.$store.state.chat.avatarSrc;
       },
       messageList() {
-        console.log("messages");
         return this.$store.state.messages;
       },
     },
