@@ -133,6 +133,10 @@ export default new Vuex.Store({
       let startConversationTransfer = new StartConversationTransfer(state.personalInformation.userId, state.personalInformation, friendMsg);
       let messagePayload = new MessagePayload(Constant.FLUSH_CONVERSION, startConversationTransfer);
       state.vueWebsocket.send(messagePayload.toJSON());
+    },
+    addFriend(state, notificationMessage) {
+      let messagePayload = new MessagePayload(Constant.NOTIFICATION, notificationMessage);
+      state.vueWebsocket.send(messagePayload.toJSON());
     }
 
   },

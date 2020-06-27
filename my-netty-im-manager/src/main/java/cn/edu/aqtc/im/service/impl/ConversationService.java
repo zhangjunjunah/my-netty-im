@@ -4,15 +4,16 @@ import cn.edu.aqtc.im.bean.ChatUser;
 import cn.edu.aqtc.im.cache.ConversationCache;
 import cn.edu.aqtc.im.cache.PersonalMsgCache;
 import cn.edu.aqtc.im.cache.UserChannelCache;
-import cn.edu.aqtc.im.constant.MessageSign;
-import cn.edu.aqtc.im.constant.UserConstants;
-import cn.edu.aqtc.im.constant.UserStatusEnum;
+import cn.edu.aqtc.im.constant.*;
 import cn.edu.aqtc.im.entity.ImFriendRel;
+import cn.edu.aqtc.im.entity.ImMessage;
 import cn.edu.aqtc.im.entity.ImUser;
 import cn.edu.aqtc.im.mapper.ImFriendRelMapper;
+import cn.edu.aqtc.im.mapper.ImMessageMapper;
 import cn.edu.aqtc.im.protocol.ConversationMessage;
 import cn.edu.aqtc.im.protocol.FriendMessage;
 import cn.edu.aqtc.im.protocol.MessagePayload;
+import cn.edu.aqtc.im.protocol.NotificationMessage;
 import cn.edu.aqtc.im.service.inter.IConversationService;
 import cn.edu.aqtc.im.transfer.FriendBean;
 import cn.edu.aqtc.im.transfer.StartConversationBean;
@@ -20,9 +21,12 @@ import cn.edu.aqtc.im.util.CommonUtils;
 import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +37,7 @@ import java.util.List;
  * @Date: 2020-04-15
  */
 @Service
+@Slf4j
 public class ConversationService implements IConversationService {
 
     @Autowired
@@ -46,6 +51,9 @@ public class ConversationService implements IConversationService {
 
     @Autowired
     private ImFriendRelMapper imFriendRelMapper;
+
+    @Autowired
+    private ImMessageMapper imMessageMapper;
 
     /**
      * @param messagePayload
@@ -192,6 +200,46 @@ public class ConversationService implements IConversationService {
     public void flushConversion(MessagePayload messagePayload) {
         StartConversationBean startConversationBean = ((JSONObject) messagePayload.getBody()).toJavaObject(StartConversationBean.class);
         addConversion2List(startConversationBean.getUserId(), startConversationBean.getMyBean(), startConversationBean.getFriendBean());
+    }
+
+    /**
+     * @param imMessage
+     * @return void
+     * @Description 添加好友
+     * @Author zhangjj
+     * @Date 2020-06-27
+     **/
+    @Override
+    public void addFriends(ImMessage imMessage) {
+        imMessage.setMessageContent(
+                new StringBuilder(imMessage.getMessageSender().toString())
+                        .append(Constants.MESSAGE_CONTENT_SUFFIX_ADD_FRIEND).toString());
+        imMessageMapper.insertSelective(imMessage);
+    }
+
+    /**
+     * @param messagePayload
+     * @return void
+     * @Description 消息通知
+     * @Author zhangjj
+     * @Date 2020-06-27
+     **/
+    @Override
+    public void notification(MessagePayload messagePayload) {
+        NotificationMessage notificationMessage = ((JSONObject) messagePayload.getBody()).toJavaObject(NotificationMessage.class);
+        ;
+        ImMessage imMessage = new ImMessage(notificationMessage.getSender(), notificationMessage.getReceiver());
+        NotificationMessageEnum notificationType = notificationMessage.getNotificationType();
+        try {
+            Method method = this.getClass().getMethod(notificationType.toString(), ImMessage.class);
+            method.invoke(this, imMessage);
+        } catch (NoSuchMethodException e) {
+            log.error("messageType " + notificationType.toString() + " not found", e);
+        } catch (IllegalAccessException e) {
+            log.error("error", e);
+        } catch (InvocationTargetException e) {
+            log.error("error", e);
+        }
     }
 
     private void sendConversationMessage(ImUser myBean, FriendBean friendBean) {

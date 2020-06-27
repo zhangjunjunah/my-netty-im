@@ -38,6 +38,10 @@ public enum MessageSign {
      */
     FLUSH_CONVERSION,
     /**
+     * 消息通知
+     */
+    NOTIFICATION,
+    /**
      * 发送私信
      */
     PUBLISH_PRIVATE;

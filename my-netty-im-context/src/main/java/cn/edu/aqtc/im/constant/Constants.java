@@ -14,4 +14,7 @@ public class Constants {
 
 
     public static final String DEFAULT_GROUP_NAME = "我的好友";
+
+
+    public static final String MESSAGE_CONTENT_SUFFIX_ADD_FRIEND = " 请求添加您为好友";
 }

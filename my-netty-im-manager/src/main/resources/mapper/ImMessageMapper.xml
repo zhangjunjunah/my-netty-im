@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.aqtc.im.mapper.ImMessageMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.aqtc.im.entity.ImMessage">
+        <id column="message_id" property="messageId" jdbcType="BIGINT"/>
+        <result column="message_type" property="messageType" jdbcType="VARCHAR"/>
+        <result column="message_content" property="messageContent" jdbcType="VARCHAR"/>
+        <result column="message_sender" property="messageSender" jdbcType="BIGINT"/>
+        <result column="message_receiver" property="messageReceiver" jdbcType="BIGINT"/>
+        <result column="send_time" property="sendTime" jdbcType="DATE"/>
+        <result column="send_status" property="sendStatus" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        message_id, message_type, message_content, message_sender, message_receiver, send_time,
+    send_status
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from im_message
+        where message_id = #{messageId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from im_message
+        where message_id = #{messageId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="cn.edu.aqtc.im.entity.ImMessage">
+        insert into im_message (message_id, message_type, message_content,
+                                message_sender, message_receiver, send_time,
+                                send_status)
+        values (#{messageId,jdbcType=BIGINT}, #{messageType,jdbcType=VARCHAR}, #{messageContent,jdbcType=VARCHAR},
+                #{messageSender,jdbcType=BIGINT}, #{messageReceiver,jdbcType=BIGINT}, #{sendTime,jdbcType=DATE},
+                #{sendStatus,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.edu.aqtc.im.entity.ImMessage">
+        insert into im_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="messageId != null">
+                message_id,
+            </if>
+            <if test="messageType != null">
+                message_type,
+            </if>
+            <if test="messageContent != null">
+                message_content,
+            </if>
+            <if test="messageSender != null">
+                message_sender,
+            </if>
+            <if test="messageReceiver != null">
+                message_receiver,
+            </if>
+            <if test="sendTime != null">
+                send_time,
+            </if>
+            <if test="sendStatus != null">
+                send_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="messageId != null">
+                #{messageId,jdbcType=BIGINT},
+            </if>
+            <if test="messageType != null">
+                #{messageType,jdbcType=VARCHAR},
+            </if>
+            <if test="messageContent != null">
+                #{messageContent,jdbcType=VARCHAR},
+            </if>
+            <if test="messageSender != null">
+                #{messageSender,jdbcType=BIGINT},
+            </if>
+            <if test="messageReceiver != null">
+                #{messageReceiver,jdbcType=BIGINT},
+            </if>
+            <if test="sendTime != null">
+                #{sendTime,jdbcType=DATE},
+            </if>
+            <if test="sendStatus != null">
+                #{sendStatus,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.edu.aqtc.im.entity.ImMessage">
+        update im_message
+        <set>
+            <if test="messageType != null">
+                message_type = #{messageType,jdbcType=VARCHAR},
+            </if>
+            <if test="messageContent != null">
+                message_content = #{messageContent,jdbcType=VARCHAR},
+            </if>
+            <if test="messageSender != null">
+                message_sender = #{messageSender,jdbcType=BIGINT},
+            </if>
+            <if test="messageReceiver != null">
+                message_receiver = #{messageReceiver,jdbcType=BIGINT},
+            </if>
+            <if test="sendTime != null">
+                send_time = #{sendTime,jdbcType=DATE},
+            </if>
+            <if test="sendStatus != null">
+                send_status = #{sendStatus,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where message_id = #{messageId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.edu.aqtc.im.entity.ImMessage">
+        update im_message
+        set message_type     = #{messageType,jdbcType=VARCHAR},
+            message_content  = #{messageContent,jdbcType=VARCHAR},
+            message_sender   = #{messageSender,jdbcType=BIGINT},
+            message_receiver = #{messageReceiver,jdbcType=BIGINT},
+            send_time        = #{sendTime,jdbcType=DATE},
+            send_status      = #{sendStatus,jdbcType=VARCHAR}
+        where message_id = #{messageId,jdbcType=BIGINT}
+    </update>
+</mapper>

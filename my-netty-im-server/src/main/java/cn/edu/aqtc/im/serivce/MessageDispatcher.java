@@ -42,6 +42,8 @@ public class MessageDispatcher {
             case FLUSH_CONVERSION:
                 conversationService.flushConversion(messagePayload);
                 break;
+            case NOTIFICATION:
+                conversationService.notification(messagePayload);
             default:
                 break;
         }

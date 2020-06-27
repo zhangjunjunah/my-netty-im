@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.service.inter;
 
+import cn.edu.aqtc.im.entity.ImMessage;
 import cn.edu.aqtc.im.entity.ImUser;
 import cn.edu.aqtc.im.protocol.MessagePayload;
 import cn.edu.aqtc.im.transfer.FriendBean;
@@ -88,4 +89,22 @@ public interface IConversationService {
      * @Date 2020-05-28
      **/
     void flushConversion(MessagePayload messagePayload);
+
+    /**
+     * @param imMessage
+     * @return void
+     * @Description 添加好友
+     * @Author zhangjj
+     * @Date 2020-06-27
+     **/
+    void addFriends(ImMessage imMessage);
+
+    /**
+     * @param messagePayload
+     * @return void
+     * @Description 消息通知
+     * @Author zhangjj
+     * @Date 2020-06-27
+     **/
+    void notification(MessagePayload messagePayload);
 }
