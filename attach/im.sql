@@ -75,3 +75,20 @@ CREATE TABLE `im_user`
   CHARACTER SET = utf8
   COLLATE = utf8_general_ci
   ROW_FORMAT = Compact;
+
+
+
+  CREATE TABLE im.class_schedule (
+	class_schedule_id varchar(100) NOT NULL COMMENT '课表Id',
+	class_schedule_owner varchar(25) NULL COMMENT '课表拥有者',
+	class_schedule_student TEXT NULL COMMENT '课程学生',
+	class_schedule TEXT NULL COMMENT '课表计划',
+	update_time DATETIME NULL COMMENT '更新时间'
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci
+COMMENT='课程表';
+ALTER TABLE im.class_schedule MODIFY COLUMN class_schedule_id BIGINT NOT NULL COMMENT '课表Id';
+ALTER TABLE im.class_schedule ADD CONSTRAINT class_schedule_pk PRIMARY KEY (class_schedule_id);
+

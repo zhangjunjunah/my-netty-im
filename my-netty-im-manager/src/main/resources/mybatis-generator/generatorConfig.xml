@@ -32,7 +32,7 @@
         <!--
                 <table tableName="im_friend" domainObjectName="ImFriend" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"  enableSelectByPrimaryKey="true"  enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"  ></table>
         -->
-        <table tableName="im_message" domainObjectName="ImMessage" enableCountByExample="false"
+        <table tableName="class_schedule" domainObjectName="ClassSchedule" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"></table>

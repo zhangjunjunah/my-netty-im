@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.aqtc.im.mapper.ClassScheduleMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.aqtc.im.entity.ClassSchedule">
+        <id column="class_schedule_id" property="classScheduleId" jdbcType="BIGINT"/>
+        <result column="class_schedule_owner" property="classScheduleOwner" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs" extends="BaseResultMap">
+        <result column="class_schedule_student" property="classScheduleStudent" jdbcType="LONGVARCHAR"/>
+        <result column="class_schedule" property="classSchedule" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    class_schedule_id, class_schedule_owner, update_time
+  </sql>
+    <sql id="Blob_Column_List">
+    class_schedule_student, class_schedule
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from class_schedule
+        where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from class_schedule
+    where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
+    insert into class_schedule (class_schedule_id, class_schedule_owner, 
+      update_time, class_schedule_student, 
+      class_schedule)
+    values (#{classScheduleId,jdbcType=BIGINT}, #{classScheduleOwner,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{classScheduleStudent,jdbcType=LONGVARCHAR}, 
+      #{classSchedule,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
+        insert into class_schedule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classScheduleId != null">
+                class_schedule_id,
+            </if>
+            <if test="classScheduleOwner != null">
+                class_schedule_owner,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="classScheduleStudent != null">
+                class_schedule_student,
+            </if>
+            <if test="classSchedule != null">
+                class_schedule,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classScheduleId != null">
+                #{classScheduleId,jdbcType=BIGINT},
+            </if>
+            <if test="classScheduleOwner != null">
+                #{classScheduleOwner,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="classScheduleStudent != null">
+                #{classScheduleStudent,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="classSchedule != null">
+                #{classSchedule,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
+        update class_schedule
+        <set>
+            <if test="classScheduleOwner != null">
+                class_schedule_owner = #{classScheduleOwner,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="classScheduleStudent != null">
+                class_schedule_student = #{classScheduleStudent,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="classSchedule != null">
+                class_schedule = #{classSchedule,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
+    update class_schedule
+    set class_schedule_owner = #{classScheduleOwner,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      class_schedule_student = #{classScheduleStudent,jdbcType=LONGVARCHAR},
+      class_schedule = #{classSchedule,jdbcType=LONGVARCHAR}
+    where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="cn.edu.aqtc.im.entity.ClassSchedule">
+    update class_schedule
+    set class_schedule_owner = #{classScheduleOwner,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -17,4 +17,9 @@ public class Constants {
 
 
     public static final String MESSAGE_CONTENT_SUFFIX_ADD_FRIEND = " 请求添加您为好友";
+
+
+    public static final String CLASS_SCHEDULE_DEFAULT_OWNER = "corn";
+
+
 }
