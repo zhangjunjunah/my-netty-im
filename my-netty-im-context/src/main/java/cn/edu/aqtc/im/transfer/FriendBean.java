@@ -1,6 +1,7 @@
 package cn.edu.aqtc.im.transfer;
 
 import cn.edu.aqtc.im.VO.ImFriendRelVO;
+import cn.edu.aqtc.im.constant.Constants;
 import cn.edu.aqtc.im.constant.UserStatusEnum;
 import cn.edu.aqtc.im.entity.ImUser;
 import lombok.Data;
@@ -45,4 +46,21 @@ public class FriendBean implements Serializable {
     }
 
 
+    /**
+     * @param
+     * @return cn.edu.aqtc.im.transfer.FriendBean
+     * @Description 获取新朋友会话
+     * @Author zhangjj
+     * @Date 2020-06-29
+     **/
+    public static FriendBean getNewFriendConversion() {
+        FriendBean friendBean = new FriendBean();
+        friendBean.setFriendId(Constants.NEW_FRIEND_USER_ID);
+        friendBean.setUserStatus(UserStatusEnum.ONLINE);
+        friendBean.setFriendName(Constants.NEW_FRIEND_USERNAME);
+        friendBean.setRemarkName(Constants.NEW_FRIEND_REMARK_NAME);
+        friendBean.setAvatarSrc(Constants.NEW_FRIEND_AVATAR_SRC);
+        return friendBean;
+
+    }
 }

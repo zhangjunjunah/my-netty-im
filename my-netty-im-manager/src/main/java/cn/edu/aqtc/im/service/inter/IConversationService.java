@@ -107,4 +107,13 @@ public interface IConversationService {
      * @Date 2020-06-27
      **/
     void notification(MessagePayload messagePayload);
+
+    /**
+     * @param messagePayload
+     * @return void
+     * @Description 获取通知
+     * @Author zhangjj
+     * @Date 2020-07-06
+     **/
+    void getNotification(MessagePayload messagePayload);
 }

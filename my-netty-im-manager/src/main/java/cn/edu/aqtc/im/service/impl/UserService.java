@@ -4,6 +4,7 @@ import cn.edu.aqtc.im.VO.ImFriendRelVO;
 import cn.edu.aqtc.im.VO.LoginSuccessVO;
 import cn.edu.aqtc.im.bean.ChatUser;
 import cn.edu.aqtc.im.bean.RestResult;
+import cn.edu.aqtc.im.cache.ConversationCache;
 import cn.edu.aqtc.im.code.UserBusiResultCode;
 import cn.edu.aqtc.im.constant.UserConstants;
 import cn.edu.aqtc.im.entity.ImFriendRel;

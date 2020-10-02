@@ -42,6 +42,10 @@ public enum MessageSign {
      */
     NOTIFICATION,
     /**
+     *
+     */
+    GET_NOTIFICATION,
+    /**
      * 发送私信
      */
     PUBLISH_PRIVATE;

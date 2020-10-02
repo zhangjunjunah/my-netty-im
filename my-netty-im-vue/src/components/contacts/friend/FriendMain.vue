@@ -17,7 +17,7 @@
       </div>
       <div class="search-result-div">
         <el-row :gutter="20" class="row-bg">
-          <el-col :span="8" v-for="result in searchList">
+          <el-col :key="result.userId" :span="8" v-for="result in searchList">
             <search-friend-item :imUser="result"></search-friend-item>
           </el-col>
         </el-row>
@@ -77,66 +77,6 @@
             "mail": null,
             "createTime": null
           },
-          {
-            "userId": "708640701826465792",
-            "userName": "test001",
-            "password": "123456",
-            "nickName": "机锋小摩托",
-            "avatarSrc": "/jack.jpg",
-            "phoneNum": null,
-            "mail": null,
-            "createTime": null
-          },
-          {
-            "userId": "711598999756341248",
-            "userName": "test004",
-            "password": "123456",
-            "nickName": "测试用户三",
-            "avatarSrc": "/14/4/ff3376d2-c5ea-4bdd-adfb-2105bfc8a562.jpg",
-            "phoneNum": null,
-            "mail": null,
-            "createTime": null
-          },
-          {
-            "userId": "708640701826465792",
-            "userName": "test001",
-            "password": "123456",
-            "nickName": "机锋小摩托",
-            "avatarSrc": "/jack.jpg",
-            "phoneNum": null,
-            "mail": null,
-            "createTime": null
-          },
-          {
-            "userId": "711598999756341248",
-            "userName": "test004",
-            "password": "123456",
-            "nickName": "测试用户三",
-            "avatarSrc": "/14/4/ff3376d2-c5ea-4bdd-adfb-2105bfc8a562.jpg",
-            "phoneNum": null,
-            "mail": null,
-            "createTime": null
-          },
-          {
-            "userId": "708640701826465792",
-            "userName": "test001",
-            "password": "123456",
-            "nickName": "机锋小摩托",
-            "avatarSrc": "/jack.jpg",
-            "phoneNum": null,
-            "mail": null,
-            "createTime": null
-          },
-          {
-            "userId": "711598999756341248",
-            "userName": "test004",
-            "password": "123456",
-            "nickName": "测试用户三",
-            "avatarSrc": "/14/4/ff3376d2-c5ea-4bdd-adfb-2105bfc8a562.jpg",
-            "phoneNum": null,
-            "mail": null,
-            "createTime": null
-          }
         ]
       }
     },

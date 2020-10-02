@@ -4,6 +4,8 @@ import cn.edu.aqtc.im.entity.ImMessage;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface ImMessageMapper {
@@ -14,6 +16,9 @@ public interface ImMessageMapper {
     int insertSelective(ImMessage record);
 
     ImMessage selectByPrimaryKey(Long messageId);
+
+
+    List<ImMessage> selectByUserId(Long messageId);
 
     int updateByPrimaryKeySelective(ImMessage record);
 

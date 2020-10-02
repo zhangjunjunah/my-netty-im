@@ -44,6 +44,8 @@ public class MessageDispatcher {
                 break;
             case NOTIFICATION:
                 conversationService.notification(messagePayload);
+            case GET_NOTIFICATION:
+                conversationService.getNotification(messagePayload);
             default:
                 break;
         }
