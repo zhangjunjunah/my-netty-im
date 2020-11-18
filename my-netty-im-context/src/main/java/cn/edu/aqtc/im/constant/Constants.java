@@ -12,6 +12,11 @@ public class Constants {
     public static final String ADMIN_USERNAME = "勇敢的心";
     public static final String ADMIN_REMARK_NAME = "IM系统团队";
 
+    public static final String NEW_FRIEND_USER_ID = "2000000000000000";
+    public static final String NEW_FRIEND_USERNAME = "新朋友";
+    public static final String NEW_FRIEND_REMARK_NAME = "新朋友";
+    public static final String NEW_FRIEND_AVATAR_SRC = "/trumpet.png";
+
 
     public static final String DEFAULT_GROUP_NAME = "我的好友";
 

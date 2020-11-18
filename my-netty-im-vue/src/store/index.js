@@ -18,7 +18,8 @@ export default new Vuex.Store({
       title: "",
       userName: '',
       avatarSrc: '',
-      activeId: ''
+      activeId: '',
+      type: ''
     },
     /**
      *messages: [
@@ -95,6 +96,11 @@ export default new Vuex.Store({
       state.chat.userName = activeChat.remarkName;
       state.chat.avatarSrc = activeChat.avatarSrc;
       state.chat.activeId = activeChat.friendId;
+      if (Constant.CHAT_NOTIFICATION_ID == activeChat.friendId) {
+        state.chat.type = Constant.CHAT_TYPE_NOTIFICATION;
+      } else {
+        state.chat.type = Constant.CHAT_TYPE_INFO;
+      }
 
     },
     initWebSocket(state) {
@@ -112,9 +118,15 @@ export default new Vuex.Store({
     },
     getMessage(state) {
       let msg = {};
-      msg.receiver = state.personalInformation.userId;
-      msg.sender = state.chat.activeId;
-      let messagePayload = new MessagePayload(Constant.GET_HIS_MSG, msg);
+      let messagePayload = {};
+      if (Constant.CHAT_TYPE_INFO === state.chat.type) {
+        msg.receiver = state.personalInformation.userId;
+        msg.sender = state.chat.activeId;
+        messagePayload = new MessagePayload(Constant.GET_HIS_MSG, msg);
+      } else {
+        msg.userId = state.personalInformation.userId;
+        messagePayload = new MessagePayload(Constant.GET_NOTIFICATION, msg);
+      }
       state.vueWebsocket.send(messagePayload.toJSON());
     },
     lastActiveTime(state, activeTime) {

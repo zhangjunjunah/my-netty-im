@@ -11,19 +11,26 @@
 
 <script>
   import ChatList from '@/components/message/chat/ChatList'
-  import MainWindow from '@/components/message/mainWindow/MainWindow'
+  import ChatMainWindow from '@/components/message/mainWindow/ChatMainWindow'
+  import NotificationMainWindow from '@/components/message/mainWindow/NotificationMainWindow'
   import BlankWindow from '@/components/message/mainWindow/BlankWindow'
+  import Constant from '@/constants'
+
 
   export default {
     name: "Message",
     components: {
       ChatList,
-      MainWindow,
-      BlankWindow
+      ChatMainWindow,
+      BlankWindow,
+      NotificationMainWindow
     },
     computed: {
       currentWindow() {
-        return this.$store.state.chat.activeId == '' ? "BlankWindow" : "MainWindow"
+        if (this.$store.state.chat.activeId == '') {
+          return "BlankWindow";
+        }
+        return this.$store.state.chat.type == Constant.CHAT_TYPE_INFO ? "ChatMainWindow" : "NotificationMainWindow";
       }
     }
   }

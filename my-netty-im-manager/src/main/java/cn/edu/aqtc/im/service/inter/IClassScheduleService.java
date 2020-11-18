@@ -25,12 +25,12 @@ public interface IClassScheduleService {
     /**
      * 获取课程
      *
-     * @param classScheduleWithBLOBs
+     * @param Owner
      * @throws
      * @return: cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs
      * @Author: zhangjj
      * @Date: 2020-09-30
      */
-    ClassScheduleWithBLOBs getSchedule(ClassScheduleWithBLOBs classScheduleWithBLOBs);
+    ClassScheduleWithBLOBs getSchedule(String Owner);
 
 }

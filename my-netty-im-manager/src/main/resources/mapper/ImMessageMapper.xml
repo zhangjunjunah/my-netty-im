@@ -20,6 +20,12 @@
         from im_message
         where message_id = #{messageId,jdbcType=BIGINT}
     </select>
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from im_message
+        where message_sender = #{userId,jdbcType=BIGINT} or message_receiver =#{userId,jdbcType=BIGINT}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
         from im_message

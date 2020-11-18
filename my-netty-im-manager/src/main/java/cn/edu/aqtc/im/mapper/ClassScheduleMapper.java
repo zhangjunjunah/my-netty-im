@@ -5,6 +5,8 @@ import cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface ClassScheduleMapper {
@@ -14,11 +16,16 @@ public interface ClassScheduleMapper {
 
     int insertSelective(ClassScheduleWithBLOBs record);
 
-    ClassScheduleWithBLOBs selectByPrimaryKey(Long classScheduleId);
+    ClassScheduleWithBLOBs selectByOwner(ClassScheduleWithBLOBs classScheduleWithBLOBs);
+
+    List<ClassScheduleWithBLOBs> select(ClassScheduleWithBLOBs classScheduleWithBLOBs);
 
     int updateByPrimaryKeySelective(ClassScheduleWithBLOBs record);
 
     int updateByPrimaryKeyWithBLOBs(ClassScheduleWithBLOBs record);
+
+
+    int updateByOwnerWithBLOBs(ClassScheduleWithBLOBs record);
 
     int updateByPrimaryKey(ClassSchedule record);
 }

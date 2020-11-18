@@ -11,31 +11,57 @@
         <result column="class_schedule" property="classSchedule" jdbcType="LONGVARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    class_schedule_id, class_schedule_owner, update_time
-  </sql>
+        class_schedule_id, class_schedule_owner, update_time
+    </sql>
     <sql id="Blob_Column_List">
-    class_schedule_student, class_schedule
-  </sql>
-    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        class_schedule_student, class_schedule
+    </sql>
+    <select id="selectByOwner" resultMap="ResultMapWithBLOBs"
+            parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
         select
         <include refid="Base_Column_List"/>
         ,
         <include refid="Blob_Column_List"/>
         from class_schedule
-        where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+        where class_schedule_owner = #{classScheduleOwner,jdbcType=VARCHAR}
+    </select>
+    <select id="select" resultMap="ResultMapWithBLOBs" parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from class_schedule
+        <where>
+            <if test="classScheduleOwner != null">
+                AND class_schedule_owner = #{classScheduleOwner,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="classScheduleStudent != null">
+                AND class_schedule_student = #{classScheduleStudent,jdbcType=LONGVARCHAR}
+            </if>
+            <if test="classSchedule != null">
+                AND class_schedule = #{classSchedule,jdbcType=LONGVARCHAR}
+            </if>
+            <if test="classScheduleId != null">
+                AND class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+            </if>
+        </where>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from class_schedule
-    where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
-  </delete>
+        delete
+        from class_schedule
+        where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+    </delete>
     <insert id="insert" parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
-    insert into class_schedule (class_schedule_id, class_schedule_owner, 
-      update_time, class_schedule_student, 
-      class_schedule)
-    values (#{classScheduleId,jdbcType=BIGINT}, #{classScheduleOwner,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{classScheduleStudent,jdbcType=LONGVARCHAR}, 
-      #{classSchedule,jdbcType=LONGVARCHAR})
-  </insert>
+        insert into class_schedule (class_schedule_id, class_schedule_owner,
+                                    update_time, class_schedule_student,
+                                    class_schedule)
+        values (#{classScheduleId,jdbcType=BIGINT}, #{classScheduleOwner,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=TIMESTAMP}, #{classScheduleStudent,jdbcType=LONGVARCHAR},
+                #{classSchedule,jdbcType=LONGVARCHAR})
+    </insert>
     <insert id="insertSelective" parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
         insert into class_schedule
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -92,17 +118,33 @@
         where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
-    update class_schedule
-    set class_schedule_owner = #{classScheduleOwner,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      class_schedule_student = #{classScheduleStudent,jdbcType=LONGVARCHAR},
-      class_schedule = #{classSchedule,jdbcType=LONGVARCHAR}
-    where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
-  </update>
+        update class_schedule
+        set class_schedule_owner   = #{classScheduleOwner,jdbcType=VARCHAR},
+            update_time            = #{updateTime,jdbcType=TIMESTAMP},
+            class_schedule_student = #{classScheduleStudent,jdbcType=LONGVARCHAR},
+            class_schedule         = #{classSchedule,jdbcType=LONGVARCHAR}
+        where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByOwnerWithBLOBs" parameterType="cn.edu.aqtc.im.entity.ClassScheduleWithBLOBs">
+        update class_schedule
+        <set>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="classScheduleStudent != null">
+                class_schedule_student = #{classScheduleStudent,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="classSchedule != null">
+                class_schedule = #{classSchedule,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where class_schedule_owner = #{classScheduleOwner,jdbcType=VARCHAR}
+    </update>
     <update id="updateByPrimaryKey" parameterType="cn.edu.aqtc.im.entity.ClassSchedule">
-    update class_schedule
-    set class_schedule_owner = #{classScheduleOwner,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
-  </update>
+        update class_schedule
+        set class_schedule_owner = #{classScheduleOwner,jdbcType=VARCHAR},
+            update_time          = #{updateTime,jdbcType=TIMESTAMP}
+        where class_schedule_id = #{classScheduleId,jdbcType=BIGINT}
+    </update>
 </mapper>

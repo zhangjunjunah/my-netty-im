@@ -16,6 +16,7 @@ import cn.edu.aqtc.im.protocol.MessagePayload;
 import cn.edu.aqtc.im.protocol.NotificationMessage;
 import cn.edu.aqtc.im.service.inter.IConversationService;
 import cn.edu.aqtc.im.transfer.FriendBean;
+import cn.edu.aqtc.im.transfer.NotificationBean;
 import cn.edu.aqtc.im.transfer.StartConversationBean;
 import cn.edu.aqtc.im.util.CommonUtils;
 import com.alibaba.fastjson.JSONObject;
@@ -228,7 +229,9 @@ public class ConversationService implements IConversationService {
     public void notification(MessagePayload messagePayload) {
         NotificationMessage notificationMessage = ((JSONObject) messagePayload.getBody()).toJavaObject(NotificationMessage.class);
         ;
-        ImMessage imMessage = new ImMessage(notificationMessage.getSender(), notificationMessage.getReceiver());
+        String sender = notificationMessage.getSender();
+        String receiver = notificationMessage.getReceiver();
+        ImMessage imMessage = new ImMessage(sender, receiver);
         NotificationMessageEnum notificationType = notificationMessage.getNotificationType();
         try {
             Method method = this.getClass().getMethod(notificationType.toString(), ImMessage.class);
@@ -240,7 +243,48 @@ public class ConversationService implements IConversationService {
         } catch (InvocationTargetException e) {
             log.error("error", e);
         }
+        //添加会话缓存
+        FriendBean newFriendConversion = FriendBean.getNewFriendConversion();
+        conversationCache.addConversation(sender, newFriendConversion);
+        conversationCache.addConversation(receiver, newFriendConversion);
+        //发送消息
+        sendNotificationMessage(sender, receiver);
     }
+
+    /**
+     * @param messagePayload
+     * @return void
+     * @Description 获取通知
+     * @Author zhangjj
+     * @Date 2020-07-06
+     **/
+    @Override
+    public void getNotification(MessagePayload messagePayload) {
+        NotificationBean notificationBean = ((JSONObject) messagePayload.getBody()).toJavaObject(NotificationBean.class);
+        Long userId = Long.parseLong(notificationBean.getUserId());
+        notificationBean.setImMessageList(imMessageMapper.selectByUserId(userId));
+        messagePayload.setBody(notificationBean);
+        sendWebsocketMessage(getChannelByUserId(userId), messagePayload);
+    }
+
+    private void sendNotificationMessage(String sender, String receiver) {
+        MessagePayload<List<FriendBean>> messagePayload = new MessagePayload();
+        messagePayload.setSign(MessageSign.FLUSH_CONVERSION);
+        Channel senderChannel = getChannelByUserId(Long.parseLong(sender));
+        messagePayload.setBody(conversationCache.getConversation(sender));
+        sendWebsocketMessage(senderChannel, messagePayload);
+        messagePayload.setBody(conversationCache.getConversation(receiver));
+        Channel receiverChannel = getChannelByUserId(Long.parseLong(receiver));
+        sendWebsocketMessage(receiverChannel, messagePayload);
+
+    }
+
+    private void sendWebsocketMessage(Channel channel, MessagePayload messagePayload) {
+        if (!CommonUtils.objectIsNull(channel)) {
+            channel.writeAndFlush(new TextWebSocketFrame(CommonUtils.toJSONString(messagePayload)));
+        }
+    }
+
 
     private void sendConversationMessage(ImUser myBean, FriendBean friendBean) {
         Channel channel = getChannelByUserId(Long.parseLong(friendBean.getFriendId()));
