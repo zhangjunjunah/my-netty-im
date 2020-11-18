@@ -35,7 +35,12 @@
       <mysql.version>5.1.46</mysql.version>
       <druid.version>1.1.13</druid.version>
   </properties>
-
+  <repositories>
+    <repository>
+      <id>com.e-iceblue</id>
+      <url>http://repo.e-iceblue.cn/repository/maven-public/</url>
+    </repository>
+  </repositories>
 
   <dependencyManagement>
     <dependencies>
@@ -60,11 +65,11 @@
         <artifactId>joda-time</artifactId>
         <version>${joda-time.version}</version>
       </dependency>
-      <dependency>
+      <!--<dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi</artifactId>
           <version>${poi.version}</version>
-      </dependency>
+      </dependency>-->
         <!-- spring-boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -149,6 +154,24 @@
         <artifactId>jasypt-spring-boot-starter</artifactId>
         <version>2.1.0</version>
       </dependency>
+      <dependency>
+        <groupId>e-iceblue</groupId>
+        <artifactId>spire.presentation</artifactId>
+        <version>3.4.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>3.7</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-scratchpad</artifactId>
+        <version>3.7</version>
+      </dependency>
+
+
     </dependencies>
 
   </dependencyManagement>
@@ -198,4 +221,6 @@
       </plugins>
     </pluginManagement>
   </build>
+
+
 </project>
