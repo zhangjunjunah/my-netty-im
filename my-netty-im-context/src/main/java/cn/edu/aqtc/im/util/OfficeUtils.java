@@ -11,12 +11,11 @@ import org.apache.poi.hslf.usermodel.SlideShow;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xslf.extractor.XSLFPowerPointExtractor;
+import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.Charset;
 
 /**
  * @Description:
@@ -25,11 +24,11 @@ import java.io.InputStream;
  * @Date: 2020-11-18
  */
 @Slf4j
-public class PPTXUtils {
+public class OfficeUtils {
 
     public static void main(String[] args) throws Exception {
 
-        File file = new File("F:\\windows\\library file\\Desktop\\发热病人的护理.pptx");
+        File file = new File("F:\\windows\\library file\\Desktop\\word excel ppt 2003官方完整版.ppt");
         try {
             FileInputStream fin = new FileInputStream(file);
             // String cont=readDoc1(fin);
@@ -37,7 +36,9 @@ public class PPTXUtils {
             //fin.close();
             fin = new FileInputStream(file);
             //System.out.println(readPPT2007("F:\\windows\\library file\\Desktop\\发热病人的护理.pptx"));
-            System.out.println(readPPT2007Stream(fin));
+            String content = readTextPPT2003Stream(fin);
+            writeDoc(content);
+            System.out.println();
             fin.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,12 +57,58 @@ public class PPTXUtils {
         return content.replaceAll("((\r\n)|\n)[\\s\t ]*(\\1)+", "$1").replaceAll("^((\r\n)|\n)", "");
     }
 
-    public static String readPPT2007Stream(FileInputStream inputStream) {
+
+    public static String readTextPPT2003Stream(InputStream inputStream) {
+        StringBuffer content = new StringBuffer("");
+        try {
+            // path为文件的全路径名称，建立SlideShow
+            SlideShow ss = new SlideShow(new HSLFSlideShow(inputStream));
+            // 获得每一张幻灯片
+            Slide[] slides = ss.getSlides();
+            for (int i = 0; i < slides.length; i++) {
+                // 为了取得幻灯片的文字内容，建立TextRun
+                TextRun[] t = slides[i].getTextRuns();
+                for (int j = 0; j < t.length; j++) {
+                    // 这里会将文字内容加到content中去
+                    content.append(t[j].getText());
+                }
+                content.append(slides[i].getTitle());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content.toString();
+
+    }
+
+    public static Document writeDoc(String content) {
+        //创建一个空白文档
+        XWPFDocument document = new XWPFDocument();
+        //创建一个段落
+        XWPFParagraph paragraph = document.createParagraph();
+        paragraph.setAlignment(ParagraphAlignment.LEFT);
+        BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(content.getBytes(Charset.forName("utf8"))), Charset.forName("utf8")));
+        String line;
+        try {
+            while ((line = br.readLine()) != null) {
+                XWPFRun run = paragraph.createRun();
+                run.setText(line);
+                run.addBreak();
+            }
+            return document;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return document;
+    }
+
+    public static String readTextPPT2007Stream(InputStream inputStream) {
         String content = null;
         try {
             content = new XSLFPowerPointExtractor(OPCPackage.open(inputStream)).getText();
         } catch (XmlException e) {
-            log.error("error", e);
 
         } catch (OpenXML4JException e) {
             log.error("error", e);

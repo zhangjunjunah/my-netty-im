@@ -1,5 +1,6 @@
 package cn.edu.aqtc.im.service.inter;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 
 /**
@@ -22,4 +23,7 @@ public interface IGadgetService {
      * @Date: 2020-12-03
      */
     String getPPTContent(String fileName, InputStream inputStream);
+
+
+    void exportContent2Doc(String fileName, String content, HttpServletResponse httpServletResponse);
 }

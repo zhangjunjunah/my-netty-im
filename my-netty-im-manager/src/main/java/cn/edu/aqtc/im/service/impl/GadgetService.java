@@ -1,8 +1,10 @@
 package cn.edu.aqtc.im.service.impl;
 
 import cn.edu.aqtc.im.service.inter.IGadgetService;
-import cn.edu.aqtc.im.util.PPTXUtils;
+import cn.edu.aqtc.im.util.OfficeUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 
 /**
@@ -24,7 +26,15 @@ public class GadgetService implements IGadgetService {
      */
     @Override
     public String getPPTContent(String fileName, InputStream inputStream) {
-        PPTXUtils.readPPT2007Stream(inputStream);
-        return null;
+        if (StringUtils.endsWith(fileName.toLowerCase(), "ppt")) {
+            return OfficeUtils.readTextPPT2003Stream(inputStream);
+        } else {
+            return OfficeUtils.readTextPPT2007Stream(inputStream);
+        }
+    }
+
+    @Override
+    public void exportContent2Doc(String fileName, String content, HttpServletResponse httpServletResponse) {
+
     }
 }
