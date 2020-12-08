@@ -3,6 +3,7 @@ package cn.edu.aqtc.im.controller;
 import cn.edu.aqtc.im.bean.RestResult;
 import cn.edu.aqtc.im.code.UserBusiResultCode;
 import cn.edu.aqtc.im.service.inter.IFileSystemService;
+import cn.edu.aqtc.im.service.inter.IGadgetService;
 import cn.edu.aqtc.im.util.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,8 @@ public class UploadController {
 
     @Autowired
     private IFileSystemService fileSystemService;
-
+    @Autowired
+    private IGadgetService gadgetService;
 
     @RequestMapping(value = "/uploadAvatar")
     public RestResult<String> uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException {
@@ -45,6 +47,25 @@ public class UploadController {
         fileSystemService.uploadFile(targetPath, file.getInputStream());
 
         return RestResult.getSuccessRestResult(targetPath);
+
+    }
+
+
+    @RequestMapping(value = "/uploadPPT")
+    public RestResult<String> uploadPPT(@RequestParam("file") MultipartFile file) throws IOException {
+        // 文件名
+        String fileName = file.getOriginalFilename();
+        // 在file文件夹中创建名为fileName的文件
+        assert fileName != null;
+        int split = fileName.lastIndexOf(".");
+        // 文件后缀，用于判断上传的文件是否是合法的
+        String suffix = fileName.substring(split + 1, fileName.length()).toLowerCase();
+        //判断文件类型，因为我这边是图片，所以只设置三种合法格式
+        String url = "";
+        if (!"ppt".equals(suffix) && !"pptx".equals(suffix)) {
+            return RestResult.getRestResult(UserBusiResultCode.UPLOAD_FILE_FORMAT_ERROR);
+        }
+        return RestResult.getSuccessRestResult(gadgetService.getPPTContent(fileName, file.getInputStream()));
 
     }
 }

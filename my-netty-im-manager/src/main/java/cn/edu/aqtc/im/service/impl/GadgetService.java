@@ -3,6 +3,7 @@ package cn.edu.aqtc.im.service.impl;
 import cn.edu.aqtc.im.service.inter.IGadgetService;
 import cn.edu.aqtc.im.util.OfficeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
@@ -13,6 +14,7 @@ import java.io.InputStream;
  * @Author: zhangjj
  * @Date: 2020-12-03
  */
+@Service
 public class GadgetService implements IGadgetService {
     /**
      * 获取ppt内容
