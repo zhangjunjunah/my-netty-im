@@ -3,6 +3,7 @@ package cn.edu.aqtc.im.service.impl;
 import cn.edu.aqtc.im.service.inter.IGadgetService;
 import cn.edu.aqtc.im.util.OfficeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xwpf.usermodel.Document;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +38,7 @@ public class GadgetService implements IGadgetService {
 
     @Override
     public void exportContent2Doc(String fileName, String content, HttpServletResponse httpServletResponse) {
-
+        Document document = OfficeUtils.writeDoc(content);
+        //OutputStream outputStream = new
     }
 }

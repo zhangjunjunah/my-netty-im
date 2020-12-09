@@ -1,16 +1,20 @@
 package cn.edu.aqtc.im.controller;
 
+import cn.edu.aqtc.im.VO.DownloadDocVO;
 import cn.edu.aqtc.im.bean.RestResult;
 import cn.edu.aqtc.im.code.UserBusiResultCode;
 import cn.edu.aqtc.im.service.inter.IFileSystemService;
 import cn.edu.aqtc.im.service.inter.IGadgetService;
 import cn.edu.aqtc.im.util.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -27,6 +31,11 @@ public class UploadController {
     private IFileSystemService fileSystemService;
     @Autowired
     private IGadgetService gadgetService;
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+    @Autowired
+    private HttpServletResponse httpServletResponse;
 
     @RequestMapping(value = "/uploadAvatar")
     public RestResult<String> uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException {
@@ -66,6 +75,13 @@ public class UploadController {
             return RestResult.getRestResult(UserBusiResultCode.UPLOAD_FILE_FORMAT_ERROR);
         }
         return RestResult.getSuccessRestResult(gadgetService.getPPTContent(fileName, file.getInputStream()));
+
+    }
+
+
+    @RequestMapping(value = "/downloadDoc")
+    public void downloadDoc(@RequestBody DownloadDocVO downloadDocVO) {
+        gadgetService.exportContent2Doc(downloadDocVO.getFileName(), downloadDocVO.getContent(), httpServletResponse);
 
     }
 }
