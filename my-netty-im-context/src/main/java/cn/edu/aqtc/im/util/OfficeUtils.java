@@ -1,6 +1,7 @@
 package cn.edu.aqtc.im.util;
 
 
+import cn.edu.aqtc.im.exception.ParseOfficeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.hslf.HSLFSlideShow;
@@ -11,7 +12,10 @@ import org.apache.poi.hslf.usermodel.SlideShow;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xslf.extractor.XSLFPowerPointExtractor;
-import org.apache.poi.xwpf.usermodel.*;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.xmlbeans.XmlException;
 
 import java.io.*;
@@ -41,7 +45,7 @@ public class OfficeUtils {
             System.out.println();
             fin.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ParseOfficeException(e);
         }
 
     }
@@ -74,14 +78,14 @@ public class OfficeUtils {
                 }
                 content.append(slides[i].getTitle());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw new ParseOfficeException(e);
         }
         return content.toString();
 
     }
 
-    public static Document writeDoc(String content) {
+    public static XWPFDocument writeDoc(String content) {
         //创建一个空白文档
         XWPFDocument document = new XWPFDocument();
         //创建一个段落
@@ -97,11 +101,10 @@ public class OfficeUtils {
             }
             return document;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new ParseOfficeException(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ParseOfficeException(e);
         }
-        return document;
     }
 
     public static String readTextPPT2007Stream(InputStream inputStream) {
@@ -111,9 +114,9 @@ public class OfficeUtils {
         } catch (XmlException e) {
 
         } catch (OpenXML4JException e) {
-            log.error("error", e);
+            throw new ParseOfficeException(e);
         } catch (IOException e) {
-            log.error("error", e);
+            throw new ParseOfficeException(e);
         }
         return content.replaceAll("((\r\n)|\n)[\\s\t ]*(\\1)+", "$1").replaceAll("^((\r\n)|\n)", "");
     }

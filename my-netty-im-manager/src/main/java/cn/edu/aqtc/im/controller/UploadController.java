@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -31,11 +30,9 @@ public class UploadController {
     private IFileSystemService fileSystemService;
     @Autowired
     private IGadgetService gadgetService;
+    @Autowired
+    private HttpServletResponse response;
 
-    @Autowired
-    private HttpServletRequest httpServletRequest;
-    @Autowired
-    private HttpServletResponse httpServletResponse;
 
     @RequestMapping(value = "/uploadAvatar")
     public RestResult<String> uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException {
@@ -81,7 +78,7 @@ public class UploadController {
 
     @RequestMapping(value = "/downloadDoc")
     public void downloadDoc(@RequestBody DownloadDocVO downloadDocVO) {
-        gadgetService.exportContent2Doc(downloadDocVO.getFileName(), downloadDocVO.getContent(), httpServletResponse);
+        gadgetService.exportContent2Doc(downloadDocVO.getFileName(), downloadDocVO.getContent(), response);
 
     }
 }
