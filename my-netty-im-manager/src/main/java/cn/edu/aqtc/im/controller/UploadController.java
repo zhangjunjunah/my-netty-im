@@ -6,6 +6,7 @@ import cn.edu.aqtc.im.code.UserBusiResultCode;
 import cn.edu.aqtc.im.service.inter.IFileSystemService;
 import cn.edu.aqtc.im.service.inter.IGadgetService;
 import cn.edu.aqtc.im.util.UploadUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping(value = "/api/upload")
+@Slf4j
 public class UploadController {
 
     @Autowired
@@ -59,6 +61,7 @@ public class UploadController {
 
     @RequestMapping(value = "/uploadPPT")
     public RestResult<String> uploadPPT(@RequestParam("file") MultipartFile file) throws IOException {
+        log.info("uploadPPT controller enter");
         // 文件名
         String fileName = file.getOriginalFilename();
         // 在file文件夹中创建名为fileName的文件

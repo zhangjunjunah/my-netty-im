@@ -37,6 +37,7 @@ public class GadgetService implements IGadgetService {
      */
     @Override
     public String getPPTContent(String fileName, InputStream inputStream) {
+        log.info("getPPTContent service enter");
         if (StringUtils.endsWith(fileName.toLowerCase(), "ppt")) {
             return OfficeUtils.readTextPPT2003Stream(inputStream);
         } else {
@@ -46,6 +47,7 @@ public class GadgetService implements IGadgetService {
 
     @Override
     public void exportContent2Doc(String fileName, String content, HttpServletResponse response) {
+
         XWPFDocument document = OfficeUtils.writeDoc(content);
         response.setContentType("application/msword");
         try {

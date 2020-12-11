@@ -112,12 +112,13 @@ public class OfficeUtils {
         try {
             content = new XSLFPowerPointExtractor(OPCPackage.open(inputStream)).getText();
         } catch (XmlException e) {
-
+            throw new ParseOfficeException(e);
         } catch (OpenXML4JException e) {
             throw new ParseOfficeException(e);
         } catch (IOException e) {
             throw new ParseOfficeException(e);
         }
+        log.info("readTextPPT2007Stream end");
         return content.replaceAll("((\r\n)|\n)[\\s\t ]*(\\1)+", "$1").replaceAll("^((\r\n)|\n)", "");
     }
 

@@ -32,7 +32,7 @@ public class ApplicationBootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        nettyImLaunch.run();
+        //nettyImLaunch.run();
     }
 
     public String encrty(String encr) {
